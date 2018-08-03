@@ -13,6 +13,7 @@ class Page extends Component {
 
         this.validator = new Validator({
             firstname: 'required|min:3',
+            secondname: '',
             email: 'required|email',
             password: 'required|min:6',
             password_confirmation: 'required|min:6'
@@ -137,6 +138,10 @@ class Page extends Component {
     render() {
         if (this.props.isAuthenticated) {
             return <Redirect to='/' replace />
+        }
+
+        if (this.state.isSuccess) {
+            return <Redirect to='/login' replace />
         }
 
         const { errors } = this.state
