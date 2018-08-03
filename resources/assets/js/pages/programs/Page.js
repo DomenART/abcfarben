@@ -143,9 +143,9 @@ class Page extends React.Component {
                                 <svg className="notification-btn__icon">
                                     <use href="img/sprite.svg#bell" />
                                 </svg>
-                                <div className="notification-btn__counter"><span>348</span></div>
+                                {/*<div className="notification-btn__counter"><span>348</span></div>*/}
                             </button>
-                            <div className="courses__notifications-pool" data-uk-dropdown="mode: click; pos: right-top;">
+                            {/*<div className="courses__notifications-pool" data-uk-dropdown="mode: click; pos: right-top;">
                                 <div className="courses__notifications-container">
                                 <div className="courses__notifications-inner">
                                     <div className="notification-item">
@@ -199,7 +199,7 @@ class Page extends React.Component {
                                     </div>
                                 </div>
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
                         <div className="courses__greetings">Добрый день, {user.name}!</div>
                         <div className="courses__choice">Выберите учебную программу:</div>
