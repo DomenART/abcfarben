@@ -1,0 +1,128 @@
+
+.structure {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+        position: relative;
+    }
+    @media (max-width: @breakpoint-medium) {
+        padding-left: 40px;
+    }
+}
+
+.structure__control {
+    width: 26px;
+    height: 24px;
+    position: absolute;
+    top: 0;
+    left: -38px;
+    border: 2px solid #e4e4e4;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+    &::before {
+        content: '';
+        width: 10px;
+        height: 2px;
+        background-color: #e4e4e4;
+        position: absolute;
+        top: 50%;
+        left: 11px;
+        transform: translateX(-50%);
+    }
+    &::after {
+        content: '';
+        width: 10px;
+        height: 2px;
+        background-color: #e4e4e4;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%) rotate(90deg);
+    }
+    &_isOpened {
+        &::after {
+            display: none;
+        }
+        & + .structure__subsection-list {
+            display: block;
+        }
+    }
+}
+
+.structure__section {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.structure__section-pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 24px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #06a7e0;
+    color: #fff;
+}
+
+.structure__section-icon {
+    width: 14px;
+    height: 12px;
+    stroke: #f4f6ff;
+    fill: transparent;
+}
+
+.structure__section-title {
+    color: #06a7e0;
+    font-size: 14px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.structure__subsection-list {
+    display: none;
+    margin: 0 0 60px;
+    padding-left: 36px;
+    list-style: none;
+    li {
+        margin-bottom: 10px;
+    }
+}
+
+.structure__subsection {
+    display: inline-flex;
+    align-items: center;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.structure__subsection-title {
+    color: #6b6b6b;
+    font-size: 12px;
+    line-height: 1.16;
+    letter-spacing: 0.12px;
+}
+
+.structure__subsection-icon {
+    width: 15px;
+    height: 16px;
+    margin-right: 10px;
+    color: #cacaca;
+}
+
+.structure__subsection-icon-done {
+    width: 15px;
+    height: 16px;
+    margin-right: 8px;
+    color: #cacaca;
+}
+

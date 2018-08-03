@@ -1,0 +1,38 @@
+.notification-btn {
+    background: #fff;
+    border: 0;
+    position: relative;
+    background: transparent;
+    cursor: pointer;
+    &:hover {
+        .notification-btn__icon {
+            fill: @icon-hover-color;
+            transition: fill 0.25s;
+        }
+    }
+}
+
+.notification-btn__icon {
+    width: 26px;
+    height: 26px;
+    fill: @icon-fill-color;
+    transition: fill 0.25s;
+}
+
+.notification-btn__counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #4fc881;
+    position: absolute;
+    top: -13px;
+    right: -5px;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 25px;
+}

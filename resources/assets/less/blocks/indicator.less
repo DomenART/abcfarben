@@ -1,0 +1,38 @@
+.indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    &_isDone {
+        box-shadow: inset -1px 2px 4px rgba(0, 0, 0, 0.4);
+        background-color: #4fc881;
+    }
+    &_isDuring {
+        box-shadow: inset -1px 2px 4px rgba(0, 0, 0, 0.4);
+        background-color: #fdd95e;
+    }
+    &_isNotDone {
+        background-color: #cacaca;
+    }
+}
+
+.indicator__tip {
+    padding: 5px 10px;
+    background-color: #747477;
+    line-height: 1;
+    &::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        background-color: #747477;
+        border-top: 1px solid #747477;
+        border-right: 1px solid #747477;
+        position: absolute;
+        top: 50%;
+        left: -6px;
+        z-index: 1;
+        transform: rotate(45deg) translateY(-50%);
+    }
+}

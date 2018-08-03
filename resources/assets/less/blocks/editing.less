@@ -1,0 +1,404 @@
+.editing {
+    padding-bottom: 50px;
+}
+
+.editing__heading {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
+    border: 1px solid #ebebeb;
+    background-color: #f3f3f5;
+}
+
+.editing__heading-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    min-height: 144px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.editing__heading-leftside { 
+    display: flex;
+    align-items: center;
+}
+
+.editing__avatar {
+    width: 127px;
+    height: 127px;
+    margin-right: 46px;
+}
+
+.editing__name {
+    color: #27272f;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 0.4px;
+}
+
+.editing__heading-rightside { 
+    display: flex;
+    align-items: center;
+}
+
+.editing__password {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    padding: 12px;
+    border: 1px solid #e5eaef;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #525263;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0.12px;
+    white-space: nowrap;
+    transition: background-color 0.25s, border 0.25s;
+    &:hover {
+        border: 1px solid #06a7e0;
+        background-color: #06a7e0;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.25s, border 0.25s;
+        .editing__password-icon {
+            fill: #fff;
+        }
+    }
+}
+
+.editing__password-icon {
+    width: 12px;
+    height: 16px;
+    margin-right: 6px;
+    fill: #dae2ed;
+}
+
+.editing__logout {
+    display: flex;
+    align-items: center;
+    color: #7b7b7b;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 22.32px;
+    text-decoration: underline;
+    letter-spacing: 0.59px;
+    white-space: nowrap;
+    &:hover {
+        color: #525263;
+        .editing__logout-icon {
+            fill: #c2cbdb;
+        }
+    }
+}
+
+.editing__logout-icon {
+    width: 18px;
+    height: 16px;
+    margin-right: 6px;
+    fill: @icon-fill-color;
+}
+
+.editing__contacts {
+    padding-top: 26px;
+    margin-bottom: 58px;
+}
+
+.editing__location-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    @media (max-width: @breakpoint-small) {
+        flex-direction: column
+    }
+}
+
+.editing__location-row-leftside {
+    display: flex;
+    align-items: center;
+    @media (max-width: @breakpoint-small) {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+.editing__name-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    @media (max-width: @breakpoint-small) {
+        flex-direction: column;
+    }
+}
+
+.editing__name-row-leftside {
+    display: flex;
+    align-items: center;
+    @media (max-width: @breakpoint-small) {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+.editing__name-row-rightside {
+    flex-grow: 1;
+    @media (max-width: @breakpoint-small) {
+        width: 100%;
+        padding-left: 28px;
+        box-sizing: border-box;
+    }
+}
+
+.editing__contacts-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    @media (max-width: @breakpoint-small) {
+        margin-bottom: 40px;
+    }
+}
+
+.editing__contacts-row-leftside {
+    display: flex;
+    align-items: center;
+}
+
+.editing__contacts-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 11px;
+}
+
+.editing__contacts-info {
+    margin-right: 13px;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.35px;
+}
+
+.editing__visibilty-warning {
+    color: #cacaca;
+    font-size: 12px;
+    line-height: 1.16;
+    letter-spacing: 0.3px;
+}
+
+.editing__company {
+    padding: 28px 0;
+    background-color: #fbfbfd;
+}
+
+.editing__company-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 38px;
+}
+
+.editing__company-icon {
+    width: 52px;
+    height: 52px;
+    margin-right: 36px;
+    @media (max-width: @breakpoint-small) {
+        margin-right: 15px;
+    }
+}
+
+.editing__company-field {
+    color: #cacaca;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.16;
+    letter-spacing: 0.12px;
+}
+
+.editing__country {
+    width: 130px;
+    padding-left: 0;
+    margin-right: 30px;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    background-image: url('../../img/down-chevron.svg');
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0.35px;
+    &:focus {
+        border-bottom-color: #000;
+    }
+    @media (max-width: @breakpoint-small) {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+.editing__location-input {
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0.35px;
+    &:focus {
+        border-bottom-color: #000;
+    }
+}
+
+.editing__location-row-rightside {
+    flex-grow: 1;
+    @media (max-width: @breakpoint-small) {
+        width: 100%;
+        padding-left: 28px;
+        box-sizing: border-box;
+    }
+}
+
+.editing__contacts-input {
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 0.35px;
+    &:focus {
+        border-bottom-color: #000;
+    }
+    &_communications {
+        padding-right: 130px;
+    }
+    &_name {
+        margin-right: 30px;
+        @media (max-width: @breakpoint-small) {
+            margin-right: 0;
+        }
+
+    }
+}
+
+.editing__textarea {
+    resize: none;
+    height: 120px;
+    padding: 0;
+    border: 0;
+    background: url('../../img/bg-textarea.jpg') 0 0 repeat;
+    background-size: auto;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.14px;
+}
+
+.editing__show {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    @media (max-width: @breakpoint-small) {
+        top: 40px;
+        transform: none;
+    }
+}
+
+.editing__show-checkbox {
+    display: none;
+}
+
+.editing__show-label {
+    display: flex;
+    align-items: center;
+    color: #cacaca;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    &:hover {
+        color: #cdcdda;
+    }
+}
+
+.editing__show-checkbox-custom {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 7px;
+    border: 1px solid #cfd6de;
+    border-radius: 3px;
+    background-color: #e4ebf3;
+    position: relative;
+    &::before {
+        display: none;
+        content: '';
+        width: 14px;
+        height: 12px;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        background: url('../../img/check-icon.svg') 50% 50% no-repeat;
+        background-size: 14px 12px;
+    }
+}
+
+.editing__show-checkbox:checked + .editing__show-label .editing__show-checkbox-custom::before {
+    display: block;
+}
+
+.editing__company-info {
+    flex-grow: 1;
+}
+
+.editing__company-input {
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    background-color: #fbfbfd;
+    color: #444444;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.56;
+    letter-spacing: 0.16px;
+    &:focus {
+        border-bottom-color: #000;
+    }
+}
+
+.editing__submit {
+    width: 300px;
+    margin-top: 25px;
+    padding: 18px;
+    border: 0;
+    border-radius: 3px;
+    background-color: #fdd95e;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: 600;
+    color: #27272f;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+    transition: background-color 0.25s;
+    &:hover {
+        background-color: #ffe763;
+        transition: background-color 0.25s;
+    }
+    @media (max-width: @breakpoint-small) {
+        width: 250px;
+    }
+}

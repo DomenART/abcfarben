@@ -1,0 +1,28 @@
+.hidden {
+    visibility: hidden; 
+}
+
+.page {
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1120px;
+    padding: 25px 10px;
+    @media (max-width: @breakpoint-medium) {
+        padding: 20px;
+    }
+}
+
+.preloader {
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,.4) url('../img/preloader.gif') no-repeat 50% 50%;
+    &_absolute {
+        position: absolute;
+    }
+}

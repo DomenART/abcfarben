@@ -1,0 +1,5 @@
+#!/bin/sh
+
+docker-compose run --rm -u $(id -u) app composer "$@"
+
+return $?

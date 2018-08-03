@@ -1,0 +1,98 @@
+.calendar {
+    position: relative;
+    table {
+        width: 297px;
+        margin-top: 25px;
+        position: relative;
+        left: -15px;
+    }
+    th {
+        width: 40px;
+        height: 40px;
+        background-color: #3b4756;
+        color: #4d5e74;
+        font-size: 11px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    td {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #374353;
+        border-collapse: collapse;
+        background-color: #3b4756;
+        border: 0;
+        color: #6a7e91;
+        font-size: 12px;
+        font-weight: 500;
+        &.calendar__outside-cell {
+            color: #29303a;
+        }
+    }
+}
+
+.calendar__control {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: -32px;
+    top: -47px;    
+    @media (max-width: @breakpoint-medium) {
+        right: 0;
+    }
+}
+
+.calendar__control-prev {
+    width: 12px;
+    min-width: 12px;
+    height: 12px;
+    padding: 0;
+    background-color: #222931;
+    border: 0;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    &::before {
+        content: '';
+        border: 4px solid transparent; 
+        border-right: 4px solid #616872; 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-80%, -50%);
+    }
+}
+
+.calendar__control-month {
+    width: 65px;
+    margin: 0 5px;
+    text-align: center;
+    color: #d8dfeb;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.calendar__control-next {
+    width: 12px;
+    min-width: 12px;
+    height: 12px;
+    padding: 0;
+    background-color: #222931;
+    border: 0;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    &::before {
+        content: '';
+        border: 4px solid transparent; 
+        border-left: 4px solid #616872; 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-20%, -50%);
+    }
+}

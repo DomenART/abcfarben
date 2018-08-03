@@ -1,0 +1,46 @@
+.training-nav {
+    max-width: 928px;
+    box-sizing: border-box;
+    padding: 27px 0;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e5eaef;
+    @media (max-width: @breakpoint-medium) {
+        flex-direction: column;
+    }
+}
+
+.training-nav__leftside {
+    display: flex;
+    align-items: center;
+    * {
+        margin-right: 30px;
+        &:last-child {
+            margin-right: 0;
+        }
+        @media (max-width: @breakpoint-small) {
+            margin-right: 0;
+            margin-bottom: 30px;
+        }
+    }
+    @media (max-width: @breakpoint-medium) {
+        margin-bottom: 30px;
+    }
+    @media (max-width: @breakpoint-small) {
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+}
+
+.training-nav__rightside {
+    display: flex;
+    align-items: center;
+    * {
+        margin-right: 30px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

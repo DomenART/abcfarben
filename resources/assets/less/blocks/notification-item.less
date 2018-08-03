@@ -1,0 +1,95 @@
+.notification-item__title {
+    padding: 14px 23px;
+    border-bottom: 1px solid #ebebeb;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+}
+
+.notification-item__info {
+    position: relative;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.notification-item__link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 28px 15px 23px;
+    &:hover {
+        background-color: #f9f9ff;
+        text-decoration: none;
+    }
+}
+
+.notification-item__calendar {
+    margin-right: 23px;
+}
+
+.notification-item__calendar-icon {
+    width: 21px;
+    height: 24px;
+    fill: #76768e;
+}
+
+.notification-item__text {
+    margin-right: 23px;
+    color: #525263;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.16;
+    letter-spacing: 0.12px;
+}
+
+.notification-item__remove-btn {
+    width: 25px;
+    min-width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    border: 0;
+    background: transparent;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+    &::before {
+        content: '';
+        width: 15px;
+        height: 1px;
+        background-color: #c2cbdb;
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        z-index: 1;
+        transform: rotate(-45deg) translate(-50%, -50%);
+        transform-origin: 0 50%;
+    }
+    &::after {
+        content: '';
+        width: 15px;
+        height: 1px;
+        background-color: #c2cbdb;
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        z-index: 1;
+        transform: rotate(-135deg) translate(-50%, -50%);
+        transform-origin: 0 50%;
+    }
+    &:hover {
+        &::before, &::after {
+            background-color: #969da9;
+        }
+    }
+}
+
+.notification-item__folder-icon {
+    width: 21px;
+    height: 19px;
+    fill: #cacaca;
+    color: #cacaca;
+}
