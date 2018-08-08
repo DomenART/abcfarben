@@ -36,3 +36,35 @@ export function loadTree(program) {
     }
 
 }
+
+export function loadMembers(program, search) {
+
+    return (dispatch) => {
+        dispatch({ type: ActionTypes.GET_PROGRAM_MEMBERS_REQUEST })
+
+        Http.get(`/api/programs/${program}/members?search=${search}`)
+            .then(response => {
+                dispatch({
+                    type: ActionTypes.GET_PROGRAM_MEMBERS_SUCCESS,
+                    payload: response.data
+                })
+            })
+    }
+
+}
+
+export function loadQuestions(program) {
+
+    return (dispatch) => {
+        dispatch({ type: ActionTypes.GET_PROGRAM_QUESTIONS_REQUEST })
+
+        Http.get(`/api/programs/${program}/questions`)
+            .then(response => {
+                dispatch({
+                    type: ActionTypes.GET_PROGRAM_QUESTIONS_SUCCESS,
+                    payload: response.data
+                })
+            })
+    }
+
+}

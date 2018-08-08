@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
-import Header from '../../components/Header'
+import HeaderContainer from '../../containers/HeaderContainer'
 import SvgIcon from '../../components/UI/SvgIcon'
 import Http from '../../Http'
 import * as authActions from '../../store/actions/auth'
@@ -60,7 +60,7 @@ class Page extends Component {
         }
 
         if (error) {
-            return <div class="uk-alert-danger" dangerouslySetInnerHTML={{__html:error}} />
+            return <div className="uk-alert-danger" dangerouslySetInnerHTML={{__html:error}} />
         }
 
         const address = []
@@ -221,11 +221,9 @@ class Page extends Component {
     }
 
     render() {
-        const { authUser } = this.props
-
         return (
             <main className="page">
-                <Header user={authUser} />
+                <HeaderContainer />
                 {this.getContent()}
             </main>
         )

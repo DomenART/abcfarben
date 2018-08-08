@@ -47,6 +47,8 @@ class ProgramController extends Controller
         if ($program->userHasAccess(request()->user()->id)) {
             $program->starting();
 
+            $response['progress'] = $program->getProgress();
+
             if ($status = $program->statuses()->owner()->first()) {
                 $response['curator'] = $status->curator;
 
@@ -61,8 +63,59 @@ class ProgramController extends Controller
         return response()->json($response, 200);
     }
 
+    /**
+     * @param Program $program
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function tree(Program $program)
     {
         return response()->json($program->getModules(), 200);
+    }
+
+    /**
+     * @param Program $program
+     * @param Request $request
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getMembers(Program $program, Request $request) {
+        $response = [];
+
+        $query = $program->statuses()->with('user');
+
+        if ($search = $request->search) {
+            $query->join('users', 'users.id', '=', 'program_has_statuses.user_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('users.firstname', 'like', '%' . $search . '%')
+                        ->orWhere('users.secondname', 'like', '%' . $search . '%')
+                        ->orWhere('users.email', 'like', '%' . $search . '%');
+                });
+        }
+
+        foreach ($query->cursor() as $row) {
+            $response[] = [
+                'id' => $row->user->id,
+                'name' => $row->user->name,
+                'avatar' => $row->user->avatar,
+                'country' => $row->user->country,
+                'city' => $row->user->city,
+                'sphere' => $row->user->sphere,
+                'subdivision' => $row->user->subdivision,
+                'positions' => $row->user->positions->pluck('name'),
+                'progress' => $program->getProgress($row->user->id)
+            ];
+        }
+
+        return response()->json($response, 200);
+    }
+
+    /**
+     * @param Program $program
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getQuestions(Program $program) {
+        return response()->json($program->questions()->get(), 200);
     }
 }

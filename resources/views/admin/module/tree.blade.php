@@ -16,7 +16,7 @@
         <div class="pull-right">
 
             <div class="btn-group">
-                <a class="btn btn-success" href="{{ $path }}/create?module={{ $module->id }}">
+                <a class="btn btn-success" href="{{ $path }}/create?module_id={{ $module->id }}">
                     <i class="fa fa-save"></i>&nbsp;Создать
                 </a>
             </div>

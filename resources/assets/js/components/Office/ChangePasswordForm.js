@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Link } from 'react-router-dom'
-import Header from '../../components/Header'
-import SvgIcon from '../../components/UI/SvgIcon'
-import ChangePasswordForm from '../../components/Office/ChangePasswordForm'
 import Http from '../../Http'
-import * as authActions from '../../store/actions/auth'
 
 class Page extends Component {
     constructor(props) {

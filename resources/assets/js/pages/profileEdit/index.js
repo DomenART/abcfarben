@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
-import Header from '../../components/Header'
+import HeaderContainer from '../../containers/HeaderContainer'
 import SvgIcon from '../../components/UI/SvgIcon'
 import ChangePasswordForm from '../../components/Office/ChangePasswordForm'
 import Http from '../../Http'
@@ -27,7 +27,7 @@ class Page extends Component {
     }
 
     componentDidMount() {
-        const { authActions, authUser } = this.props
+        const { authUser } = this.props
 
         Http.get(`/api/users/${authUser.id}`)
         .then(response => {
@@ -125,7 +125,7 @@ class Page extends Component {
 
     getContent() {
         const { loaded, error, data, sendingAvatar, sendingData } = this.state
-        const { authActions, authUser } = this.props
+        const { authActions } = this.props
 
         if (!loaded) {
             return <div className="preloader preloader_absolute" />
@@ -157,7 +157,7 @@ class Page extends Component {
                         <div className="profile-info__rightside">
                             <button
                                 className="profile-info__password"
-                                uk-toggle="target: #change-password"
+                                data-uk-toggle="target: #change-password"
                                 type="button"
                             >
                                 <SvgIcon className="profile-info__password-icon" name="lock" />
@@ -185,7 +185,7 @@ class Page extends Component {
                         <div className="profile-info__loading">
                             <span
                                 className="uk-position-center uk-spinner"
-                                uk-icon="icon: spinner; ratio: 2"
+                                data-uk-icon="icon: spinner; ratio: 2"
                             />
                         </div>
                     )}
@@ -379,11 +379,9 @@ class Page extends Component {
     }
 
     render() {
-        const { authUser } = this.props
-
         return (
             <main className="page">
-                <Header user={authUser} />
+                <HeaderContainer />
                 {this.getContent()}
             </main>
         )

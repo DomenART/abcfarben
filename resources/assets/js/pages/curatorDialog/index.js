@@ -1,8 +1,7 @@
 import React, {Fragment} from 'react'
-import { connect } from 'react-redux'
 import Http from '../../Http'
 import { Link } from 'react-router-dom'
-import Header from "../../components/Header"
+import HeaderContainer from "../../containers/HeaderContainer"
 import Dialog from "../../components/Dialog"
 import SvgIcon from "../../components/UI/SvgIcon"
 import getIconName from "../../utils/getIconName"
@@ -133,11 +132,9 @@ class Page extends React.Component {
     }
 
     render() {
-        const { user } = this.props
-
         return (
             <main className="page">
-                <Header user={user} />
+                <HeaderContainer />
 
                 <div className="uk-container">
                     <br />
@@ -149,8 +146,4 @@ class Page extends React.Component {
     }
 }
 
-const mapStateToProps = store => ({
-    user: store.Auth.user
-})
-
-export default connect(mapStateToProps)(Page)
+export default Page

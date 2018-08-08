@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Jenssegers\Date\Date;
+use Illuminate\Support\Facades\Log;
 
 class Program extends Model
 {
@@ -26,6 +27,11 @@ class Program extends Model
      */
     protected $fillable = [
         'name', 'content', 'annotation', 'image', 'passing_time', 'users', 'positions'
+    ];
+
+
+    protected $casts = [
+        'extra' => 'json',
     ];
 
     public function setUsersAttribute($users)
@@ -233,6 +239,39 @@ class Program extends Model
         return (bool) $this->isContainsTask($lesson->task);
     }
 
+    /**
+     * @param integer|null $user_id
+     *
+     * @return array
+     */
+    public function getProgress($user_id = null) {
+        $user_id = !empty($user_id) ? $user_id : request()->user()->id;
+
+        $response = [
+            'done' => 0,
+            'available' => 0,
+            'total' => 0,
+        ];
+
+        foreach ($this->modules as $module) {
+            foreach ($module->tasks as $task) {
+                if ($module->isOpenedByPrevious($this->id)) {
+                    $response['available']++;
+
+                    if ($status = $task->statuses()->user($user_id)->first()) {
+                        if ($status->status === 1) {
+                            $response['done']++;
+                        }
+                    }
+                }
+
+                $response['total']++;
+            }
+        }
+
+        return $response;
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'program_has_users');
@@ -261,5 +300,10 @@ class Program extends Model
     public function statuses()
     {
         return $this->hasMany(ProgramStatus::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'program_id');
     }
 }

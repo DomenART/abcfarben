@@ -20,7 +20,7 @@ class ProgramSpecified extends JsonResource
             'annotation' => $this->annotation,
             'dialog_title' => $this->dialog_title,
             'dialog_content' => $this->dialog_content,
-            'hasAccess' => $this->ownerHasAccess(),
+            'hasAccess' => $this->ownerHasAccess()
         ];
     }
 

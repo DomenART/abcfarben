@@ -15,65 +15,7 @@ import Expert from './Expert'
 import Container from './Container'
 import ProgramAside from '../../components/Program/ProgramAside'
 import ProgramHeader from '../../components/Program/ProgramHeader'
-import Header from '../../components/Header'
-
-const Content = ({ data, fetching, error, url }) => {
-    if (fetching || !data) {
-        return <div className="preloader" />
-    }
-
-    if (error) {
-        return <h1 dangerouslySetInnerHTML={{__html:error}} />
-    }
-
-    return (
-        <Fragment>
-            <ProgramHeader
-                name={data.name}
-                annotation={data.annotation}
-                hasAccess={data.hasAccess}
-            />
-
-            {data.hasAccess ? (
-                <div className="uk-grid">
-                    <ProgramAside />
-
-                    <div className="uk-width-expand uk-position-relative">
-                        <div className="container">
-                            <Switch>
-                                <Route path={`${url}`} exact component={Main} />
-                                <Route path={`${url}/wiki`} exact component={Wiki}/>
-                                <Route path={`${url}/tasks`} exact component={Tasks}/>
-                                <Route path={`${url}/members`} exact component={Members}/>
-                                <Route path={`${url}/expert`} exact component={Expert}/>
-                                <Route path={`${url}/:module`} exact render={props => (
-                                    <Container
-                                        {...props}
-                                        component={Module}
-                                    />
-                                )} />
-                                <Route path={`${url}/:module/:task`} exact render={props => (
-                                    <Container
-                                        {...props}
-                                        component={Task}
-                                    />
-                                )} />
-                                <Route path={`${url}/:module/:task/:lesson`} exact render={props => (
-                                    <Container
-                                        {...props}
-                                        component={Lesson}
-                                    />
-                                )} />
-                                <Route path={`${url}/`} render={() => <h1>Нет такой страницы</h1>} />
-                            </Switch>
-                        </div>
-                        <button className="menu-btn" data-uk-icon="icon: menu" type="button" data-uk-toggle="target: #menubar" />
-                    </div>
-                </div>
-            ) : <h1>У вас нет доступа к данной программе</h1>}
-        </Fragment>
-    )
-}
+import HeaderContainer from '../../containers/HeaderContainer'
 
 class Page extends React.Component {
     constructor(props) {
@@ -88,17 +30,73 @@ class Page extends React.Component {
         programActions.loadTree(match.params.program)
     }
 
+    getContent() {
+        const { match, program } = this.props
+
+        if (program.fetching || !program.data) {
+            return <div className="preloader" />
+        }
+
+        if (program.error) {
+            return <h1 dangerouslySetInnerHTML={{__html:program.error}} />
+        }
+
+        return (
+            <Fragment>
+                <ProgramHeader
+                    {...program.data}
+                    progress={program.progress}
+                />
+
+                {program.data.hasAccess ? (
+                    <div className="uk-grid">
+                        <ProgramAside />
+
+                        <div className="uk-width-expand uk-position-relative">
+                            <div className="container">
+                                <Switch>
+                                    <Route path={`${match.url}`} exact component={Main} />
+                                    <Route path={`${match.url}/wiki`} exact component={Wiki}/>
+                                    <Route path={`${match.url}/tasks`} exact component={Tasks}/>
+                                    <Route path={`${match.url}/members`} exact component={Members}/>
+                                    <Route path={`${match.url}/expert`} exact component={Expert}/>
+                                    <Route path={`${match.url}/:module`} exact render={props => (
+                                        <Container
+                                            {...props}
+                                            component={Module}
+                                        />
+                                    )} />
+                                    <Route path={`${match.url}/:module/:task`} exact render={props => (
+                                        <Container
+                                            {...props}
+                                            component={Task}
+                                        />
+                                    )} />
+                                    <Route path={`${match.url}/:module/:task/:lesson`} exact render={props => (
+                                        <Container
+                                            {...props}
+                                            component={Lesson}
+                                        />
+                                    )} />
+                                    <Route path={`${match.url}/`} render={() => <h1>Нет такой страницы</h1>} />
+                                </Switch>
+                            </div>
+                            <button className="menu-btn" data-uk-icon="icon: menu" type="button" data-uk-toggle="target: #menubar" />
+                        </div>
+                    </div>
+                ) : <h1>У вас нет доступа к данной программе</h1>}
+            </Fragment>
+        )
+    }
+
     render() {
-        const { match, user } = this.props
+        const { match } = this.props
 
         return (
             <main className="page">
-                <Header user={user} />
+                <HeaderContainer />
 
-                <Content
-                    {...this.props.program}
-                    url={match.url}
-                />
+                {this.getContent()}
             </main>
         )
     }

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import SvgIcon from './UI/SvgIcon'
 
-const Header = ({ user }) =>
+const Header = ({ user, curator, isCurator }) =>
     <header className="main-header">
         <div className="main-header__leftside">
             <Link to="/" className="main-header__logo">
@@ -83,10 +83,14 @@ const Header = ({ user }) =>
                     <SvgIcon name="bell" className="notification-btn__icon" />
                     <div className="notification-btn__counter"><span>348</span></div>
                 </button>*/}
-                {Boolean(user.roles.filter(({ slug }) => slug === 'curator').length) && (
+                {isCurator && (
                     <Link to="/curator" className="main-header__notification-btn notification-btn">
                         <SvgIcon name="lock" className="notification-btn__icon" />
-                        {/*<div className="notification-btn__counter"><span>348</span></div>*/}
+                        {curator.unreadMessages > 0 && (
+                            <div className="notification-btn__counter">
+                                <span>{curator.unreadMessages}</span>
+                            </div>
+                        )}
                     </Link>
                 )}
                 {/*<div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">

@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Http from '../../Http'
 import { Link } from 'react-router-dom'
-import Header from "../../components/Header"
+import HeaderContainer from "../../containers/HeaderContainer"
 
 class Page extends React.Component {
     constructor(props) {
@@ -54,7 +53,7 @@ class Page extends React.Component {
                         <th>Задание</th>
                         <th>Пользователь</th>
                         <th>Сообщений</th>
-                        <th></th>
+                        <th />
                     </tr>
                 </thead>
                 <tbody>
@@ -87,11 +86,9 @@ class Page extends React.Component {
     }
 
     render() {
-        const { user } = this.props
-
         return (
             <main className="page">
-                <Header user={user} />
+                <HeaderContainer />
 
                 <div className="uk-container">
                     {this.getContent()}
@@ -101,8 +98,4 @@ class Page extends React.Component {
     }
 }
 
-const mapStateToProps = store => ({
-    user: store.Auth.user
-})
-
-export default connect(mapStateToProps)(Page)
+export default Page

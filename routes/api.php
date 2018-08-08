@@ -37,6 +37,8 @@ Route::middleware(['auth:api'])->group(function(){
         'show'
     ]);
     Route::get('programs/{program}/tree', 'ProgramController@tree');
+    Route::get('programs/{program}/members', 'ProgramController@getMembers');
+    Route::get('programs/{program}/questions', 'ProgramController@getQuestions');
     Route::post('programs/{program}/lessons/{lesson}/read', 'LessonController@read');
     Route::post('programs/{program}/tasks/{task}/read', 'TaskController@read');
     Route::apiResource('messages', 'MessageController');
@@ -46,6 +48,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('curator/dialogs', 'CuratorController@getDialogs');
     Route::get('curator/dialogs/{thread}', 'CuratorController@getDialog');
     Route::post('curator/accept', 'CuratorController@acceptTask');
+    Route::get('curator/stats', 'CuratorController@getStats');
 
 	// Route::apiResources([
 	// 	'users' => 'UserController',

@@ -7,36 +7,31 @@ use App\Models\Program;
 use App\Models\Message;
 use App\Models\Thread;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\UserSpecified;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Log;
 
 class CuratorController extends Controller
 {
     public function getDialogs(Request $request) {
         $user_id = $request->user()->id;
-        $response = [];
+        $threads = [];
         $links = ProgramStatus::where('curator', $user_id)->with(['user', 'program'])->get();
 
         foreach ($links as $link) {
-            foreach ($link->program->statuses as $status) {
-                foreach ($status->threads as $thread) {
-                    $response['threads'][$thread->id] = [
-                        'thread' => $thread->id,
-                        'messages' => Message::byThread($thread->id)->count(),
-                        'unread' => Message::byThread($thread->id)->notOwner()->unread()->count(),
-                        'program' => $link->program,
-                        'user' => $link->user
-                    ];
-                }
+            foreach ($link->threads as $thread) {
+                $threads[$thread->id] = [
+                    'thread' => $thread->id,
+                    'messages' => Message::byThread($thread->id)->count(),
+                    'unread' => Message::byThread($thread->id)->notOwner()->unread()->count(),
+                    'program' => $link->program,
+                    'user' => $link->user
+                ];
             }
 
             foreach ($link->program->modules as $module) {
                 foreach ($module->tasks as $task) {
-                    foreach ($task->statuses as $status) {
+                    foreach ($task->statuses()->user($link->user->id)->cursor() as $status) {
                         foreach ($status->threads as $thread) {
-                            $response['threads'][$thread->id] = [
+                            $threads[$thread->id] = [
                                 'thread' => $thread->id,
                                 'messages' => Message::byThread($thread->id)->count(),
                                 'unread' => Message::byThread($thread->id)->notOwner()->unread()->count(),
@@ -50,7 +45,9 @@ class CuratorController extends Controller
             }
         }
 
-        return response()->json($response, 200);
+        return response()->json([
+            'threads' => $threads
+        ], 200);
     }
 
     public function getDialog(Thread $thread) {
@@ -88,6 +85,32 @@ class CuratorController extends Controller
 
         return response()->json([
             'success' => true
+        ], 200);
+    }
+
+    public function getStats(Request $request) {
+        $user_id = $request->user()->id;
+        $unreadMessages = 0;
+        $links = ProgramStatus::where('curator', $user_id)->with(['user', 'program'])->get();
+
+        foreach ($links as $link) {
+            foreach ($link->threads as $thread) {
+                $unreadMessages += Message::byThread($thread->id)->notOwner()->unread()->count();
+            }
+
+            foreach ($link->program->modules as $module) {
+                foreach ($module->tasks as $task) {
+                    foreach ($task->statuses()->user($link->user->id)->cursor() as $status) {
+                        foreach ($status->threads as $thread) {
+                            $unreadMessages += Message::byThread($thread->id)->notOwner()->unread()->count();
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'unreadMessages' => $unreadMessages
         ], 200);
     }
 }

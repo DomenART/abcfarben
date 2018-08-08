@@ -134,9 +134,19 @@ class ProgramController extends Controller
                         ->settings(['selectorMinimalHeight' => 300]);
 
                 });
+
                 $form->tab('Модули', function ($form) {
 
                     $form->html($this->modules());
+
+                });
+
+                $form->tab('Wiki', function ($form) {
+
+                    $form->hasMany('questions', function (Form\NestedForm $form) {
+                        $form->text('question', 'Вопрос');
+                        $form->editor('answer', 'Ответ');
+                    });
 
                 });
             }
