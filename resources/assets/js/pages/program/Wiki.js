@@ -47,7 +47,7 @@ class Wiki extends React.Component {
 
                 <div className="uk-position-relative">
                     <ul className="questions">
-                        {program.questions.map(row => (
+                        {program.questions && program.questions.map(row => (
                             <li id={`questions-${row.id}`} className="questions-item" key={row.id}>
                                 <div
                                     className="questions-item__headline"

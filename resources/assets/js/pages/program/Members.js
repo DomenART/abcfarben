@@ -114,7 +114,7 @@ class Members extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {program.members.map(({
+                            {program.members && program.members.map(({
                                 id, avatar, city, country, name, positions, progress, sphere, subdivision
                             }) => (
                                 <tr key={id} className={classNames({'current':id === user.id})}>
