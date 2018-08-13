@@ -1,36 +1,5 @@
 .calendar {
     position: relative;
-    table {
-        width: 297px;
-        margin-top: 25px;
-        position: relative;
-        left: -15px;
-    }
-    th {
-        width: 40px;
-        height: 40px;
-        background-color: #3b4756;
-        color: #4d5e74;
-        font-size: 11px;
-        font-weight: 500;
-        text-transform: uppercase;
-    }
-    td {
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        vertical-align: middle;
-        border: 1px solid #374353;
-        border-collapse: collapse;
-        background-color: #3b4756;
-        border: 0;
-        color: #6a7e91;
-        font-size: 12px;
-        font-weight: 500;
-        &.calendar__outside-cell {
-            color: #29303a;
-        }
-    }
 }
 
 .calendar__control {
@@ -94,5 +63,43 @@
         top: 50%;
         left: 50%;
         transform: translate(-20%, -50%);
+    }
+}
+
+.calendar-table {
+    overflow: hidden;
+    margin-left: -16px;
+    margin-right: -50px;
+    margin-top: 26px;
+}
+
+.calendar-table__item {
+    margin-left: 2px;
+    margin-top: 2px;
+    float: left;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-collapse: collapse;
+    background-color: #3b4756;
+    color: #6a7e91;
+    font-size: 12px;
+    font-weight: 500;
+    &_headline {
+        color: #4d5e74;
+        font-size: 11px;
+    }
+    &_inactive {
+        color: #29303a;
+    }
+    &_events {
+        background-color: #2d3742;
+        cursor: pointer;
+        color: #6a7e91;
+    }
+    &_today {
+        box-shadow: inset 0 0 0 2px #6a7e91;
     }
 }

@@ -1,5 +1,5 @@
 import * as ActionTypes from '../action-types'
-// import Http from "../../Http"
+import Http from "../../Http"
 
 // export function loadUser(id) {
 //     return (dispatch) => {
@@ -36,5 +36,27 @@ export function authLogout(){
 export function authCheck(){
     return {
         type: ActionTypes.AUTH_CHECK
+    }
+}
+
+export function loadNotifications() {
+    return (dispatch) => {
+        Http.get(`/api/notifications`).then(response => {
+            dispatch({
+                type: ActionTypes.AUTH_LOAD_NOTIFICATIONS,
+                payload: response.data
+            })
+        })
+    }
+}
+
+export function deleteNotification(id) {
+    return (dispatch) => {
+        Http.delete(`/api/notifications/${id}`).then(response => {
+            dispatch({
+                type: ActionTypes.AUTH_LOAD_NOTIFICATIONS,
+                payload: response.data
+            })
+        })
     }
 }

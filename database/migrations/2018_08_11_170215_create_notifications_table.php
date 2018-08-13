@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDialogsTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateDialogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('threads', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('threadable_id');
-            $table->string('threadable_type');
+            $table->integer('user_id');
             $table->integer('program_id');
+            $table->string('title');
+            $table->text('data')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateDialogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('threads');
+        Schema::dropIfExists('notifications');
     }
 }

@@ -7,6 +7,7 @@ import Breadcrumbs from "../../components/Breadcrumbs"
 import SvgIcon from "../../components/UI/SvgIcon"
 import ProgramProgress from '../../components/Program/ProgramProgress'
 import * as programActions from '../../store/actions/program'
+import Head from "../../components/Head"
 
 class Members extends React.Component {
     constructor(props) {
@@ -58,6 +59,8 @@ class Members extends React.Component {
                         title: 'Участники'
                     }]}
                 />
+
+                <Head title={`Участники - ${program.data.name}`} />
 
                 <div className="participants__heading">
                     <h1 className="participants__page-title page-title">

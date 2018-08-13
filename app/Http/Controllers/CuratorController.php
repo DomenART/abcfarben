@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProgramStatus;
-use App\Models\Program;
+use App\Models\Notification;
 use App\Models\Message;
 use App\Models\Thread;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class CuratorController extends Controller
 {
@@ -79,9 +78,21 @@ class CuratorController extends Controller
         ]);
 
         // TODO: проверка на наличие доступа к заданию у куратора
-        $threadable = Thread::find($request->thread)->threadable;
-        $threadable->status = 1;
-        $threadable->save();
+        $thread = Thread::find($request->thread);
+        $thread->threadable->status = 1;
+        $thread->threadable->save();
+
+        Notification::create([
+            'title' => 'Эксперт принял задание "' . $thread->threadable->task->name . '"',
+            'user_id' => $thread->threadable->user_id,
+            'program_id' => $thread->program_id,
+            'type' => 'task',
+            'data' => [
+                'program_id' => $thread->program_id,
+                'module_id' => $thread->threadable->task->module->id,
+                'task_id' => $thread->threadable->task->id,
+            ]
+        ]);
 
         return response()->json([
             'success' => true

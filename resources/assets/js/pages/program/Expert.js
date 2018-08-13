@@ -4,6 +4,7 @@ import { NavLink as Link } from 'react-router-dom'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Dialog from '../../components/Dialog'
 import SvgIcon from '../../components/UI/SvgIcon'
+import Head from "../../components/Head"
 
 const Expert = ({ program }) => {
     return (
@@ -16,6 +17,8 @@ const Expert = ({ program }) => {
                     title: 'Задать вопрос эксперту'
                 }]}
             />
+
+            <Head title={`Задать вопрос эксперту`} />
 
             <h1 className="expert__page-title page-title">
                 <SvgIcon

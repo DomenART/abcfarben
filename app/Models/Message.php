@@ -32,6 +32,43 @@ class Message extends Model
         });
     }
 
+    public function createNotifications() {
+
+        switch (get_class($this->thread->threadable)) {
+            case 'App\Models\TaskStatus':
+                $threadable = $this->thread->threadable;
+                if ($threadable->user_id != request()->user()->id) {
+                    $task = $threadable->task;
+                    Notification::create([
+                        'title' => 'Новое сообщение к заданию "' . $task->name . '"',
+                        'user_id' => $threadable->user_id,
+                        'program_id' => $this->thread->program_id,
+                        'type' => 'task',
+                        'data' => [
+                            'program_id' => $this->thread->program_id,
+                            'module_id' => $task->module->id,
+                            'task_id' => $task->id,
+                        ]
+                    ]);
+                }
+                break;
+            case 'App\Models\ProgramStatus':
+                $threadable = $this->thread->threadable;
+                if ($threadable->user_id != request()->user()->id) {
+                    Notification::create([
+                        'title' => 'Новый ответ эксперта',
+                        'user_id' => $threadable->user_id,
+                        'program_id' => $this->thread->program_id,
+                        'type' => 'program',
+                        'data' => [
+                            'program_id' => $this->thread->program_id
+                        ]
+                    ]);
+                }
+                break;
+        }
+    }
+
     public function scopeUnread($query)
     {
         return $query->where('read', false);

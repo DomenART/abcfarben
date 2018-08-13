@@ -45,5 +45,6 @@ Route::group([
         'programs' => ProgramController::class,
         'statuses' => ProgramStatusController::class,
         'auth/users' => UserController::class,
+        'events' => EventController::class,
     ]);
 });

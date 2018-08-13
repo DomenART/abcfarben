@@ -16,7 +16,7 @@ class Thread extends Model
      * @var array
      */
     protected $fillable = [
-        'threadable_id', 'threadable_type', 'created_at', 'updated_at'
+        'threadable_id', 'threadable_type', 'created_at', 'updated_at', 'program_id'
     ];
 
     public function threadable()

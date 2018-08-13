@@ -36,6 +36,9 @@ Route::middleware(['auth:api'])->group(function(){
     Route::apiResource('programs/{program}/lessons', 'LessonController')->only([
         'show'
     ]);
+    Route::apiResource('events', 'EventController')->only([
+        'index'
+    ]);
     Route::get('programs/{program}/tree', 'ProgramController@tree');
     Route::get('programs/{program}/members', 'ProgramController@getMembers');
     Route::get('programs/{program}/questions', 'ProgramController@getQuestions');
@@ -49,6 +52,11 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('curator/dialogs/{thread}', 'CuratorController@getDialog');
     Route::post('curator/accept', 'CuratorController@acceptTask');
     Route::get('curator/stats', 'CuratorController@getStats');
+    Route::apiResource('notifications', 'NotificationsController')->only([
+        'index', 'destroy'
+    ]);
+//    Route::get('notifications', 'NotificationsController@getNotifications');
+//    Route::delete('notifications/{notification}', 'NotificationsController@deleteNotification');
 
 	// Route::apiResources([
 	// 	'users' => 'UserController',

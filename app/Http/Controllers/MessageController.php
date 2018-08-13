@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Http\Resources\MessageSpecified;
-use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -52,6 +51,8 @@ class MessageController extends Controller
             });
             $message->save();
         }
+
+        $message->createNotifications();
 
         return new MessageSpecified($message);
     }

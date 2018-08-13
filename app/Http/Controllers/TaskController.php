@@ -52,7 +52,9 @@ class TaskController extends Controller
         }
 
         if (!$thread = $status->threads()->first()) {
-            $thread = $status->threads()->create();
+            $thread = $status->threads()->create([
+                'program_id' => $program->id
+            ]);
         }
 
         return response()->json([

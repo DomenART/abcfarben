@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import romanize from "romanize"
 import classNames from "classnames"
 import SvgIcon from '../../components/UI/SvgIcon'
+import Calendar from '../../components/Calendar'
 
 const ProgramAside = ({ program }) => {
     const getStatusIcon = code => {
@@ -73,90 +74,9 @@ const ProgramAside = ({ program }) => {
                         ))}
                     </ul>
                 </div>
-                {/* <div className="main-aside__section">
-                    <button className="main-aside__link calendar-btn" type="button" data-uk-toggle="target: #aside-calendar">
-                        <SvgIcon name="calendar" className="calendar-btn__icon" />
-                        <span className="calendar-btn__title">Календарь</span>
-                    </button>
-                    <div className="calendar" id="aside-calendar" hidden>
-                        <div className="calendar__control">
-                            <button className="calendar__control-prev" type="button" />
-                            <div className="calendar__control-month">Май</div>
-                            <button className="calendar__control-next" type="button" />
-                        </div>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>ПН</th>
-                                <th>ВТ</th>
-                                <th>СР</th>
-                                <th>ЧТ</th>
-                                <th>ПТ</th>
-                                <th>СБ</th>
-                                <th>ВС</th>
-                            </tr>
-                            <tr>
-                                <td className="calendar__outside-cell">30</td>
-                                <td>1</td>
-                                <td><button className="event-btn event-btn_haveEvent" data-uk-toggle="target: #event">2</button></td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td>6</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td><button className="event-btn event-btn_haveEvent">10</button></td>
-                                <td>1</td>
-                                <td>12</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>14</td>
-                                <td>15</td>
-                                <td>16</td>
-                                <td>17</td>
-                                <td>18</td>
-                                <td>19</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>21</td>
-                                <td>22</td>
-                                <td><button className="event-btn event-btn_haveEvent">23</button></td>
-                                <td>24</td>
-                                <td>25</td>
-                                <td>26</td>
-                                <td>27</td>
-                            </tr>
-                            <tr>
-                                <td>28</td>
-                                <td>29</td>
-                                <td>30</td>
-                                <td className="calendar__outside-cell">1</td>
-                                <td className="calendar__outside-cell">2</td>
-                                <td className="calendar__outside-cell">3</td>
-                                <td className="calendar__outside-cell">4</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div id="event" data-uk-modal>
-                            <div className="event uk-modal-dialog uk-modal-body">
-                                <button className="close uk-modal-close" type="button" data-uk-close />
-                                <div className="event__heading">
-                                    <SvgIcon name="folder" className="event__heading-icon" />
-                                    <h3 className="event__heading-desc">Открытие модуля  17 июня в 09:00</h3>
-                                </div>
-                                <h3 className="event__title">V. Название модуля, может быть длинным</h3>
-                                <div className="event__text">
-                                    Небольшой текстовый блок, поясняющий подробнее, какое именно событие, что будет, кому подойдет и тд.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+
+                <Calendar />
+
                 <div className="main-aside__section">
                     <Link
                         to={`/programs/${program.data.id}/expert`}

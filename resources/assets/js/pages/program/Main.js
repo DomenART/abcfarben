@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { NavLink as Link } from 'react-router-dom'
 import romanize from "romanize"
 import SvgIcon from '../../components/UI/SvgIcon'
+import Breadcrumbs from "../../components/Breadcrumbs"
+import Head from "../../components/Head"
 
 const Main = ({ program }) => {
     const getStatusIcon = code => {
@@ -17,6 +19,8 @@ const Main = ({ program }) => {
 
     return (
         <div>
+            <Head title={`${program.data.name}`} />
+
             <h1 className="program__title">
                 Программа:
                 <span dangerouslySetInnerHTML={{__html:`"${data.name}"`}} />

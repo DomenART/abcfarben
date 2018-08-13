@@ -7,7 +7,8 @@ const user = {
     email: null,
     createdAt: null,
     updatedAt: null,
-    roles: []
+    roles: [],
+    notifications: []
 }
 
 const initialState = {
@@ -25,27 +26,22 @@ const Auth = (state= initialState,{type,payload = null}) => {
             return logout(state)
         case ActionTypes.AUTH_UPDATE_USER:
             return updateUser(state,payload)
-        // case ActionTypes.AUTH_LOAD_USER:
-        //     return loadUser(state,payload)
+        case ActionTypes.AUTH_LOAD_NOTIFICATIONS:
+            return {
+                ...state,
+                notifications: payload
+            }
         default:
             return state
     }
 }
 
 const updateUser = (state, payload) => {
-    console.log('payload2', payload)
     return {
         ...state,
         user: payload
     }
 }
-
-// const loadUser = (state, payload) => {
-//     return {
-//         ...state,
-//         user: payload
-//     }
-// }
 
 const authLogin = (state, payload) => {
     const token = payload.token

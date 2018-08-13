@@ -3,6 +3,9 @@ import Http from '../../Http'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import * as actions from '../../store/actions/auth'
+import Head from "../../components/Head"
+import SvgIcon from "../../components/UI/SvgIcon"
+import NotificationsList from "../../components/NotificationsList"
 
 const Program = props => {
 
@@ -110,6 +113,8 @@ class Page extends React.Component {
 
     componentDidMount() {
         this.loadPrograms()
+
+        this.props.authActions.loadNotifications()
     }
 
     loadPrograms() {
@@ -123,11 +128,14 @@ class Page extends React.Component {
 
     render() {
         const { data, loading } = this.state
-        const { user } = this.props
+        const { user, notifications, authActions } = this.props
 
         return (
             <Fragment>
+                <Head />
+
                 {loading && (<div className="preloader" />)}
+
                 <main className="courses page">
                     <div className="uk-container">
                         <div className="courses__header">
@@ -136,70 +144,27 @@ class Page extends React.Component {
                                     <use href="img/sprite.svg#settings" />
                                 </svg>
                             </Link>
+
                             <Link to={`/users/${user.id}`}>
                                 <img className="courses__avatar" src={user.avatar} alt="" />
                             </Link>
+
                             <button className="notification-btn" type="button">
-                                <svg className="notification-btn__icon">
-                                    <use href="img/sprite.svg#bell" />
-                                </svg>
-                                {/*<div className="notification-btn__counter"><span>348</span></div>*/}
+                                <SvgIcon name="bell" className="notification-btn__icon" />
+                                {notifications.length > 0 && (
+                                    <div className="notification-btn__counter"><span>{notifications.length}</span></div>
+                                )}
                             </button>
-                            {/*<div className="courses__notifications-pool" data-uk-dropdown="mode: click; pos: right-top;">
-                                <div className="courses__notifications-container">
-                                <div className="courses__notifications-inner">
-                                    <div className="notification-item">
-                                        <div className="notification-item__title">
-                                            Программа, к которой относится уведомление
-                                        </div>
-                                        <div className="notification-item__info">
-                                            <a className="notification-item__link" href="#">
-                                                <span className="notification-item__calendar">
-                                                    <svg className="notification-item__calendar-icon">
-                                                        <use href="img/sprite.svg#calendar" />
-                                                    </svg>
-                                                </span>
-                                                <span className="notification-item__text">
-                                                    Дополнительное образование (психология бизнеса), тренинги, полиграф, консалтинг, исследования
-                                                </span>
-                                            </a>
-                                            <button className="notification-item__remove-btn" type="button" />
-                                        </div>
-                                    </div>
-                                    <div className="notification-item">
-                                        <div className="notification-item__title">
-                                            Программа, к которой относится уведомление
-                                        </div>
-                                        <div className="notification-item__info">
-                                            <a className="notification-item__link" href="#">
-                                                <span className="notification-item__calendar">
-                                                    <svg className="notification-item__folder-icon">
-                                                        <use href="img/sprite.svg#folder" />
-                                                    </svg>
-                                                </span>
-                                                <span className="notification-item__text">
-                                                    Открыт доступ к программе курса
-                                                </span>
-                                            </a>
-                                            <button className="notification-item__remove-btn" type="button" />
-                                        </div>
-                                        <div className="notification-item__info">
-                                            <a className="notification-item__link" href="#">
-                                                <span className="notification-item__calendar">
-                                                    <svg className="notification-item__folder-icon">
-                                                        <use href="img/sprite.svg#folder" />
-                                                    </svg>
-                                                </span>
-                                                <span className="notification-item__text">
-                                                    Открыт доступ к программе курса
-                                                </span>
-                                            </a>
-                                            <button className="notification-item__remove-btn" type="button" />
-                                        </div>
+                            {notifications && (
+                                <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
+                                    <div className="notifications__inner">
+                                        <NotificationsList
+                                            items={notifications}
+                                            deleteNotification={authActions.deleteNotification}
+                                        />
                                     </div>
                                 </div>
-                                </div>
-                            </div>*/}
+                            )}
                         </div>
                         <div className="courses__greetings">Добрый день, {user.name}!</div>
                         <div className="courses__choice">Выберите учебную программу:</div>
@@ -209,87 +174,8 @@ class Page extends React.Component {
                                     <Program {...row} />
                                 </div>
                             ))}
-                            {/* <div>
-                                <article className="course-item">
-                                    <div className="course-item__main">
-                                        <div className="course-item__main-top">
-                                            <img className="course-item__pic" src="../img/course.svg" alt="" />
-                                            <h3 className="course-item__title">
-                                                Название программы, курса
-                                            </h3>
-                                            <div className="course-item__addition">
-                                                дополнение, уточнение
-                                            </div>
-                                        </div>
-                                        <a className="course-item__link course-item__link_continue" href="#">Продолжить программу</a>
-                                    </div>
-                                    <div className="course-item__bottom">
-                                        <div className="course-item__status">
-                                            <svg className="course-item__info-icon">
-                                                <use href="img/sprite.svg#info" />
-                                            </svg>
-                                            <span className="course-item__info-text">Программа началась:</span>
-                                        </div>
-                                        <div className="course-item__date">19 мая</div>
-                                    </div>
-                                </article>
-                            </div>
-                            <div>
-                                <article className="course-item">
-                                    <div className="course-item__main">
-                                        <div className="course-item__main-top">
-                                            <img className="course-item__pic" src="../img/course.svg" alt="" />
-                                            <h3 className="course-item__title">
-                                                Название программы, курса, при увеличении длины названия увеличивается высота блока
-                                            </h3>
-                                            <div className="course-item__addition">
-                                                дополнение, уточнение
-                                            </div>
-                                        </div>
-                                        <a className="course-item__link course-item__link_start" href="#">Начать программу</a>
-                                    </div>
-                                    <div className="course-item__bottom">
-                                        <div className="course-item__status">
-                                            <svg className="course-item__info-icon">
-                                                <use href="img/sprite.svg#info" />
-                                            </svg>
-                                            <span className="course-item__info-text">Программа начнется:</span>
-                                        </div>
-                                        <div className="course-item__date">21 ноября</div>
-                                    </div>
-                                </article>
-                            </div>
-                            <div>
-                                <article className="course-item">
-                                    <div className="course-item__main">
-                                        <div className="course-item__main-top">
-                                            <img className="course-item__pic" src="../img/course.svg" alt="" />
-                                            <h3 className="course-item__title">
-                                                Название программы; КАПС указывается<br />
-                                                не в стилях, а в тексте
-                                            </h3>
-                                            <div className="course-item__addition">
-                                                дополнение, уточнение
-                                            </div>
-                                        </div>
-                                        <div className="course-item__link course-item__link_ended" href="#">Программа завершена</div>
-                                    </div>
-                                    <div className="course-item__bottom">
-                                        <div className="course-item__status">
-                                            <svg className="course-item__info-icon">
-                                                <use href="img/sprite.svg#info" />
-                                            </svg>
-                                            <span className="course-item__info-text">Программа завершена:</span>
-                                        </div>
-                                        <div className="course-item__date">01 апреля</div>
-                                    </div>
-                                </article>
-                            </div> */}
                         </div>
                     </div>
-                    {/* <button onClick={() => {
-                        this.props.dispatch(actions.authLogout())
-                    }}>Logout</button> */}
                 </main>
             </Fragment>
         )

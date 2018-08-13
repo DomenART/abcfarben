@@ -6,6 +6,7 @@ import * as taskActions from "../../store/actions/task"
 import * as lessonActions from "../../store/actions/lesson"
 import { Link } from 'react-router-dom'
 import Breadcrumbs from '../../components/Breadcrumbs'
+import Head from "../../components/Head"
 
 class Lesson extends Component {
     static initialState
@@ -65,6 +66,8 @@ class Lesson extends Component {
                         title: lesson.data.name
                     }]}
                 />
+
+                <Head title={`${lesson.data.name}`} />
 
                 <h1 className="page-title">
                     <svg className="page-title__icon page-title__icon_practice">

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import HeaderContainer from '../../containers/HeaderContainer'
 import SvgIcon from '../../components/UI/SvgIcon'
+import Head from '../../components/Head'
 import Http from '../../Http'
 import * as authActions from '../../store/actions/auth'
 
@@ -69,6 +70,8 @@ class Page extends Component {
 
         return (
             <main className="profile page">
+                <Head title={`${data.name}`} />
+
                 <div className="profile-info">
                     <div className="profile-info__inner">
                         <div className="profile-info__leftside">

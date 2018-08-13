@@ -1,9 +1,8 @@
 import React from 'react'
-import classNames from "classnames"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import { Link } from 'react-router-dom'
 import Breadcrumbs from "../../components/Breadcrumbs"
+import Head from "../../components/Head"
 import SvgIcon from "../../components/UI/SvgIcon"
 import * as programActions from '../../store/actions/program'
 
@@ -33,9 +32,11 @@ class Wiki extends React.Component {
                         uri: `/programs/${program.data.id}`,
                         title: program.data.name
                     }, {
-                        title: 'Участники'
+                        title: 'Wiki'
                     }]}
                 />
+
+                <Head title={`Wiki - ${program.data.name}`} />
 
                 <h1 className="wiki__page-title page-title">
                     <SvgIcon

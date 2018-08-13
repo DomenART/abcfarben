@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Breadcrumbs from '../../components/Breadcrumbs'
+import Head from "../../components/Head"
 
 const Module = ({ program, module }) => {
     if (module.fetching || !program.data || !module.data)
@@ -21,6 +22,8 @@ const Module = ({ program, module }) => {
                     title: module.data.name
                 }]}
             />
+
+            <Head title={`${module.data.name}`} />
 
             <h1 className="subsection__page-title page-title">
                 <svg className="page-title__icon page-title__icon_subsection">

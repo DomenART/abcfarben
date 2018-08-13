@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import SvgIcon from './UI/SvgIcon'
+import NotificationsList from './NotificationsList'
 
-const Header = ({ user, curator, isCurator }) =>
+const Header = ({ user, notifications = [], curator, isCurator, deleteNotification }) =>
     <header className="main-header">
         <div className="main-header__leftside">
             <Link to="/" className="main-header__logo">
@@ -79,10 +80,49 @@ const Header = ({ user, curator, isCurator }) =>
                         </ul>
                     </div>
                 </div>*/}
-                {/*<button className="main-header__notification-btn notification-btn" type="button">
+                <button className="main-header__notification-btn notification-btn" type="button">
                     <SvgIcon name="bell" className="notification-btn__icon" />
-                    <div className="notification-btn__counter"><span>348</span></div>
-                </button>*/}
+                    {notifications.length > 0 && (
+                        <div className="notification-btn__counter"><span>{notifications.length}</span></div>
+                    )}
+                </button>
+                {notifications.length > 0 && (
+                    <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
+                        <div className="notifications__inner">
+                            <NotificationsList
+                                items={notifications}
+                                deleteNotification={deleteNotification}
+                            />
+                            {/*<div className="notification-item">
+                            <div className="notification-item__title">
+                                Программа, к которой относится уведомление
+                            </div>
+                            <div className="notification-item__info">
+                                <a className="notification-item__link" href="#">
+                                        <span className="notification-item__calendar">
+                                            <SvgIcon name="folder" className="notification-item__folder-icon" />
+                                        </span>
+                                    <span className="notification-item__text">
+                                            Открыт доступ к программе курса
+                                        </span>
+                                </a>
+                                <button className="notification-item__remove-btn" type="button" />
+                            </div>
+                            <div className="notification-item__info">
+                                <a className="notification-item__link" href="#">
+                                        <span className="notification-item__calendar">
+                                            <SvgIcon name="folder" className="notification-item__folder-icon" />
+                                        </span>
+                                    <span className="notification-item__text">
+                                            Открыт доступ к программе курса
+                                        </span>
+                                </a>
+                                <button className="notification-item__remove-btn" type="button" />
+                            </div>
+                        </div>*/}
+                        </div>
+                    </div>
+                )}
                 {isCurator && (
                     <Link to="/curator" className="main-header__notification-btn notification-btn">
                         <SvgIcon name="lock" className="notification-btn__icon" />
@@ -93,53 +133,6 @@ const Header = ({ user, curator, isCurator }) =>
                         )}
                     </Link>
                 )}
-                {/*<div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
-                    <div className="notifications__inner">
-                        <div className="notification-item">
-                            <div className="notification-item__title">
-                                Программа, к которой относится уведомление
-                            </div>
-                            <div className="notification-item__info">
-                                <a className="notification-item__link" href="#">
-                                        <span className="notification-item__calendar">
-                                            <SvgIcon name="calendar" className="notification-item__calendar-icon" />
-                                        </span>
-                                    <span className="notification-item__text">
-                                            Дополнительное образование (психология бизнеса), тренинги, полиграф, консалтинг, исследования
-                                        </span>
-                                </a>
-                                <button className="notification-item__remove-btn" type="button" />
-                            </div>
-                        </div>
-                        <div className="notification-item">
-                            <div className="notification-item__title">
-                                Программа, к которой относится уведомление
-                            </div>
-                            <div className="notification-item__info">
-                                <a className="notification-item__link" href="#">
-                                        <span className="notification-item__calendar">
-                                            <SvgIcon name="folder" className="notification-item__folder-icon" />
-                                        </span>
-                                    <span className="notification-item__text">
-                                            Открыт доступ к программе курса
-                                        </span>
-                                </a>
-                                <button className="notification-item__remove-btn" type="button" />
-                            </div>
-                            <div className="notification-item__info">
-                                <a className="notification-item__link" href="#">
-                                        <span className="notification-item__calendar">
-                                            <SvgIcon name="folder" className="notification-item__folder-icon" />
-                                        </span>
-                                    <span className="notification-item__text">
-                                            Открыт доступ к программе курса
-                                        </span>
-                                </a>
-                                <button className="notification-item__remove-btn" type="button" />
-                            </div>
-                        </div>
-                    </div>
-                </div>*/}
             </div>
             <div>
                 <Link

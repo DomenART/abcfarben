@@ -53,7 +53,9 @@ class ProgramController extends Controller
                 $response['curator'] = $status->curator;
 
                 if (!$thread = $status->threads()->first()) {
-                    $thread = $status->threads()->create();
+                    $thread = $status->threads()->create([
+                        'program_id' => $program->id
+                    ]);
                 }
 
                 $response['thread'] = $thread->id;

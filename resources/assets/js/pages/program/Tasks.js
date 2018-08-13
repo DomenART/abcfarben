@@ -5,6 +5,7 @@ import classNames from "classnames"
 import Breadcrumbs from "../../components/Breadcrumbs"
 import SvgIcon from "../../components/UI/SvgIcon"
 import { NavLink as Link } from "react-router-dom"
+import Head from "../../components/Head"
 
 class Tasks extends Component {
     constructor(props) {
@@ -34,9 +35,11 @@ class Tasks extends Component {
                         uri: `/programs/${program.data.id}`,
                         title: program.data.name
                     }, {
-                        title: 'Участники'
+                        title: 'Все задания'
                     }]}
                 />
+
+                <Head title={`Все задания - ${program.data.name}`} />
 
                 <h1 className="tasks__page-title page-title">
                     <SvgIcon name="doc" className="page-title__icon page-title__icon_tasks" />

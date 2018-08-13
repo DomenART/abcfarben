@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { connect } from "react-redux"
 import Breadcrumbs from '../../components/Breadcrumbs'
+import Head from '../../components/Head'
 import Dialog from '../../components/Dialog'
 import SvgIcon from '../../components/UI/SvgIcon'
 import * as taskActions from "../../store/actions/task"
@@ -52,6 +53,8 @@ class Task extends Component {
                         title: task.data.name
                     }]}
                 />
+
+                <Head title={`${task.data.name}`} />
 
                 <div className="practice__heading">
                     <h1 className="practice__page-title page-title uk-width-1-1">
