@@ -151,7 +151,7 @@ class Page extends React.Component {
 
                             <button className="notification-btn" type="button">
                                 <SvgIcon name="bell" className="notification-btn__icon" />
-                                {notifications.length > 0 && (
+                                {notifications && notifications.length > 0 && (
                                     <div className="notification-btn__counter"><span>{notifications.length}</span></div>
                                 )}
                             </button>
