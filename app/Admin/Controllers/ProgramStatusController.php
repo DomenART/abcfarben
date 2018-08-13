@@ -80,7 +80,7 @@ class ProgramStatusController extends Controller
 
             $grid->program_id('Программа')->display(function ($id) {
                 $program = Program::find($id);
-                return "<a href='/admin/auth/programs/{$program->id}/edit'>{$program->name}</a>";
+                return "<a href='/admin/programs/{$program->id}/edit'>{$program->name}</a>";
             });
 
             $grid->user_id('Пользователь')->display(function ($id) {

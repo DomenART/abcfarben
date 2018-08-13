@@ -17,12 +17,12 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
-use App\Admin\Extensions\Form\CKEditor;
+use App\Admin\Extensions\Form\TinyMCE;
 use Encore\Admin\Form;
 use Encore\Admin\Facades\Admin;
 
 Encore\Admin\Form::forget(['map', 'editor']);
 
-Form::extend('editor', CKEditor::class);
+Form::extend('editor', TinyMCE::class);
 
 Admin::css('/laravel-admin/extensions/css/numbered-tree.css');

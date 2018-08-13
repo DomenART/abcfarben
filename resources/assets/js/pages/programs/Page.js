@@ -155,7 +155,7 @@ class Page extends React.Component {
                                     <div className="notification-btn__counter"><span>{notifications.length}</span></div>
                                 )}
                             </button>
-                            {notifications && (
+                            {notifications && notifications.length > 0 && (
                                 <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
                                     <div className="notifications__inner">
                                         <NotificationsList
