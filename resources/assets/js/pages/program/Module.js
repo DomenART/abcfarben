@@ -37,11 +37,21 @@ const Module = ({ program, module }) => {
                 dangerouslySetInnerHTML={{__html:module.data.content}}
             />
 
-            {(module.data.opened && module.data.nextTask) && (
-                <Link
-                    to={`/programs/${program.data.id}/${module.data.id}/${module.data.nextTask}`}
-                    className="subsection__link-btn link-btn"
-                >Приступить к просмотру и выполнению уроков</Link>
+            {module.data.opened && (
+                <div className="subsection__link-btn">
+                    {module.data.nextTask && (
+                        <Link
+                            to={`/programs/${program.data.id}/${module.data.id}/${module.data.nextTask}`}
+                            className="link-btn"
+                        >Приступить к просмотру и выполнению уроков</Link>
+                    )}
+                    {/* {!Boolean(module.data.tasks.length) && (
+                        <Link
+                            to={`/programs/${program.data.id}/${module.data.id}/${module.data.nextTask}`}
+                            className="link-btn"
+                        >Приступить к просмотру и выполнению уроков</Link>
+                    )} */}
+                </div>
             )}
 
             {Boolean(module.data.tasks.length) && (

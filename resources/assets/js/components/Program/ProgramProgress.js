@@ -7,8 +7,8 @@ class ProgramProgress extends Component {
         const { done, available, total } = this.props
 
         this.state = {
-            done: Math.round(done / total * 100),
-            available: Math.round(available / total * 100)
+            done: total > 0 ? Math.round(done / total * 100) : 0,
+            available: total > 0 ? Math.round(available / total * 100) : 0
         }
     }
 

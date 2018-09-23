@@ -6035,7 +6035,7 @@ module.exports = warning;
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.png?92688b4aa3a3c295dd30937e67cba728";
+module.exports = "/images/logo.png?93d8e3b4ab680305cf7167fe9a1d3624";
 
 /***/ }),
 /* 16 */
@@ -17400,8 +17400,8 @@ var ProgramProgress = function (_Component) {
 
 
         _this.state = {
-            done: Math.round(done / total * 100),
-            available: Math.round(available / total * 100)
+            done: total > 0 ? Math.round(done / total * 100) : 0,
+            available: total > 0 ? Math.round(available / total * 100) : 0
         };
         return _this;
     }
@@ -56905,13 +56905,17 @@ var Module = function Module(_ref) {
             className: 'content',
             dangerouslySetInnerHTML: { __html: module.data.content }
         }),
-        module.data.opened && module.data.nextTask && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
-            {
-                to: '/programs/' + program.data.id + '/' + module.data.id + '/' + module.data.nextTask,
-                className: 'subsection__link-btn link-btn'
-            },
-            '\u041F\u0440\u0438\u0441\u0442\u0443\u043F\u0438\u0442\u044C \u043A \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0443 \u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044E \u0443\u0440\u043E\u043A\u043E\u0432'
+        module.data.opened && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'subsection__link-btn' },
+            module.data.nextTask && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
+                {
+                    to: '/programs/' + program.data.id + '/' + module.data.id + '/' + module.data.nextTask,
+                    className: 'link-btn'
+                },
+                '\u041F\u0440\u0438\u0441\u0442\u0443\u043F\u0438\u0442\u044C \u043A \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u0443 \u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044E \u0443\u0440\u043E\u043A\u043E\u0432'
+            )
         ),
         Boolean(module.data.tasks.length) && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
