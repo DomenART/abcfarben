@@ -91,11 +91,16 @@ class Program extends Model
          * @var User $user
          */
         if ($user = Auth::user()) {
-            if ($status = $this->statuses()->user($user->id)->first()) {
-                switch ($status->status) {
-                    case 1: return 'during'; break;
-                    case 2: return 'completed'; break;
-                }
+            if ($this->statuses()->user($user->id)->success()->count()) {
+                return 'completed';
+                // switch ($status->status) {
+                //     case 1: return 'during'; break;
+                //     case 2: return 'completed'; break;
+                // }
+            }
+
+            if ($this->students()->student($user->id)->count()) {
+                return 'during';
             }
 
             if ($this->userHasAccess($user->id)) {
@@ -141,12 +146,17 @@ class Program extends Model
     public function getCompletedTime()
     {
         if ($user = Auth::user()) {
-            if ($status = $this->statuses()->user($user->id)->first()) {
-                if ($status->status === 2) {
-                    return Date::parse($status->updated_at)->format('j F');
-                }
+            if ($status = $this->statuses()->user($user->id)->success()->first()) {
+                return Date::parse($status->updated_at)->format('j F');
             }
         }
+        // if ($user = Auth::user()) {
+        //     if ($status = $this->statuses()->user($user->id)->first()) {
+        //         if ($status->status === 2) {
+        //             return Date::parse($status->updated_at)->format('j F');
+        //         }
+        //     }
+        // }
 
         return null;
     }
@@ -156,13 +166,20 @@ class Program extends Model
      */
     public function getBeCompletedTime()
     {
+        // if ($user = Auth::user()) {
+        //     if ($status = $this->statuses()->user($user->id)->first()) {
+        //         if ($status->status === 1) {
+        //             return Date::parse($status->created_at)
+        //                 ->add($this->passing_time . ' day')
+        //                 ->format('j F');
+        //         }
+        //     }
+        // }
         if ($user = Auth::user()) {
-            if ($status = $this->statuses()->user($user->id)->first()) {
-                if ($status->status === 1) {
-                    return Date::parse($status->created_at)
-                        ->add($this->passing_time . ' day')
-                        ->format('j F');
-                }
+            if ($status = $this->statuses()->user($user->id)->primary()->first()) {
+                return Date::parse($status->created_at)
+                    ->add($this->passing_time . ' day')
+                    ->format('j F');
             }
         }
 
@@ -170,17 +187,19 @@ class Program extends Model
     }
 
     public function starting() {
-        if ($status = $this->statuses()->owner()->first()) {
-            if ($status->status === 0) {
-                $status->status = 1;
-                $status->save();
-            }
-        } else {
-            $this->statuses()->create([
-                'user_id' => request()->user()->id,
-                'status' => 1,
-                'curator' => $this->curator
+        $user_id = request()->user()->id;
+
+        if (!$this->students()->student($user_id)->count()) {
+            $this->students()->create([
+                'student_id' => $user_id,
+                'curator_id' => $this->curator
             ]);
+        }
+
+        if (!$this->statuses()->user($user_id)->count()) {
+            $this->statuses()->create([
+                'user_id' => $user_id
+            ])->setPrimary();
         }
     }
 
@@ -258,10 +277,8 @@ class Program extends Model
                 if ($module->isOpenedByPrevious($this->id)) {
                     $response['available']++;
 
-                    if ($status = $task->statuses()->user($user_id)->first()) {
-                        if ($status->status === 1) {
-                            $response['done']++;
-                        }
+                    if ($task->statuses()->user($user_id)->success()->count()) {
+                        $response['done']++;
                     }
                 }
 
@@ -297,9 +314,14 @@ class Program extends Model
 //        );
 //    }
 
+    public function students()
+    {
+        return $this->hasMany(ProgramStudent::class);
+    }
+
     public function statuses()
     {
-        return $this->hasMany(ProgramStatus::class);
+        return $this->morphMany(Status::class, 'statusable');
     }
 
     public function questions()

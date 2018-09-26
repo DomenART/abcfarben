@@ -49,17 +49,28 @@ class ProgramController extends Controller
 
             $response['progress'] = $program->getProgress();
 
-            if ($status = $program->statuses()->owner()->first()) {
-                $response['curator'] = $status->curator;
+            if ($student = $program->students()->owner()->first()) {
+                $response['curator'] = $student->curator_id;
 
-                if (!$thread = $status->threads()->first()) {
-                    $thread = $status->threads()->create([
+                if (!$thread = $student->threads()->first()) {
+                    $thread = $student->threads()->create([
                         'program_id' => $program->id
                     ]);
                 }
 
                 $response['thread'] = $thread->id;
             }
+            // if ($status = $program->statuses()->owner()->first()) {
+            //     $response['curator'] = $status->curator;
+
+            //     if (!$thread = $status->threads()->first()) {
+            //         $thread = $status->threads()->create([
+            //             'program_id' => $program->id
+            //         ]);
+            //     }
+
+            //     $response['thread'] = $thread->id;
+            // }
         }
 
         return response()->json($response, 200);
@@ -84,10 +95,10 @@ class ProgramController extends Controller
     public function getMembers(Program $program, Request $request) {
         $response = [];
 
-        $query = $program->statuses()->with('user');
+        $query = $program->students()->with('student');
 
         if ($search = $request->search) {
-            $query->join('users', 'users.id', '=', 'program_has_statuses.user_id')
+            $query->join('users', 'users.id', '=', 'program_has_students.student_id')
                 ->where(function ($query) use ($search) {
                     $query->where('users.firstname', 'like', '%' . $search . '%')
                         ->orWhere('users.secondname', 'like', '%' . $search . '%')
@@ -97,15 +108,15 @@ class ProgramController extends Controller
 
         foreach ($query->cursor() as $row) {
             $response[] = [
-                'id' => $row->user->id,
-                'name' => $row->user->name,
-                'avatar' => $row->user->avatar,
-                'country' => $row->user->country,
-                'city' => $row->user->city,
-                'sphere' => $row->user->sphere,
-                'subdivision' => $row->user->subdivision,
-                'positions' => $row->user->positions->pluck('name'),
-                'progress' => $program->getProgress($row->user->id)
+                'id' => $row->student->id,
+                'name' => $row->student->name,
+                'avatar' => $row->student->avatar,
+                'country' => $row->student->country,
+                'city' => $row->student->city,
+                'sphere' => $row->student->sphere,
+                'subdivision' => $row->student->subdivision,
+                'positions' => $row->student->positions->pluck('name'),
+                'progress' => $program->getProgress($row->student->id)
             ];
         }
 

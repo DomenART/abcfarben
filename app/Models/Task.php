@@ -125,6 +125,11 @@ class Task extends Model
 
     public function statuses()
     {
-        return $this->hasMany(TaskStatus::class);
+        return $this->morphMany(Status::class, 'statusable');
     }
+
+    // public function statuses()
+    // {
+    //     return $this->hasMany(TaskStatus::class);
+    // }
 }
