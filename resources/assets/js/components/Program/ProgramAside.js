@@ -8,10 +8,11 @@ import SvgIcon from '../../components/UI/SvgIcon'
 import Calendar from '../../components/Calendar'
 
 const ProgramAside = ({ program }) => {
-    const getStatusIcon = code => {
-        switch (code) {
-            case 1: return 'doc-done'
-            case 2: return 'doc-warning'
+    const getStatusIcon = status => {
+        switch (status) {
+            case 'success': return 'doc-done'
+            case 'warning': return 'doc-warning'
+            case 'danger': return 'doc-danger'
             default: return 'doc'
         }
     }
@@ -44,7 +45,8 @@ const ProgramAside = ({ program }) => {
                                         {romanize(i+1)}. {item.name}
                                     </span>
                                 </Link>
-                                {item.tasks.length && (
+
+                                {Boolean(item.tasks.length) && (
                                     <Fragment>
                                         <button
                                             className="main-aside__structure-dropdown"
@@ -86,6 +88,7 @@ const ProgramAside = ({ program }) => {
                         <span className="main-aside__link-title">Задать вопрос эксперту</span>
                     </Link>
                 </div>
+
                 {program.curator && (
                     <div className="main-aside__section">
                         <Link to={`/users/${program.curator}`} className="main-aside__link">

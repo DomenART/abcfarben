@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProgramStatus;
+use App\Models\ProgramStudent;
 use App\Models\Notification;
 use App\Models\Message;
 use App\Models\Thread;
@@ -13,7 +13,7 @@ class CuratorController extends Controller
     public function getDialogs(Request $request) {
         $user_id = $request->user()->id;
         $threads = [];
-        $links = ProgramStatus::where('curator', $user_id)->with(['user', 'program'])->get();
+        $links = ProgramStudent::where('curator_id', $user_id)->with(['student', 'program'])->get();
 
         foreach ($links as $link) {
             foreach ($link->threads as $thread) {
@@ -22,13 +22,13 @@ class CuratorController extends Controller
                     'messages' => Message::byThread($thread->id)->count(),
                     'unread' => Message::byThread($thread->id)->notOwner()->unread()->count(),
                     'program' => $link->program,
-                    'user' => $link->user
+                    'user' => $link->student
                 ];
             }
 
             foreach ($link->program->modules as $module) {
                 foreach ($module->tasks as $task) {
-                    foreach ($task->statuses()->user($link->user->id)->cursor() as $status) {
+                    foreach ($task->statuses()->user($link->student->id)->cursor() as $status) {
                         foreach ($status->threads as $thread) {
                             $threads[$thread->id] = [
                                 'thread' => $thread->id,
@@ -36,7 +36,7 @@ class CuratorController extends Controller
                                 'unread' => Message::byThread($thread->id)->notOwner()->unread()->count(),
                                 'program' => $link->program,
                                 'task' => $task,
-                                'user' => $link->user
+                                'user' => $link->student
                             ];
                         }
                     }
@@ -102,7 +102,7 @@ class CuratorController extends Controller
     public function getStats(Request $request) {
         $user_id = $request->user()->id;
         $unreadMessages = 0;
-        $links = ProgramStatus::where('curator', $user_id)->with(['user', 'program'])->get();
+        $links = ProgramStudent::where('curator_id', $user_id)->with(['student', 'program'])->get();
 
         foreach ($links as $link) {
             foreach ($link->threads as $thread) {
@@ -111,7 +111,7 @@ class CuratorController extends Controller
 
             foreach ($link->program->modules as $module) {
                 foreach ($module->tasks as $task) {
-                    foreach ($task->statuses()->user($link->user->id)->cursor() as $status) {
+                    foreach ($task->statuses()->user($link->student->id)->cursor() as $status) {
                         foreach ($status->threads as $thread) {
                             $unreadMessages += Message::byThread($thread->id)->notOwner()->unread()->count();
                         }

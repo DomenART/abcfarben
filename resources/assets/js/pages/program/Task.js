@@ -73,13 +73,15 @@ class Task extends Component {
 
                     <div className="practice__status">
                     <span className={classNames('practice__status_indicator indicator', {
+                        'indicator_isNotDone': task.data.status === 0,
                         'indicator_isDone': task.data.status === 1,
                         'indicator_isDuring': task.data.status === 2,
-                        'indicator_isNotDone': task.data.status === 0
+                        'indicator_isDanger': task.data.status === 3
                     })} />
+                        {task.data.status === 0 && 'Не выполнен'}
                         {task.data.status === 1 && 'Выполнен'}
                         {task.data.status === 2 && 'Выполняется'}
-                        {task.data.status === 0 && 'Не выполнен'}
+                        {task.data.status === 3 && 'Возвращен'}
                     </div>
                 </div>
 

@@ -211,13 +211,16 @@ class Program extends Model
         $modules = $this->modules()->with('tasks', 'tasks.statuses')->get();
         $modules = $modules->map(function ($module, $key) use ($modules) {
             $tasks = $module->tasks->map(function($task) {
-                $status = $task->statuses()->owner()->first();
-
-                return [
+                $output = [
                     'id' => $task->id,
-                    'name' => $task->name,
-                    'status' => $status ? $status->status : 0
+                    'name' => $task->name
                 ];
+
+                if ($status = $task->statuses()->owner()->first()) {
+                    $output['status'] = $status->getLabel();
+                }
+
+                return $output;
             });
 
             return [

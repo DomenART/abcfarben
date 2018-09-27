@@ -46,11 +46,13 @@ class TaskController extends Controller
 
         if (!$status = $task->statuses()->owner()->first()) {
             $status = $task->statuses()->create([
-                'user_id' => request()->user()->id,
-                'status' => 2
-            ]);
+                'user_id' => request()->user()->id
+            ])->setWarning();
         }
 
+        /**
+         * TODO: Нужно отвязать ветки от статусов
+         */
         if (!$thread = $status->threads()->first()) {
             $thread = $status->threads()->create([
                 'program_id' => $program->id
@@ -84,15 +86,11 @@ class TaskController extends Controller
             ], 403);
         }
 
-        if (!$status = $task->statuses()->owner()->first()) {
-            $task->statuses()->create([
-                'user_id' => request()->user()->id,
-                'status' => 1
-            ]);
-        } else {
-            $status->status = 1;
-            $status->save();
-        }
+        $status = $task->statuses()->firstOrCreate([
+            'user_id' => request()->user()->id
+        ]);
+
+        $status->setSuccess();
 
         return response()->json([
             'data' => new TaskSpecified($task)

@@ -66,6 +66,10 @@
         <path fill="currentColor" d="M0 36l36 0 0 432 -36 0 0 -432zm36 -36l324 0 0 36 -324 0 0 -36zm360 468l-36 0 0 -432 36 0 0 432zm-36 36l-324 0 0 -36 324 0 0 36zm-288 -360l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36zm-72 108l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36zm-72 108l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36z"/>
         <ellipse fill="#fdd95f" cx="330" cy="409" rx="154" ry="156"/>
     </symbol>
+    <symbol id="doc-danger" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 564 564">
+        <path fill="currentColor" d="M0 36l36 0 0 432 -36 0 0 -432zm36 -36l324 0 0 36 -324 0 0 -36zm360 468l-36 0 0 -432 36 0 0 432zm-36 36l-324 0 0 -36 324 0 0 36zm-288 -360l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36zm-72 108l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36zm-72 108l36 0 0 36 -36 0 0 -36zm72 0l180 0 0 36 -180 0 0 -36z"/>
+        <ellipse fill="#fd5e5e" cx="330" cy="409" rx="154" ry="156"/>
+    </symbol>
     <symbol id="send" viewBox="0 0 21 16">
         <path transform="translate(-1474 -1048)" d="M1474 1058.6l7.25 2.3 8.92-7.91-6.92 8.52 7.75 2.5 4-16.01z"/>
     </symbol>

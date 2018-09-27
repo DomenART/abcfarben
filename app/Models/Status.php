@@ -19,9 +19,41 @@ class Status extends Model
         'statusable_id', 'statusable_type', 'user_id', 'status', 'created_at', 'updated_at'
     ];
 
+    public function getLabel()
+    {
+        switch ($this->status) {
+            case 0: return 'primary'; break;
+            case 1: return 'success'; break;
+            case 2: return 'warning'; break;
+            case 3: return 'danger'; break;
+            default: return 'primary';
+        }
+    }
+
     public function setPrimary()
     {
         $this->status = 0;
+        $this->save();
+        return $this;
+    }
+
+    public function setSuccess()
+    {
+        $this->status = 1;
+        $this->save();
+        return $this;
+    }
+
+    public function setWarning()
+    {
+        $this->status = 2;
+        $this->save();
+        return $this;
+    }
+
+    public function setDanger()
+    {
+        $this->status = 3;
         $this->save();
         return $this;
     }
@@ -65,5 +97,13 @@ class Status extends Model
     public function statusable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * TODO: Нужно отвязать ветки от статусов
+     */
+    public function threads()
+    {
+        return $this->morphMany(Thread::class, 'threadable');
     }
 }
