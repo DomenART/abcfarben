@@ -16,6 +16,23 @@ class Lesson extends Model
     ];
 
     /**
+     * Массив полей, которые отображаются только при наличии доступа к задаче.
+     *
+     * @var array
+     */
+    protected $private = [
+        'content'
+    ];
+
+    public function getAttribute($key)
+    {
+        if (in_array($key, $this->private) && !$this->isHasAccess()) {
+            return null;
+        }
+        return parent::getAttribute($key);
+    }
+
+    /**
      * @var array
      */
     protected static $branchOrder = [];
@@ -62,11 +79,18 @@ class Lesson extends Model
         return $query->orderBy('order', 'asc');
     }
 
-    public function getStatusCode() {
-        $status = $this->statuses()->owner()->first();
-
-        return $status ? $status->status : 0;
+    public function getStatus() {
+        if ($status = $this->statuses()->owner()->first()) {
+            return $status->getLabel();
+        }
+        return null;
     }
+
+    // public function getStatusCode() {
+    //     $status = $this->statuses()->owner()->first();
+
+    //     return $status ? $status->status : 0;
+    // }
 
     public function getPrevious() {
         return $this->task->lessons->reverse()->firstWhere('order', '<', $this->order);
@@ -76,6 +100,36 @@ class Lesson extends Model
         return $this->task->lessons->firstWhere('order', '>', $this->order);
     }
 
+    public function read() {
+        $user_id = auth()->user()->id;
+
+        $this->statuses()->firstOrCreate([
+            'user_id' => $user_id
+        ])->setSuccess();
+    }
+
+    /**
+     * Наличие доступа определеяется наличию доступа к программам,
+     * которым принадлежит модуль, которому принадлежит задание,
+     * а также открытости самого модуля.
+     *
+     * @return boolean
+     */
+    public function isHasAccess() {
+        $module = $this->task->module;
+        $programs = $module->programs;
+        $moduleAccess = false;
+        foreach ($programs as $program) {
+            if ($program->isHasAccess() && $module->isOpenedByPrevious($program)) {
+                $moduleAccess = true;
+            }
+        }
+        if (!$moduleAccess) {
+            return false;
+        }
+        return true;
+    }
+
     public function task()
     {
         return $this->belongsTo(Task::class, 'task_id');
@@ -83,12 +137,12 @@ class Lesson extends Model
 
     public function statuses()
     {
-        return $this->hasMany(LessonStatus::class);
+        return $this->morphMany(Status::class, 'statusable');
     }
 
-    public function ownerStatus()
-    {
-        return $this->hasOne(LessonStatus::class)
-            ->where('user_id', request()->user()->id);
-    }
+    // public function ownerStatus()
+    // {
+    //     return $this->hasOne(LessonStatus::class)
+    //         ->where('user_id', request()->user()->id);
+    // }
 }

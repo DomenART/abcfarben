@@ -75,7 +75,7 @@ class Program extends Model
     /**
      * @return boolean
      */
-    public function ownerHasAccess()
+    public function isHasAccess()
     {
         $user_id = request()->user()->id;
 

@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
-import { withRouter } from 'react-router'
+import React from 'react'
 import { NavLink as Link } from 'react-router-dom'
 import SvgIcon from '../../components/UI/SvgIcon'
 import ProgramProgress from '../../components/Program/ProgramProgress'
 
-const ProgramHeader = ({ name, annotation, hasAccess, match, progress }) =>
+const ProgramHeader = ({ id, name, annotation, has_access, progress }) =>
     <header className="program-header">
         <div className="program-header__leftside">
             <div className="program-header__title">
@@ -20,33 +19,33 @@ const ProgramHeader = ({ name, annotation, hasAccess, match, progress }) =>
             />
         </div>
         <div className="program-header__center">
-            {hasAccess && <ProgramProgress title="прогресс на программе" {...progress} />}
+            {has_access && <ProgramProgress title="прогресс на программе" {...progress} />}
         </div>
         <div className="program-header__rightside">
-            {hasAccess && (
+            {has_access && (
                 <ul className="program-header__menu">
                     <li>
                         <Link
                             exact={true}
-                            to={`/programs/${match.params.program}`}
+                            to={`/programs/${id}`}
                             activeClassName="active"
                         >Структура программы</Link>
                     </li>
                     <li>
                         <Link
-                            to={`/programs/${match.params.program}/wiki`}
+                            to={`/programs/${id}/wiki`}
                             activeClassName="active"
                         >Wiki</Link>
                     </li>
                     <li>
                         <Link
-                            to={`/programs/${match.params.program}/tasks`}
+                            to={`/programs/${id}/tasks`}
                             activeClassName="active"
                         >Задания</Link>
                     </li>
                     <li>
                         <Link
-                            to={`/programs/${match.params.program}/members`}
+                            to={`/programs/${id}/members`}
                             activeClassName="active"
                         >Участники</Link>
                     </li>
@@ -60,4 +59,4 @@ const ProgramHeader = ({ name, annotation, hasAccess, match, progress }) =>
         </div>
     </header>
 
-export default withRouter(ProgramHeader)
+export default ProgramHeader

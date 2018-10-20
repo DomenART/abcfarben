@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
 import { NavLink as Link } from 'react-router-dom'
-import { withRouter } from 'react-router'
 import romanize from "romanize"
 import classNames from "classnames"
 import SvgIcon from '../../components/UI/SvgIcon'
 import Calendar from '../../components/Calendar'
 
-const ProgramAside = ({ program }) => {
+const ProgramAside = ({ modules, id, curator }) => {
     const getStatusIcon = status => {
         switch (status) {
             case 'success': return 'doc-done'
@@ -27,26 +25,26 @@ const ProgramAside = ({ program }) => {
                         <span className="main-aside__section-title">Структура программы</span>
                     </div>
                     <ul className="main-aside__structure-list">
-                        {program.modules && program.modules.map((item, i) => (
-                            <li key={item.id}>
+                        {modules && modules.map((module, i) => (
+                            <li key={module.id}>
                                 <Link
                                     id={`structure-${i}`}
-                                    to={`/programs/${program.data.id}/${item.id}`}
+                                    to={`/programs/${id}/${module.id}`}
                                     className={classNames("main-aside__structure", {
-                                        "main-aside__structure_close": !item.opened
+                                        "main-aside__structure_close": !module.opened
                                     })}
                                     activeClassName="main-aside__structure_active main-aside__structure_open"
                                 >
                                     <SvgIcon
-                                        name={item.opened ? "folder" : "folder-locked"}
+                                        name={module.opened ? "folder" : "folder-locked"}
                                         className="main-aside__structure-icon"
                                     />
                                     <span className="main-aside__structure-title">
-                                        {romanize(i+1)}. {item.name}
+                                        {romanize(i+1)}. {module.name}
                                     </span>
                                 </Link>
 
-                                {Boolean(item.tasks.length) && (
+                                {Boolean(module.tasks.length) && (
                                     <Fragment>
                                         <button
                                             className="main-aside__structure-dropdown"
@@ -54,10 +52,10 @@ const ProgramAside = ({ program }) => {
                                             data-uk-toggle={`target: #structure-${i}; cls: main-aside__structure_open`}
                                         />
                                         <ul className="main-aside__substructure-list">
-                                            {item.tasks.map(task => (
+                                            {module.tasks.map(task => (
                                                 <li key={task.id}>
                                                     <Link
-                                                        to={`/programs/${program.data.id}/${item.id}/${task.id}`}
+                                                        to={`/programs/${id}/${module.id}/${task.id}`}
                                                         className="main-aside__substructure"
                                                         activeClassName="main-aside__substructure_active"
                                                     >
@@ -81,7 +79,7 @@ const ProgramAside = ({ program }) => {
 
                 <div className="main-aside__section">
                     <Link
-                        to={`/programs/${program.data.id}/expert`}
+                        to={`/programs/${id}/expert`}
                         className="main-aside__link"
                     >
                         <SvgIcon name="bubbles" className="main-aside__icon main-aside__icon_expert" />
@@ -89,9 +87,9 @@ const ProgramAside = ({ program }) => {
                     </Link>
                 </div>
 
-                {program.curator && (
+                {curator && (
                     <div className="main-aside__section">
-                        <Link to={`/users/${program.curator}`} className="main-aside__link">
+                        <Link to={`/users/${curator}`} className="main-aside__link">
                             <SvgIcon name="curator" className="main-aside__icon main-aside__icon_curator" />
                             <span className="main-aside__link-title">Мой куратор</span>
                         </Link>
@@ -102,8 +100,4 @@ const ProgramAside = ({ program }) => {
     )
 }
 
-const mapStateToProps = store => ({
-    program: store.program
-})
-
-export default withRouter(connect(mapStateToProps)(ProgramAside))
+export default ProgramAside

@@ -1,35 +1,36 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router'
-import { connect } from 'react-redux'
+import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
 
-const PrivateRoute = ({ component: Component, roles, user, isAuthenticated, ...rest }) => (
-    <Route {...rest} render={props => {
-        if (!isAuthenticated) {
-            return (
-                <Redirect to={{
-                    pathname: '/login',
-                    state: {from: props.location}
-                }} />
-            )
-        }
+const PrivateRoute = ({ component: Component, roles, data, ...rest }) => (
+  <Route {...rest} render={props => {
+    if (!data.isAuthenticated) {
+      return (
+        <Redirect to={{
+          pathname: '/login',
+          state: {from: props.location}
+        }} />
+      )
+    }
 
-        if (roles && roles.length) {
-            if (!roles.filter(role => user.roles.filter(({ slug }) => slug === role).length).length) {
-                return (
-                    <Redirect to={{ pathname: '/' }} />
-                )
-            }
-        }
+      // if (roles && roles.length) {
+      //     if (!roles.filter(role => user.roles.filter(({ slug }) => slug === role).length).length) {
+      //         return (
+      //             <Redirect to={{ pathname: '/' }} />
+      //         )
+      //     }
+      // }
 
-        return <Component {...props}/>
-    }}/>
+    return <Component {...props}/>
+  }}/>
 )
 
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated : state.Auth.isAuthenticated,
-        user : state.Auth.user,
-    }
-}
+const AUTH_QUERY = gql`
+  query authQuery {
+    isAuthenticated @client
+    token @client
+  }
+`
 
-export default connect(mapStateToProps)(PrivateRoute)
+export default graphql(AUTH_QUERY)(PrivateRoute)

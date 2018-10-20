@@ -1,10 +1,11 @@
-import { connect } from 'react-redux'
+import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
 import Page from './Page'
 
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated : state.Auth.isAuthenticated,
-    }
-}
+const AUTH_QUERY = gql`
+  query authQuery {
+    isAuthenticated @client
+  }
+`
 
-export default connect(mapStateToProps)(Page)
+export default graphql(AUTH_QUERY)(Page)

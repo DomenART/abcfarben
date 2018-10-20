@@ -1,23 +1,44 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor } from './store'
+// import { Provider } from 'react-redux'
+// import { PersistGate } from 'redux-persist/integration/react'
+// import { store, persistor } from './store'
 import Routes from './routes'
-import * as action from './store/actions/auth'
 import SvgSprite from './components/UI/SvgSprite'
+
+import gql from "graphql-tag"
+import { ApolloClient } from 'apollo-client'
+import { ApolloProvider } from 'react-apollo'
+import { cache, link, persistor } from './apollo'
+
+const CHECK_AUTH = gql`
+  mutation {
+    checkAuth @client
+  }
+`
+
+persistor.restore().then(() => {
+  const client = new ApolloClient({
+    cache,
+    link
+  })
+
+  client.mutate({
+    mutation: CHECK_AUTH
+  }).then(result => {
+    render(
+      <ApolloProvider client={client}>
+        {/* <Provider store={store}> */}
+          {/* <PersistGate loading={null} persistor={persistor}> */}
+            <Routes />
+            <SvgSprite />
+          {/* </PersistGate> */}
+        {/* </Provider> */}
+      </ApolloProvider>,
+      document.getElementById('app')
+    )
+  })
+})
 
 window.UIkit = require('uikit')
 UIkit.use(require('uikit/dist/js/uikit-icons'))
-
-store.dispatch(action.authCheck())
-
-render(
-    <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <Routes />
-            <SvgSprite />
-        </PersistGate>
-    </Provider>,
-    document.getElementById('app')
-)

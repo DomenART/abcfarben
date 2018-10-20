@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "080db3e439ea0304b4045103c6811cfd",
+    "content-hash": "e1c1946f4843d95ffaa0d85aca2bbd39",
     "packages": [
+        {
+            "name": "axe/laravel-graphql-upload",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ShaneXie/laravel-graphql-upload.git",
+                "reference": "33854473e7432175ecd2f81861818824b0102771"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ShaneXie/laravel-graphql-upload/zipball/33854473e7432175ecd2f81861818824b0102771",
+                "reference": "33854473e7432175ecd2f81861818824b0102771",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
+                "php": ">=7.1.0",
+                "webonyx/graphql-php": "^0.10.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Axe\\LaravelGraphQLUpload\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "An X",
+                    "email": "shane369@gmail.com"
+                }
+            ],
+            "description": "GraphQL Upload middleware for Laravel and Lumen",
+            "time": "2018-09-24T15:46:56+00:00"
+        },
         {
             "name": "defuse/php-encryption",
             "version": "v2.2.0",

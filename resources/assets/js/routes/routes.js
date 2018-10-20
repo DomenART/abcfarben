@@ -4,8 +4,8 @@ import Programs from '../pages/programs'
 import Program from '../pages/program'
 import User from '../pages/user'
 import ProfileEdit from '../pages/profileEdit'
-import CuratorList from '../pages/curatorList'
-import CuratorDialog from '../pages/curatorDialog'
+// import CuratorList from '../pages/curatorList'
+// import CuratorDialog from '../pages/curatorDialog'
 import ForgotPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/resetPassword'
 import NoMatch from '../pages/noMatch'
@@ -59,20 +59,20 @@ const routes = [
         auth: true,
         component: ProfileEdit
     },
-    {
-        path: '/curator/:thread',
-        exact: false,
-        auth: true,
-        roles: ['curator'],
-        component: CuratorDialog
-    },
-    {
-        path: '/curator',
-        exact: false,
-        auth: true,
-        roles: ['curator'],
-        component: CuratorList
-    },
+    // {
+    //     path: '/curator/:thread',
+    //     exact: false,
+    //     auth: true,
+    //     roles: ['curator'],
+    //     component: CuratorDialog
+    // },
+    // {
+    //     path: '/curator',
+    //     exact: false,
+    //     auth: true,
+    //     roles: ['curator'],
+    //     component: CuratorList
+    // },
     {
         path: '',
         exact: true,

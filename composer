@@ -1,5 +1,5 @@
 #!/bin/sh
 
-docker-compose run --rm -u $(id -u) app composer "$@"
+docker-compose --file "/home/kundius/Projects/abcfarben/docker-compose.yml" run --rm -u $(id -u) app composer "$@"
 
 return $?

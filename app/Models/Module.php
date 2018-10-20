@@ -16,6 +16,23 @@ class Module extends Model
         'name', 'content', 'program'
     ];
 
+    /**
+     * Массив полей, которые отображаются только при наличии доступа к модулю.
+     *
+     * @var array
+     */
+    protected $private = [
+        'content'
+    ];
+
+    public function getAttribute($key)
+    {
+        if (in_array($key, $this->private) && !$this->isHasAccess()) {
+            return null;
+        }
+        return parent::getAttribute($key);
+    }
+
     public function setProgramAttribute($program)
     {
         // nothing
@@ -28,6 +45,11 @@ class Module extends Model
         });
     }
 
+    /**
+     * @param \App\Models\Program|integer $program
+     *
+     * @return bool
+     */
     public function isOpenedByPrevious($program)
     {
         if (gettype($program) == 'integer') {
@@ -46,29 +68,32 @@ class Module extends Model
         $opened = true;
 
         foreach ($previous as $row) {
-            foreach ($row->tasks as $task) {
+            if (!$row->statuses()->owner()->success()->count()) {
+                $opened = false;
+            }
+            /*foreach ($row->tasks as $task) {
                 $status = $task->statuses()->owner()->first();
 
                 if (!$status || $status->status != 1) {
                     $opened = false;
                 }
-            }
+            }*/
         }
 
         return $opened;
     }
 
     /**
-     * @return bool|integer
+     * @return integer|null
      */
-    public function getNextTask() {
+    public function getNextTaskId() {
         $find = $this->tasks->first(function ($task) {
             $status = $task->statuses()->owner()->first();
 
             return !$status || $status->status != 1;
         });
 
-        return $find ? $find->id : false;
+        return $find ? $find->id : null;
     }
 
     /**
@@ -76,7 +101,7 @@ class Module extends Model
      *
      * @return bool|integer
      */
-    public function getNextModule($program) {
+    public function getNextModuleId($program) {
         if (gettype($program) == 'integer') {
             $program = Program::find($program);
         }
@@ -96,6 +121,41 @@ class Module extends Model
         return $output;
     }
 
+    public function getStatus() {
+        if ($status = $this->statuses()->owner()->first()) {
+            return $status->getLabel();
+        }
+        return null;
+    }
+
+    /**
+     * Наличие доступа определеяется наличию доступа к программам,
+     * которым принадлежит модуль, а также открытости самого модуля.
+     *
+     * @return boolean
+     */
+    public function isHasAccess() {
+        $programs = $this->programs;
+        $moduleAccess = false;
+        foreach ($programs as $program) {
+            if ($program->isHasAccess() && $this->isOpenedByPrevious($program)) {
+                $moduleAccess = true;
+            }
+        }
+        if (!$moduleAccess) {
+            return false;
+        }
+        return true;
+    }
+
+    public function read() {
+        $user_id = auth()->user()->id;
+
+        $this->statuses()->firstOrCreate([
+            'user_id' => $user_id
+        ])->setSuccess();
+    }
+
     public function programs()
     {
         return $this->belongsToMany(Program::class, 'program_has_modules');
@@ -104,6 +164,11 @@ class Module extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class, 'module_id');
+    }
+
+    public function statuses()
+    {
+        return $this->morphMany(Status::class, 'statusable');
     }
 
 }

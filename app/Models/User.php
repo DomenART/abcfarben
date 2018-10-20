@@ -7,14 +7,16 @@ use Encore\Admin\Auth\Database\HasPermissions;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 
-class User extends Model implements AuthenticatableContract
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, HasPermissions, AdminBuilder, HasApiTokens, Notifiable, SoftDeletes;
+    use Authenticatable, CanResetPassword, HasPermissions, AdminBuilder, HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that should be mutated to dates.

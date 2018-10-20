@@ -1,114 +1,137 @@
-import React, {Fragment} from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react'
+import { compose, graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { Route } from 'react-router'
-import { Link, Switch, Redirect } from 'react-router-dom'
-import * as programActions from '../../store/actions/program'
-import Wiki from './Wiki'
+import { Switch } from 'react-router-dom'
+// import Wiki from './Wiki'
 import Main from './Main'
 import Tasks from './Tasks'
 import Members from './Members'
-import Module from './Module'
-import Task from './Task'
-import Lesson from './Lesson'
-import Expert from './Expert'
-import Container from './Container'
+import ModuleContainer from './ModuleContainer'
+import TaskContainer from './TaskContainer'
+import LessonContainer from './LessonContainer'
+// import Expert from './Expert'
+// import Container from './Container'
 import ProgramAside from '../../components/Program/ProgramAside'
 import ProgramHeader from '../../components/Program/ProgramHeader'
 import HeaderContainer from '../../containers/HeaderContainer'
 
-class Page extends React.Component {
-    constructor(props) {
-        super(props)
+const PageWrap = ({
+  match: { url },
+  data: { loading, error, programs }
+}) => {
+  if (loading)
+    return <div className="preloader" />
 
-    }
+  if (error)
+    return <div className="uk-alert-danger" data-uk-alert dangerouslySetInnerHTML={{__html:error.message}} />
 
-    componentDidMount() {
-        const { programActions, match } = this.props
+  if (programs.length === 0)
+    return <div className="uk-alert-danger" data-uk-alert>Программа не найдена</div>
 
-        programActions.loadProgram(match.params.program)
-        programActions.loadTree(match.params.program)
-    }
+  const program = programs[0]
 
-    getContent() {
-        const { match, program } = this.props
+  return (
+    <main className="page">
+      <HeaderContainer />
 
-        if (program.fetching || !program.data) {
-            return <div className="preloader" />
-        }
+      <ProgramHeader {...program} />
 
-        if (program.error) {
-            return <h1 dangerouslySetInnerHTML={{__html:program.error}} />
-        }
+      {program.has_access ? (
+        <div className="uk-grid">
+          <ProgramAside {...program} />
 
-        return (
-            <Fragment>
-                <ProgramHeader
-                    {...program.data}
-                    progress={program.progress}
-                />
+          <div className="uk-width-expand uk-position-relative">
+            <div className="container">
+              <Switch>
+                <Route path={`${url}`} exact render={() => (
+                  <Main {...program} />
+                )} />
 
-                {program.data.hasAccess ? (
-                    <div className="uk-grid">
-                        <ProgramAside />
+                {/* <Route path={`${url}/wiki`} exact component={Wiki}/> */}
 
-                        <div className="uk-width-expand uk-position-relative">
-                            <div className="container">
-                                <Switch>
-                                    <Route path={`${match.url}`} exact component={Main} />
-                                    <Route path={`${match.url}/wiki`} exact component={Wiki}/>
-                                    <Route path={`${match.url}/tasks`} exact component={Tasks}/>
-                                    <Route path={`${match.url}/members`} exact component={Members}/>
-                                    <Route path={`${match.url}/expert`} exact component={Expert}/>
-                                    <Route path={`${match.url}/:module`} exact render={props => (
-                                        <Container
-                                            {...props}
-                                            component={Module}
-                                        />
-                                    )} />
-                                    <Route path={`${match.url}/:module/:task`} exact render={props => (
-                                        <Container
-                                            {...props}
-                                            component={Task}
-                                        />
-                                    )} />
-                                    <Route path={`${match.url}/:module/:task/:lesson`} exact render={props => (
-                                        <Container
-                                            {...props}
-                                            component={Lesson}
-                                        />
-                                    )} />
-                                    <Route path={`${match.url}/`} render={() => <h1>Нет такой страницы</h1>} />
-                                </Switch>
-                            </div>
-                            <button className="menu-btn" data-uk-icon="icon: menu" type="button" data-uk-toggle="target: #menubar" />
-                        </div>
-                    </div>
-                ) : <h1>У вас нет доступа к данной программе</h1>}
-            </Fragment>
-        )
-    }
+                <Route path={`${url}/tasks`} exact render={() => (
+                  <Tasks {...program} />
+                )} />
 
-    render() {
-        const { match } = this.props
+                <Route path={`${url}/members`} exact render={() => (
+                  <Members program={program} />
+                )} />
 
-        return (
-            <main className="page">
-                <HeaderContainer />
+                {/* <Route path={`${url}/expert`} exact component={Expert}/> */}
 
-                {this.getContent()}
-            </main>
-        )
-    }
+                <Route path={`${url}/:module`} exact render={props => (
+                  <ModuleContainer
+                    {...props}
+                    program={program}
+                  />
+                )} />
+
+                <Route path={`${url}/:module/:task`} exact render={props => (
+                  <TaskContainer
+                    {...props}
+                    program={program}
+                  />
+                )} />
+
+                <Route path={`${url}/:module/:task/:lesson`} exact render={props => (
+                  <LessonContainer
+                    {...props}
+                    program={program}
+                  />
+                )} />
+
+                <Route path={`${url}/`} render={() => <h1>Нет такой страницы</h1>} />
+              </Switch>
+            </div>
+            <button className="menu-btn" data-uk-icon="icon: menu" type="button" data-uk-toggle="target: #menubar" />
+          </div>
+        </div>
+      ) : <h1>У вас нет доступа к данной программе</h1>}
+    </main>
+  )
 }
 
-const mapStateToProps = store => ({
-    user: store.Auth.user,
-    program: store.program
-})
-
-const mapDispatchToProps = dispatch => ({
-    programActions: bindActionCreators(programActions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page)
+const query = gql`
+query Program($program_id: Int!) {
+  programs(id: $program_id) {
+    id
+    name
+    status
+    image
+    annotation
+    completed_time
+    be_completed_time
+    passing_time
+    content
+    has_access
+    progress {
+      done
+      available
+      total
+    }
+    modules {
+      id
+      name
+      content
+      status
+      opened(program: $program_id)
+      tasks {
+        id
+        name
+        status
+      }
+    }
+  }
+}
+`
+export default compose(
+  graphql(query, {
+    options: ({ match: { params } }) => ({
+      fetchPolicy: "network-only",
+      variables: {
+        program_id: params.program
+      }
+    })
+  }),
+)(PageWrap)

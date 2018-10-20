@@ -123,7 +123,7 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                         </div>
                     </div>
                 )}
-                {isCurator && (
+                {/* {isCurator && (
                     <Link to="/curator" className="main-header__notification-btn notification-btn">
                         <SvgIcon name="lock" className="notification-btn__icon" />
                         {curator.unreadMessages > 0 && (
@@ -132,7 +132,7 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                             </div>
                         )}
                     </Link>
-                )}
+                )} */}
             </div>
             <div>
                 <Link

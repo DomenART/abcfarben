@@ -1,123 +1,113 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Head from "../../components/Head"
 
-const Module = ({ program, module }) => {
-    if (module.fetching || !program.data || !module.data)
-        return <div className="preloader preloader_absolute" />
+export default ({ module, program, readHandler }) =>
+  <Fragment>
+    <Breadcrumbs
+      items={[{
+        uri: `/programs/${program.id}`,
+        title: program.name
+      }, {
+        title: module.name
+      }]}
+    />
 
-    if (module.error)
-        return <h1 dangerouslySetInnerHTML={{__html:module.error}} />
+    <Head title={`${module.name}`} />
 
-    return (
-        <Fragment>
-            <Breadcrumbs
-                items={[{
-                    uri: `/programs/${program.data.id}`,
-                    title: program.data.name
-                }, {
-                    title: module.data.name
-                }]}
-            />
+    {module.has_access ? (
+      <Fragment>
+        <h1 className="subsection__page-title page-title">
+          <svg className="page-title__icon page-title__icon_subsection">
+            <use href="#doc" />
+          </svg>
+          {module.name}
+        </h1>
 
-            <Head title={`${module.data.name}`} />
+        <div
+          className="content"
+          dangerouslySetInnerHTML={{__html:module.content}}
+        />
 
-            <h1 className="subsection__page-title page-title">
-                <svg className="page-title__icon page-title__icon_subsection">
-                    <use href="#doc" />
+        {Boolean(module.opened) && (
+          <div className="subsection__link-btn">
+            {(!!module.tasks.length && !!module.next_task_id) && (
+              <Link
+                to={`/programs/${program.id}/${module.id}/${module.next_task_id}`}
+                className="link-btn"
+              >Приступить к просмотру и выполнению уроков</Link>
+            )}
+            {(!!!module.tasks.length && module.status !== 'success') && (
+              <button className="link-btn" onClick={readHandler}>
+                Я ознакомился
+              </button>
+            )}
+          </div>
+        )}
+
+        {Boolean(module.tasks.length) && (
+          <div className="subsection__lessons lessons">
+            <div className="lessons__heading">
+              <div className="lessons__title">
+                <svg className="lessons__title-icon">
+                  <use href="#doc" />
                 </svg>
-                {module.data.name}
-            </h1>
-
-            <div
-                className="content"
-                dangerouslySetInnerHTML={{__html:module.data.content}}
-            />
-
-            {module.data.opened && (
-                <div className="subsection__link-btn">
-                    {module.data.nextTask && (
-                        <Link
-                            to={`/programs/${program.data.id}/${module.data.id}/${module.data.nextTask}`}
-                            className="link-btn"
-                        >Приступить к просмотру и выполнению уроков</Link>
-                    )}
-                    {/* {!Boolean(module.data.tasks.length) && (
-                        <Link
-                            to={`/programs/${program.data.id}/${module.data.id}/${module.data.nextTask}`}
-                            className="link-btn"
-                        >Приступить к просмотру и выполнению уроков</Link>
-                    )} */}
+                Уроки модуля
+              </div>
+              <div className="lessons__legend">
+                <div className="lessons__legend-item">
+                  <span className="lessons__legend-indicator indicator indicator_isDone" />
+                  Выполнен
                 </div>
-            )}
-
-            {Boolean(module.data.tasks.length) && (
-                <div className="subsection__lessons lessons">
-                    <div className="lessons__heading">
-                        <div className="lessons__title">
-                            <svg className="lessons__title-icon">
-                                <use href="#doc" />
-                            </svg>
-                            Уроки модуля
-                        </div>
-                        <div className="lessons__legend">
-                            <div className="lessons__legend-item">
-                                <span className="lessons__legend-indicator indicator indicator_isDone" />
-                                Выполнен
-                            </div>
-                            <div className="lessons__legend-item">
-                                <span className="lessons__legend-indicator indicator indicator_isDuring" />
-                                Выполняется
-                            </div>
-                            <div className="lessons__legend-item">
-                                <span className="lessons__legend-indicator indicator indicator_isNotDone" />
-                                Не выполнен
-                            </div>
-                        </div>
-                    </div>
-                    <ul className="lessons__list">
-                        {module.data.tasks.map(row => (
-                            <li key={row.id}>
-                                <Link
-                                    to={`/programs/${program.data.id}/${module.data.id}/${row.id}`}
-                                    className="lessons__item"
-                                >
-                                <span className={classNames('lessons__item-indicator indicator', {
-                                    'indicator_isDone': row.status === 1,
-                                    'indicator_isDuring': row.status === 2,
-                                    'indicator_isNotDone': row.status === 0
-                                })} />
-                                    <span
-                                        className="lessons__item-title"
-                                        dangerouslySetInnerHTML={{__html:row.name}}
-                                    />
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                <div className="lessons__legend-item">
+                  <span className="lessons__legend-indicator indicator indicator_isDuring" />
+                  Выполняется
                 </div>
-            )}
-
-            {module.data.nextModule && (
-                <div className="training-nav">
-                    <div className="training-nav__rightside">
-                        <Link
-                            to={`/programs/${program.data.id}/${module.data.nextModule}`}
-                            className="function-btn"
-                        >Следующий модуль</Link>
-                    </div>
+                <div className="lessons__legend-item">
+                  <span className="lessons__legend-indicator indicator indicator_isNotDone" />
+                  Не выполнен
                 </div>
-            )}
-        </Fragment>
-    )
-}
+              </div>
+            </div>
+            <ul className="lessons__list">
+              {module.tasks.map(task => (
+                <li key={task.id}>
+                  <Link
+                    to={`/programs/${program.id}/${module.id}/${task.id}`}
+                    className="lessons__item"
+                  >
+                  <span className={classNames('lessons__item-indicator indicator', {
+                    'indicator_isDone': task.status === 'success',
+                    'indicator_isDuring': task.status === 'warning' || task.status === 'danger',
+                    'indicator_isNotDone': task.status === 'primary',
+                  })} />
+                    <span
+                      className="lessons__item-title"
+                      dangerouslySetInnerHTML={{__html:task.name}}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-const mapStateToProps = store => ({
-    module: store.module,
-    program: store.program
-})
-
-export default connect(mapStateToProps)(Module)
+        {Boolean(module.next_module_id) && (
+          <div className="training-nav">
+            <div className="training-nav__rightside">
+              <Link
+                to={`/programs/${program.id}/${module.next_module_id}`}
+                className="function-btn"
+              >Следующий модуль</Link>
+            </div>
+          </div>
+        )}
+      </Fragment>
+    ) : (
+      <h1 className="page-title">
+        Выполните задания предыдущего модуля
+      </h1>
+    )}
+  </Fragment>

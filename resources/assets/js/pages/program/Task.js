@@ -1,157 +1,119 @@
-import React, { Fragment, Component } from 'react'
-import { Redirect } from 'react-router'
-import { bindActionCreators } from 'redux'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { connect } from "react-redux"
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Head from '../../components/Head'
 import Dialog from '../../components/Dialog'
 import SvgIcon from '../../components/UI/SvgIcon'
-import * as taskActions from "../../store/actions/task"
 import getIconName from '../../utils/getIconName'
 
-class Task extends Component {
-    constructor(props) {
-        super(props)
+export default ({ task, module, program, readHandler }) =>
+  <Fragment>
+    <Breadcrumbs
+      items={[{
+        uri: `/programs/${program.id}`,
+        title: program.name
+      }, {
+        uri: `/programs/${program.id}/${module.id}`,
+        title: module.name
+      }, {
+        title: task.name
+      }]}
+    />
 
-        this.read = this.read.bind(this)
-    }
+    <Head title={task.name} />
 
-    read() {
-        const { program, task, taskActions } = this.props
+    {task.has_access ? (
+      <Fragment>
+        <div className="practice__heading">
+          <h1 className="practice__page-title page-title uk-width-1-1">
+            <svg className="page-title__icon page-title__icon_practice">
+              <use href="#doc" />
+            </svg>
+            {task.name}
+          </h1>
 
-        taskActions.readTask(program.data.id, task.data.id)
-    }
+          {task.first_lesson_id && (
+            <Link
+              to={`/programs/${program.id}/${module.id}/${task.id}/${task.first_lesson_id}/`}
+              className="nav-btn"
+            >«&nbsp;Уроки</Link>
+          )}
 
-    render() {
-        const { program, module, task } = this.props
+          {task.status && (
+            <div className="practice__status">
+              <span className={classNames('practice__status_indicator indicator', {
+                'indicator_isNotDone': task.status === 'primary',
+                'indicator_isDone': task.status === 'success',
+                'indicator_isDuring': task.status === 'warning',
+                'indicator_isDanger': task.status === 'danger'
+              })} />
+              {task.status === 'primary' && 'Не выполнен'}
+              {task.status === 'success' && 'Выполнен'}
+              {task.status === 'warning' && 'Выполняется'}
+              {task.status === 'danger' && 'Возвращен'}
+            </div>
+          )}
+        </div>
 
-        if (task.fetching || !program.data || !module.data || !task.data)
-            return <div className="preloader preloader_absolute" />
+        <div className="practice__exercises exercises">
+          <div className="exercises__heading">
+            Задание
+          </div>
+          <div
+            className="exercises__text"
+            dangerouslySetInnerHTML={{
+              __html: task.content
+            }}
+          />
+        </div>
 
-        if (task.error)
-            return <h1 dangerouslySetInnerHTML={{__html:task.error}} />
+        {task.files && (
+          <div className="practice__materials materials">
+            <div className="materials__heading">Материалы к заданию:</div>
+            <ul className="materials__list">
+              {task.files.map((file, key) => (
+                <li key={key}>
+                  <a className="materials__item" href={`/storage/admin/${file}`} target="_blank">
+                    <SvgIcon name={getIconName(file)} className="materials__icon" />
+                    {file.replace(/^.*[\\\/]/, '')}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-        if (task.nextLesson)
-            return (
-                <Redirect to={{
-                    pathname: `/programs/${program.data.id}/${module.data.id}/${task.data.id}/${task.nextLesson}`
-                }} />
-            )
+        <div className="training-nav">
+          <div className="training-nav__leftside">
+            {(task.solo && task.status !== 'success') && (
+              <button
+                onClick={readHandler}
+                className="function-btn"
+              >Прочитано</button>
+            )}
+          </div>
 
-        return (
-            <Fragment>
-                <Breadcrumbs
-                    items={[{
-                        uri: `/programs/${program.data.id}`,
-                        title: program.data.name
-                    }, {
-                        uri: `/programs/${program.data.id}/${module.data.id}`,
-                        title: module.data.name
-                    }, {
-                        title: task.data.name
-                    }]}
-                />
+          <div className="training-nav__rightside">
+            {module.next_module_id && (
+              <Link
+                to={`/programs/${program.id}/${module.next_module_id}`}
+                className="function-btn"
+              >Следующий модуль</Link>
+            )}
+          </div>
+        </div>
 
-                <Head title={`${task.data.name}`} />
-
-                <div className="practice__heading">
-                    <h1 className="practice__page-title page-title uk-width-1-1">
-                        <svg className="page-title__icon page-title__icon_practice">
-                            <use href="#doc" />
-                        </svg>
-                        {task.data.name}
-                    </h1>
-
-                    {task.firstLesson && (
-                        <Link
-                            to={`/programs/${program.data.id}/${module.data.id}/${task.data.id}/${task.firstLesson}/`}
-                            className="nav-btn"
-                        >«&nbsp;Уроки</Link>
-                    )}
-
-                    <div className="practice__status">
-                    <span className={classNames('practice__status_indicator indicator', {
-                        'indicator_isNotDone': task.data.status === 0,
-                        'indicator_isDone': task.data.status === 1,
-                        'indicator_isDuring': task.data.status === 2,
-                        'indicator_isDanger': task.data.status === 3
-                    })} />
-                        {task.data.status === 0 && 'Не выполнен'}
-                        {task.data.status === 1 && 'Выполнен'}
-                        {task.data.status === 2 && 'Выполняется'}
-                        {task.data.status === 3 && 'Возвращен'}
-                    </div>
-                </div>
-
-                <div className="practice__exercises exercises">
-                    <div className="exercises__heading">
-                        Задание
-                    </div>
-                    <div
-                        className="exercises__text"
-                        dangerouslySetInnerHTML={{
-                            __html: task.data.content
-                        }}
-                    />
-                </div>
-
-                {task.data.files && (
-                    <div className="practice__materials materials">
-                        <div className="materials__heading">Материалы к заданию:</div>
-                        <ul className="materials__list">
-                            {task.data.files.map((file, key) => (
-                                <li key={key}>
-                                    <a className="materials__item" href={`/storage/admin/${file}`} target="_blank">
-                                        <SvgIcon name={getIconName(file)} className="materials__icon" />
-                                        {file.replace(/^.*[\\\/]/, '')}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
-                {task.data.solo ? (
-                    <div className="training-nav">
-                        <div className="training-nav__leftside">
-                            {task.data.status !== 1 && (
-                                <button
-                                    onClick={this.read}
-                                    className="function-btn"
-                                >Прочитано</button>
-                            )}
-                        </div>
-
-                        <div className="training-nav__rightside">
-                            {module.data.nextModule && (
-                                <Link
-                                    to={`/programs/${program.data.id}/${module.data.nextModule}`}
-                                    className="function-btn"
-                                >Следующий модуль</Link>
-                            )}
-                        </div>
-                    </div>
-                ) : task.thread && (
-                    <Dialog
-                        title="Переписка с куратором"
-                        thread={task.thread}
-                    />
-                )}
-            </Fragment>
-        )
-    }
-}
-
-const mapStateToProps = store => ({
-    task: store.task,
-    module: store.module,
-    program: store.program
-})
-
-const mapDispatchToProps = dispatch => ({
-    taskActions: bindActionCreators(taskActions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Task)
+        {(!task.solo && task.thread) && (
+          <Dialog
+            title="Переписка с куратором"
+            thread={task.thread}
+          />
+        )}
+      </Fragment>
+    ) : (
+      <h1 className="page-title">
+        Выполните задания предыдущего модуля
+      </h1>
+    )}
+  </Fragment>

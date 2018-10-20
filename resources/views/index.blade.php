@@ -8,11 +8,11 @@
 
         <title>Site</title>
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ mix('main.css') }}" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div id="app"></div>
 
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('main.js') }}"></script>
     </body>
 </html>

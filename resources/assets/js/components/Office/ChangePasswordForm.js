@@ -1,96 +1,138 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Http from '../../Http'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-class Page extends Component {
-    constructor(props) {
-        super(props)
+const mutation = gql`
+  mutation ChangePassword(
+    $password: String!,
+    $password_confirmation: String!
+  ) {
+    changePassword(
+      password: $password,
+      password_confirmation: $password_confirmation
+    ) {
+      id
+    }
+  }
+`
 
-        this.state = {
-            sending: false
-        }
+class ChangePasswordForm extends Component {
+  constructor(props) {
+    super(props)
 
-        this.handlerSubmit = this.handlerSubmit.bind(this)
+    this.state = {
+      sending: false,
+      variables: {
+        password: '',
+        password_confirmation: ''
+      }
     }
 
-    handlerSubmit(event) {
-        event.preventDefault()
+    this.handlerSubmit = this.handlerSubmit.bind(this)
+    this.handlerInput = this.handlerInput.bind(this)
+  }
 
-        const { authUser } = this.props
-        const formData = new FormData(event.target)
-        formData.append('_method', 'PUT')
+  handlerSubmit(e, changePassword) {
+    e.preventDefault()
+    const { variables } = this.state
 
+    this.setState({
+      sending: true
+    }, () => {
+      changePassword({variables})
+      .then(() => {
         this.setState({
-            sending: true
-        }, () => {
-            Http.post(`/api/users/${authUser.id}/password`, formData)
-            .then(response => {
-                this.setState({
-                    sending: false
-                })
-                UIkit.notification('Пароль изменен!', {
-                    status: 'success'
-                })
-            })
-            .catch(({ response }) => {
-                this.setState({
-                    sending: false
-                })
-                UIkit.notification(response.data.message, {
-                    status: 'danger'
-                })
-            })
+          sending: false
         })
-    }
+        UIkit.notification('Пароль изменен!', {
+          status: 'success'
+        })
+      })
+      .catch(({ graphQLErrors }) => {
+        this.setState({
+          sending: false
+        })
+        graphQLErrors.forEach(error => {
+          if (error.message === 'validation') {
+            Object.keys(error.validation).forEach(key => {
+              UIkit.notification(error.validation[key][0], {
+                status: 'danger'
+              })
+            })
+          } else {
+            UIkit.notification(error.message, {
+              status: 'danger'
+            })
+          }
+        })
+      })
+    })
+  }
 
-    render() {
-        const { sending } = this.state
+  handlerInput(e) {
+    this.setState({
+      variables: {
+        ...this.state.variables,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
 
-        return (
-            <form className="uk-form uk-position-relative" onSubmit={this.handlerSubmit}>
-                {sending && (
-                    <div className="profile-info__loading">
-                        <span
-                            className="uk-position-center uk-spinner"
-                            uk-icon="icon: spinner; ratio: 2"
-                        />
-                    </div>
-                )}
+  render() {
+    const { sending, variables: { password, password_confirmation } } = this.state
 
-                <div className="uk-margin">
-                    <label className="uk-form-label" htmlFor="form-password">Новый пароль</label>
-                    <div className="uk-form-controls">
-                        <input
-                            className="uk-input"
-                            id="form-password"
-                            type="password"
-                            name="password"
-                        />
-                    </div>
-                </div>
+    return (
+      <Mutation mutation={mutation}>
+        {changePassword => (
+          <form
+            className="uk-form uk-position-relative"
+            onSubmit={e => this.handlerSubmit(e, changePassword)}
+          >
+            {sending && (
+              <div className="profile-info__loading">
+                <span
+                  className="uk-position-center uk-spinner"
+                  uk-icon="icon: spinner; ratio: 2"
+                />
+              </div>
+            )}
 
-                <div className="uk-margin">
-                    <label className="uk-form-label" htmlFor="form-password_confirmation">Повторите пароль</label>
-                    <div className="uk-form-controls">
-                        <input
-                            className="uk-input"
-                            id="form-password_confirmation"
-                            type="password"
-                            name="password_confirmation"
-                        />
-                    </div>
-                </div>
+            <div className="uk-margin">
+              <label className="uk-form-label" htmlFor="form-password">Новый пароль</label>
+              <div className="uk-form-controls">
+                <input
+                  className="uk-input"
+                  id="form-password"
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={this.handlerInput}
+                />
+              </div>
+            </div>
 
-                <div className="uk-margin">
-                    <button type="submit" className="uk-button uk-button-default">Изменить</button>
-                </div>
-            </form>
-        )
-    }
+            <div className="uk-margin">
+              <label className="uk-form-label" htmlFor="form-password_confirmation">Повторите пароль</label>
+              <div className="uk-form-controls">
+                <input
+                  className="uk-input"
+                  id="form-password_confirmation"
+                  type="password"
+                  name="password_confirmation"
+                  value={password_confirmation}
+                  onChange={this.handlerInput}
+                />
+              </div>
+            </div>
+
+            <div className="uk-margin">
+              <button type="submit" className="uk-button uk-button-default">Изменить</button>
+            </div>
+          </form>
+        )}
+      </Mutation>
+    )
+  }
 }
 
-const mapStateToProps = store => ({
-    authUser: store.Auth.user
-})
-
-export default connect(mapStateToProps)(Page)
+export default ChangePasswordForm

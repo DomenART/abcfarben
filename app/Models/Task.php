@@ -12,8 +12,25 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'order', 'module_id', 'solo'
+        'name', 'description', 'content', 'order', 'module_id', 'solo'
     ];
+
+    /**
+     * Массив полей, которые отображаются только при наличии доступа к задаче.
+     *
+     * @var array
+     */
+    protected $private = [
+        'content', 'solo', 'files'
+    ];
+
+    public function getAttribute($key)
+    {
+        if (in_array($key, $this->private) && !$this->isHasAccess()) {
+            return null;
+        }
+        return parent::getAttribute($key);
+    }
 
     /**
      * @var array
@@ -77,34 +94,81 @@ class Task extends Model
         }
     }
 
-    public function getStatusCode() {
-        $status = $this->statuses()->owner()->first();
-
-        return $status ? $status->status : 0;
+    public function getStatus() {
+        if ($status = $this->statuses()->owner()->first()) {
+            return $status->getLabel();
+        }
+        return null;
     }
+
+    // public function getStatusCode() {
+    //     $status = $this->statuses()->owner()->first();
+
+    //     return $status ? $status->status : 0;
+    // }
 
     /**
      * @return bool|integer
      */
-    public function getNextLesson() {
+    public function getNextLessonId() {
         $find = $this->lessons->first(function ($lesson) {
-            $status = $lesson->statuses()->owner()->first();
+            if ($status = $lesson->statuses()->owner()->first()) {
+                return $status->getLabel() !== 'success';
+            }
 
-            return !$status || $status->status != 1;
+            return true;
         });
 
-        return $find ? $find->id : false;
+        return $find ? $find->id : null;
     }
 
     /**
      * @return null|integer
      */
-    public function getFirstLesson() {
+    public function getFirstLessonId() {
         if ($lesson = $this->lessons()->first()) {
             return $lesson->id;
         }
 
         return null;
+    }
+
+    public function start() {
+        $user_id = auth()->user()->id;
+
+        if (!$this->statuses()->user($user_id)->count()) {
+            $this->statuses()->create([
+                'user_id' => $user_id
+            ])->setWarning();
+        }
+    }
+
+    public function read() {
+        $user_id = auth()->user()->id;
+
+        $this->statuses()->firstOrCreate([
+            'user_id' => $user_id
+        ])->setSuccess();
+    }
+
+    /**
+     * Наличие доступа определеяется наличию доступа к программам,
+     * которым принадлежит модуль, а также открытости самого модуля.
+     *
+     * @return boolean
+     */
+    public function isHasAccess() {
+        $programs = $this->module->programs;
+        $moduleAccess = false;
+        foreach ($programs as $program) {
+            if ($program->isHasAccess() && $this->module->isOpenedByPrevious($program)) {
+                $moduleAccess = true;
+            }
+        }
+        if (!$moduleAccess) {
+            return false;
+        }
+        return true;
     }
 
     public function scopeOrder($query)
@@ -127,9 +191,4 @@ class Task extends Model
     {
         return $this->morphMany(Status::class, 'statusable');
     }
-
-    // public function statuses()
-    // {
-    //     return $this->hasMany(TaskStatus::class);
-    // }
 }
