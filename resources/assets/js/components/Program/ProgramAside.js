@@ -78,13 +78,43 @@ const ProgramAside = ({ modules, id, curator }) => {
                 <Calendar />
 
                 <div className="main-aside__section">
-                    <Link
+                    {/* <Link
                         to={`/programs/${id}/expert`}
                         className="main-aside__link"
                     >
                         <SvgIcon name="bubbles" className="main-aside__icon main-aside__icon_expert" />
-                        <span className="main-aside__link-title">Задать вопрос эксперту</span>
-                    </Link>
+                        <span className="main-aside__link-title">Задать вопрос</span>
+                    </Link> */}
+                    <button
+                        className="main-aside__link"
+                        type="button"
+                        data-uk-toggle="target: #aside-questions"
+                    >
+                        <SvgIcon
+                            name="bubbles"
+                            className="main-aside__icon main-aside__icon_expert"
+                        />
+                        <span className="main-aside__link-title">Задать вопрос</span>
+                    </button>
+
+                    <ul className="aside-questions" id="aside-questions" hidden>
+                        <li>
+                            <Link
+                                to={`/programs/${id}/expert`}
+                                className="aside-questions__link"
+                            >
+                                Написать куратору
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to={`/programs/${id}/curator`}
+                                className="aside-questions__link"
+                            >
+                                Написать эксперту
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
 
                 {curator && (

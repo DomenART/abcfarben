@@ -37,7 +37,7 @@ class TaskContainer extends Component {
   render() {
     const {
       program,
-      data: { loading, error, modules, tasks }
+      data: { loading, error, tasks, modules }
     } = this.props
 
     if (loading)
@@ -46,11 +46,11 @@ class TaskContainer extends Component {
     if (error)
       return <div className="uk-alert-danger" data-uk-alert>{error.message}</div>
 
-    if (modules.length === 0 || tasks.length === 0)
+    if (tasks.length === 0)
       return <div className="uk-alert-danger" data-uk-alert>Запись не найдена</div>
 
-    const module = modules[0]
     const task = tasks[0]
+    const module = modules[0]
 
     if (task.next_lesson_id) {
       const pathname = `/programs/${program.id}/${module.id}/${task.id}/${task.next_lesson_id}`
@@ -58,7 +58,9 @@ class TaskContainer extends Component {
     }
 
     return <Task
-      {...{task, module, program}}
+      task={task}
+      module={module}
+      program={program}
       readHandler={this.read.bind(this)}
     />
   }
@@ -70,11 +72,6 @@ const query = gql`
     $module_id: Int!
     $program_id: Int!
   ) {
-    modules(id: $module_id) {
-      id
-      name
-      next_module_id(program: $program_id)
-    }
     tasks(id: $task_id) {
       id
       name
@@ -85,6 +82,12 @@ const query = gql`
       next_lesson_id
       files
       has_access
+      thread_id(program: $program_id)
+    }
+    modules(id: $module_id) {
+      id
+      name
+      next_module_id(program: $program_id)
     }
   }
 `

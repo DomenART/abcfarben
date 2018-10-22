@@ -9,7 +9,7 @@ use GraphQL;
 class ProgressType extends BaseType
 {
     protected $attributes = [
-        'name' => 'ProgressType'
+        'name' => 'Progress'
     ];
 
     public function fields()

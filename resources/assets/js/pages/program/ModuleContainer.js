@@ -40,11 +40,10 @@ class ModuleContainer extends Component {
     if (modules.length === 0)
       return <div className="uk-alert-danger" data-uk-alert>Запись не найдена</div>
 
-    const module = modules[0]
-
     return (
       <Module
-        {...{module, program}}
+        module={modules[0]}
+        program={program}
         readHandler={this.read.bind(this)}
       />
     )

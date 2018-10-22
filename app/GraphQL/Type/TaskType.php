@@ -9,7 +9,7 @@ use GraphQL;
 class TaskType extends BaseType
 {
     protected $attributes = [
-        'name' => 'TaskType'
+        'name' => 'Task'
     ];
 
     public function fields()
@@ -48,6 +48,15 @@ class TaskType extends BaseType
             'has_access' => [
                 'type' => Type::boolean(),
             ],
+            'thread_id' => [
+                'type' => Type::int(),
+                'args' => [
+                    'program' => ['type' => Type::nonNull(Type::int())]
+                ]
+            ],
+            'module' => [
+                'type' => GraphQL::type('Module')
+            ],
         ];
     }
 
@@ -69,5 +78,17 @@ class TaskType extends BaseType
     protected function resolveHasAccessField($root, $args)
     {
         return $root->isHasAccess();
+    }
+
+    protected function resolveThreadIdField($root, $args)
+    {
+        $user_id = auth()->user()->id;
+        if ($thread = $root->threads()->firstOrCreate([
+            'student_id' => $user_id,
+            'program_id' => $args['program']
+        ])) {
+            return $thread->id;
+        }
+        return null;
     }
 }

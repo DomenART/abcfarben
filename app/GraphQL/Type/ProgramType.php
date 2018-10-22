@@ -9,8 +9,7 @@ use GraphQL;
 class ProgramType extends BaseType
 {
     protected $attributes = [
-        'name' => 'ProgramType',
-        'description' => 'A type'
+        'name' => 'Program'
     ];
 
     public function fields()

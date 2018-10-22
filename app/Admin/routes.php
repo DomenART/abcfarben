@@ -46,5 +46,6 @@ Route::group([
         'statuses' => ProgramStatusController::class,
         'auth/users' => UserController::class,
         'events' => EventController::class,
+        'wiki' => WikiController::class,
     ]);
 });

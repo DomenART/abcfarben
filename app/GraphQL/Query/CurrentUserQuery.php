@@ -10,8 +10,7 @@ use GraphQL;
 class CurrentUserQuery extends Query
 {
     protected $attributes = [
-        'name' => 'CurrentUserQuery',
-        'description' => 'A query'
+        'name' => 'currentUser'
     ];
 
     public function type()

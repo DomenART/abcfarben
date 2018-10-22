@@ -10,6 +10,7 @@ import Members from './Members'
 import ModuleContainer from './ModuleContainer'
 import TaskContainer from './TaskContainer'
 import LessonContainer from './LessonContainer'
+import WikiContainer from './WikiContainer'
 // import Expert from './Expert'
 // import Container from './Container'
 import ProgramAside from '../../components/Program/ProgramAside'
@@ -48,7 +49,9 @@ const PageWrap = ({
                   <Main {...program} />
                 )} />
 
-                {/* <Route path={`${url}/wiki`} exact component={Wiki}/> */}
+                <Route path={`${url}/wiki`} exact render={() => (
+                  <WikiContainer program={program} />
+                )} />
 
                 <Route path={`${url}/tasks`} exact render={() => (
                   <Tasks {...program} />

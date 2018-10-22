@@ -140,15 +140,6 @@ class ProgramController extends Controller
                     $form->html($this->modules());
 
                 });
-
-                $form->tab('Wiki', function ($form) {
-
-                    $form->hasMany('questions', function (Form\NestedForm $form) {
-                        $form->text('question', 'Вопрос');
-                        $form->editor('answer', 'Ответ');
-                    });
-
-                });
             }
         });
     }

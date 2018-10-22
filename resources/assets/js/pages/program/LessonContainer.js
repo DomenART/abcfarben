@@ -14,9 +14,9 @@ class LessonContainer extends Component {
     const {
       program, readLesson, history,
       data: {
-        modules: [module],
+        lessons: [lesson],
         tasks: [task],
-        lessons: [lesson]
+        modules: [module]
       }
     } = this.props
 
@@ -41,7 +41,7 @@ class LessonContainer extends Component {
   render() {
     const {
       program,
-      data: { loading, error, modules, tasks, lessons }
+      data: { loading, error, lessons, tasks, modules }
     } = this.props
 
     if (loading || this.state.loading)
@@ -50,16 +50,15 @@ class LessonContainer extends Component {
     if (error)
       return <div className="uk-alert-danger" data-uk-alert>{error.message}</div>
 
-    if (modules.length === 0 || tasks.length === 0 || lessons.length === 0)
+    if (lessons.length === 0 || tasks.length === 0 || modules.length === 0)
       return <div className="uk-alert-danger" data-uk-alert>Запись не найдена</div>
-
-    const module = modules[0]
-    const task = tasks[0]
-    const lesson = lessons[0]
 
     return (
       <Lesson
-        {...{lesson, task, module, program}}
+        lesson={lessons[0]}
+        task={tasks[0]}
+        module={modules[0]}
+        program={program}
         readHandler={this.read.bind(this)}
       />
     )
@@ -73,15 +72,6 @@ query Lesson(
   $module_id: Int!
   $program_id: Int!
 ) {
-  modules(id: $module_id) {
-    id
-    name
-    next_module_id(program: $program_id)
-  }
-  tasks(id: $task_id) {
-    id
-    name
-  }
   lessons(id: $lesson_id) {
     id
     name
@@ -90,6 +80,15 @@ query Lesson(
     has_access
     previous_lesson_id
     next_lesson_id
+  }
+  tasks(id: $task_id) {
+    id
+    name
+  }
+  modules(id: $module_id) {
+    id
+    name
+    next_module_id(program: $program_id)
   }
 }
 `

@@ -9,7 +9,7 @@ use GraphQL;
 class ModuleType extends BaseType
 {
     protected $attributes = [
-        'name' => 'ModuleType'
+        'name' => 'Module'
     ];
 
     public function fields()

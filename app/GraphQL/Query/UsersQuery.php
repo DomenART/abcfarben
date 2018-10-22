@@ -12,7 +12,7 @@ use GraphQL;
 class UsersQuery extends Query
 {
     protected $attributes = [
-        'name' => 'UsersQuery'
+        'name' => 'users'
     ];
 
     public function type()

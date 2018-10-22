@@ -11,7 +11,7 @@ use GraphQL;
 class EventsQuery extends Query
 {
     protected $attributes = [
-        'name' => 'EventsQuery'
+        'name' => 'events'
     ];
 
     public function type()

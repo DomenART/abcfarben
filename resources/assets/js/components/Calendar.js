@@ -131,7 +131,11 @@ class Calendar extends React.Component {
 
     return (
       <div className="main-aside__section">
-        <button className="main-aside__link calendar-btn" type="button" data-uk-toggle="target: #aside-calendar">
+        <button
+          className="main-aside__link calendar-btn"
+          type="button"
+          data-uk-toggle="target: #aside-calendar"
+        >
           <SvgIcon name="calendar" className="calendar-btn__icon" />
           <span className="calendar-btn__title">Календарь</span>
         </button>

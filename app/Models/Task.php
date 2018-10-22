@@ -191,4 +191,9 @@ class Task extends Model
     {
         return $this->morphMany(Status::class, 'statusable');
     }
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
 }

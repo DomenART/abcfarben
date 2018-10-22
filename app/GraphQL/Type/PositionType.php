@@ -9,7 +9,7 @@ use GraphQL;
 class PositionType extends BaseType
 {
     protected $attributes = [
-        'name' => 'PositionType'
+        'name' => 'Position'
     ];
 
     public function fields()

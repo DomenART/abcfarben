@@ -2,21 +2,21 @@
 
 namespace App\GraphQL\Query;
 
-use App\Models\Program;
+use App\Models\Question;
 use Folklore\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use GraphQL;
 
-class ProgramsQuery extends Query
+class QuestionsQuery extends Query
 {
     protected $attributes = [
-        'name' => 'programs'
+        'name' => 'questions'
     ];
 
     public function type()
     {
-        return Type::listOf(GraphQL::type('Program'));
+        return Type::listOf(GraphQL::type('Question'));
     }
 
     public function args()
@@ -29,9 +29,9 @@ class ProgramsQuery extends Query
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
         if (isset($args['id'])) {
-            return Program::where('id' , $args['id'])->get();
+            return Question::where('id' , $args['id'])->get();
         } else {
-            return Program::all();
+            return Question::all();
         }
     }
 }

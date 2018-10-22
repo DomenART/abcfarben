@@ -6,10 +6,10 @@ use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as BaseType;
 use GraphQL;
 
-class EventType extends BaseType
+class QuestionType extends BaseType
 {
     protected $attributes = [
-        'name' => 'Event'
+        'name' => 'Question'
     ];
 
     public function fields()
@@ -19,9 +19,6 @@ class EventType extends BaseType
                 'type' => Type::nonNull(Type::int()),
             ],
             'title' => [
-                'type' => Type::string(),
-            ],
-            'annotation' => [
                 'type' => Type::string(),
             ],
             'content' => [

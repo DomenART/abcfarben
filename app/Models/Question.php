@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'program_id', 'question', 'answer', 'order'
+        'title', 'content'
     ];
-
-    public function program()
-    {
-        return $this->belongsTo(Program::class, 'program_id');
-    }
 }

@@ -112,4 +112,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasMany('App\Models\Message');
     }
+
+    public function threadsByExpert()
+    {
+        return $this->hasMany(Thread::class, 'expert_id');
+    }
+
+    public function threadsByCurator()
+    {
+        return $this->hasMany(Thread::class, 'curator_id');
+    }
+
+    public function threadsByStudent()
+    {
+        return $this->hasMany(Thread::class, 'student_id');
+    }
 }

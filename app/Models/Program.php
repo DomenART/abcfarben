@@ -331,4 +331,9 @@ class Program extends Model
     {
         return $this->hasMany(Question::class, 'program_id');
     }
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
 }

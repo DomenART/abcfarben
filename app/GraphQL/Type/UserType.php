@@ -9,7 +9,7 @@ use GraphQL;
 class UserType extends BaseType
 {
     protected $attributes = [
-        'name' => 'UserType'
+        'name' => 'User'
     ];
 
     public function fields()

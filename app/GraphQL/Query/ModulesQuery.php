@@ -11,7 +11,7 @@ use GraphQL;
 class ModulesQuery extends Query
 {
     protected $attributes = [
-        'name' => 'ModulesQuery'
+        'name' => 'modules'
     ];
 
     public function type()

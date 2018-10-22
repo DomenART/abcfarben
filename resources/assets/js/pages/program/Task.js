@@ -104,10 +104,10 @@ export default ({ task, module, program, readHandler }) =>
           </div>
         </div>
 
-        {(!task.solo && task.thread) && (
+        {(!task.solo && task.thread_id) && (
           <Dialog
             title="Переписка с куратором"
-            thread={task.thread}
+            thread={task.thread_id}
           />
         )}
       </Fragment>

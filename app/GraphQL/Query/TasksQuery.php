@@ -12,7 +12,7 @@ use App\Models\Task;
 class TasksQuery extends Query
 {
     protected $attributes = [
-        'name' => 'TasksQuery'
+        'name' => 'tasks1'
     ];
 
     public function type()

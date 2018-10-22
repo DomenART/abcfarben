@@ -9,7 +9,7 @@ use GraphQL;
 class LessonType extends BaseType
 {
     protected $attributes = [
-        'name' => 'LessonType'
+        'name' => 'Lesson'
     ];
 
     public function fields()
