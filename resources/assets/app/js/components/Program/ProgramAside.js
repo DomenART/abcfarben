@@ -5,7 +5,7 @@ import classNames from "classnames"
 import SvgIcon from '../../components/UI/SvgIcon'
 import Calendar from '../../components/Calendar'
 
-const ProgramAside = ({ modules, id, curator }) => {
+const ProgramAside = ({ modules, id, curator, student }) => {
     const getStatusIcon = status => {
         switch (status) {
             case 'success': return 'doc-done'
@@ -103,7 +103,7 @@ const ProgramAside = ({ modules, id, curator }) => {
                                 to={`/programs/${id}/expert`}
                                 className="aside-questions__link"
                             >
-                                Написать куратору
+                                Написать эксперту
                             </Link>
                         </li>
                         <li>
@@ -111,15 +111,15 @@ const ProgramAside = ({ modules, id, curator }) => {
                                 to={`/programs/${id}/curator`}
                                 className="aside-questions__link"
                             >
-                                Написать эксперту
+                                Написать куратору
                             </Link>
                         </li>
                     </ul>
                 </div>
 
-                {curator && (
+                {student.curator && (
                     <div className="main-aside__section">
-                        <Link to={`/users/${curator}`} className="main-aside__link">
+                        <Link to={`/users/${student.curator.id}`} className="main-aside__link">
                             <SvgIcon name="curator" className="main-aside__icon main-aside__icon_curator" />
                             <span className="main-aside__link-title">Мой куратор</span>
                         </Link>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1c1946f4843d95ffaa0d85aca2bbd39",
+    "content-hash": "c9b5264841362030480a914dde66772f",
     "packages": [
         {
             "name": "axe/laravel-graphql-upload",
@@ -596,22 +596,23 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.5.14",
+            "version": "v1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "3f5e6d47a3294baafe3a8844f6e5177e50e4c138"
+                "reference": "d4950856fe59be95e7d5f9cfeaad1da3f7320cbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/3f5e6d47a3294baafe3a8844f6e5177e50e4c138",
-                "reference": "3f5e6d47a3294baafe3a8844f6e5177e50e4c138",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/d4950856fe59be95e7d5f9cfeaad1da3f7320cbc",
+                "reference": "d4950856fe59be95e7d5f9cfeaad1da3f7320cbc",
                 "shasum": ""
             },
             "require": {
+                "doctrine/dbal": "2.*",
                 "laravel/framework": "~5.5",
                 "php": ">=7.0.0",
-                "symfony/dom-crawler": "~3.1"
+                "symfony/dom-crawler": "~3.1|~4.0"
             },
             "require-dev": {
                 "fzaninotto/faker": "~1.4",
@@ -662,7 +663,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2018-06-06T13:40:40+00:00"
+            "time": "2018-10-25T09:02:19+00:00"
         },
         {
             "name": "erusev/parsedown",

@@ -43,7 +43,7 @@ class ReadTaskMutation extends Mutation
             return new \Exception('You do not have access to the Task');
         }
 
-        if (!$task->solo) {
+        if ($task->type !== 'independent') {
             return new \Exception('Задание должен принять куратор');
         }
 

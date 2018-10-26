@@ -77,9 +77,11 @@ class Program extends Model
      */
     public function isHasAccess()
     {
-        $user_id = request()->user()->id;
+        if ($user = auth()->user()) {
+            return $this->userHasAccess($user->id);
+        }
 
-        return $this->userHasAccess($user_id);
+        return  false;
     }
 
     /**
@@ -192,7 +194,7 @@ class Program extends Model
         if (!$this->students()->student($user_id)->count()) {
             $this->students()->create([
                 'student_id' => $user_id,
-                'curator_id' => $this->curator
+                'curator_id' => $this->curator_id
             ]);
         }
 

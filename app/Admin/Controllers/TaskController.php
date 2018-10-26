@@ -13,6 +13,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Controllers\ModelForm;
 use Exception;
+use Encore\Admin\Widgets\Box;
+use function GuzzleHttp\json_encode;
 
 class TaskController extends Controller
 {
@@ -48,15 +50,20 @@ class TaskController extends Controller
 
         return Admin::content(function (Content $content) use ($id) {
             $content->header('Задания');
+
             $form = $this->form();
+
             $form->tab('Уроки', function ($form) {
                 $form->html($this->lessons());
             });
+
             $form->edit($id);
+
             $form->tools(function (Form\Tools $tools) use ($form) {
                 $tools->disableListButton();
                 $tools->add('<div class="btn-group pull-right"><a href="/admin/modules/' . $form->model->module_id . '#tab-form-2" class="btn btn-sm btn-info">Перейти к модулю</a></div>');
             });
+
             $content->body($form);
         });
     }
@@ -70,13 +77,16 @@ class TaskController extends Controller
     {
         return Admin::content(function (Content $content) {
             $content->header('Задания');
+
             $form = $this->form();
+
             $form->tools(function (Form\Tools $tools) {
                 $tools->disableListButton();
                 if (request()->has('module_id')) {
                     $tools->add('<div class="btn-group pull-right"><a href="/admin/modules/' . request()->input('module_id') . '#tab-form-2" class="btn btn-sm btn-info">Перейти к модулю</a></div>');
                 }
             });
+
             $content->body($form);
         });
     }
@@ -89,7 +99,6 @@ class TaskController extends Controller
     protected function grid()
     {
         return Admin::grid(Task::class, function (Grid $grid) {
-
             if (request('trashed') == 1) {
                 $grid->model()->onlyTrashed();
             }
@@ -121,12 +130,20 @@ class TaskController extends Controller
         return Admin::form(Task::class, function (Form $form) {
             $form->tab('Параметры', function ($form) {
                 $form->hidden('id');
+
+                $form->hidden('questions');
+
                 $form->text('name', 'Название');
-                $form->switch('solo', 'Без куратора')->states([
-                    'да' => ['value' => 1, 'text' => 'enable', 'color' => 'success'],
-                    'нет' => ['value' => 0, 'text' => 'disable', 'color' => 'danger'],
-                ]);
+
                 $form->editor('content', 'Содержимое');
+
+                $form->select('type', 'Тип')->options([
+                    'default' => 'По умолчанию',
+                    'independent' => 'Самостоятельное',
+                    'fixation' => 'С закреплением материала',
+                    'evaluation' => 'С оценкой знаний'
+                ])->value('default');
+
                 $select = $form->select('module_id', 'Модуль')->options(function ($id) {
                     $module = Module::find($id);
 
@@ -139,6 +156,24 @@ class TaskController extends Controller
 
                 $form->multipleFile('files', 'Файлы');
             });
+
+            if ($this->task) {
+                $data = $this->task->toArray();
+
+                if ($data['type'] === 'fixation') {
+                    $form->tab('Тест', function ($form) {
+                        $test = $this->task->tests()->firstOrCreate([
+                            'task_id' => $this->task->id
+                        ]);
+                        $form->html("<div id='test-form-fixation' data-test_id='" . $test->id . "'></div>");
+                    });
+
+                    // 'default' => 'По умолчанию',
+                    // 'independent' => 'Самостоятельное',
+                    // 'fixation' => 'С закреплением материала',
+                    // 'evaluation' => 'С оценкой знаний'
+                }
+            }
         });
     }
 

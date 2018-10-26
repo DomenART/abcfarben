@@ -56,7 +56,7 @@ class Dialog extends Component {
 
     sendMessage({
       variables: {
-        files: Object.keys(files).map(key => files[key]),
+        files: files ? Object.keys(files).map(key => files[key]) : [],
         body: message,
         thread_id: thread
       }

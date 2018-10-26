@@ -48,8 +48,8 @@ class WikiContainer extends Component {
     return (
       <Wiki
         program={program}
-        letters={this.getLetters(questions)}
-        list={this.getLlist(questions)}
+        letters={questions && this.getLetters(questions)}
+        list={questions && this.getLlist(questions)}
       />
     )
   }

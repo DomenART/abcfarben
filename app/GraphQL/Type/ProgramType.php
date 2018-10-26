@@ -51,6 +51,27 @@ class ProgramType extends BaseType
             'modules' => [
                 'type' => Type::listOf(GraphQL::type('Module'))
             ],
+            'expert_thread_id' => [
+                'type' => Type::int(),
+            ],
+            'expert_dialog_title' => [
+                'type' => Type::string(),
+            ],
+            'expert_dialog_content' => [
+                'type' => Type::string(),
+            ],
+            'curator_thread_id' => [
+                'type' => Type::int(),
+            ],
+            'curator_dialog_title' => [
+                'type' => Type::string(),
+            ],
+            'curator_dialog_content' => [
+                'type' => Type::string(),
+            ],
+            'student' => [
+                'type' => GraphQL::type('Student')
+            ],
         ];
     }
 
@@ -82,5 +103,42 @@ class ProgramType extends BaseType
     protected function resolveProgressField($root, $args)
     {
         return $root->getProgress();
+    }
+
+    protected function resolveStudentField($root, $args)
+    {
+        if ($student = $root->students()->owner()->first()) {
+            return [
+                'curator' => $student->curator
+            ];
+        }
+
+        return null;
+    }
+
+    protected function resolveExpertThreadIdField($root, $args)
+    {
+        $user_id = auth()->user()->id;
+        if ($thread = $root->threads()->firstOrCreate([
+            'student_id' => $user_id,
+            'program_id' => $root->id,
+            'expert_id' => $root->expert_id
+        ])) {
+            return $thread->id;
+        }
+        return null;
+    }
+
+    protected function resolveCuratorThreadIdField($root, $args)
+    {
+        $user_id = auth()->user()->id;
+        if ($thread = $root->threads()->firstOrCreate([
+            'student_id' => $user_id,
+            'program_id' => $root->id,
+            'curator_id' => $root->curator_id
+        ])) {
+            return $thread->id;
+        }
+        return null;
     }
 }

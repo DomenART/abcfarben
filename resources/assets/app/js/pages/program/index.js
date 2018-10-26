@@ -11,7 +11,8 @@ import ModuleContainer from './ModuleContainer'
 import TaskContainer from './TaskContainer'
 import LessonContainer from './LessonContainer'
 import WikiContainer from './WikiContainer'
-// import Expert from './Expert'
+import Expert from './Expert'
+import Curator from './Curator'
 // import Container from './Container'
 import ProgramAside from '../../components/Program/ProgramAside'
 import ProgramHeader from '../../components/Program/ProgramHeader'
@@ -61,7 +62,13 @@ const PageWrap = ({
                   <Members program={program} />
                 )} />
 
-                {/* <Route path={`${url}/expert`} exact component={Expert}/> */}
+                <Route path={`${url}/expert`} exact render={() => (
+                  <Expert program={program} />
+                )} />
+
+                <Route path={`${url}/curator`} exact render={() => (
+                  <Curator program={program} />
+                )} />
 
                 <Route path={`${url}/:module`} exact render={props => (
                   <ModuleContainer
@@ -108,6 +115,17 @@ query Program($program_id: Int!) {
     passing_time
     content
     has_access
+    expert_thread_id
+    expert_dialog_title
+    expert_dialog_content
+    curator_thread_id
+    curator_dialog_title
+    curator_dialog_content
+    student {
+      curator {
+        id
+      }
+    }
     progress {
       done
       available

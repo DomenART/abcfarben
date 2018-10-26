@@ -15,7 +15,7 @@
         "@babel/preset-env": "^7.1.0",
         "@babel/preset-react": "^7.0.0",
         "autoprefixer": "^9.2.1",
-        "axios": "^0.18",
+        "axios": "^0.18.0",
         "babel-loader": "^8.0.4",
         "cross-env": "^5.1",
         "css-loader": "^1.0.0",
@@ -48,11 +48,13 @@
         "classnames": "^2.2.6",
         "connected-react-router": "^4.3.0",
         "graphql": "^14.0.2",
+        "immutability-helper": "^2.8.1",
         "md5": "^2.2.1",
         "moment": "^2.22.2",
         "prop-types": "^15.6.2",
         "react": "^16.5.2",
         "react-apollo": "^2.2.1",
+        "react-bootstrap-switch": "^15.5.3",
         "react-dom": "^16.5.2",
         "react-draft-wysiwyg": "^1.12.13",
         "react-helmet": "^5.2.0",
@@ -62,6 +64,9 @@
         "react-router-dom": "^4.3.1",
         "ree-validate": "^3.0.2",
         "romanize": "^1.1.1",
-        "uikit": "^3.0.0-rc.6"
+        "uikit": "^3.0.0-rc.6",
+        "vue": "^2.5.17",
+        "vue-loader": "^15.4.2",
+        "vue-template-compiler": "^2.5.17"
     }
 }

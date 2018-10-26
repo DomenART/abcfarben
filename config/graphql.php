@@ -211,6 +211,7 @@ return [
         'Lesson' => 'App\GraphQL\Type\LessonType',
         'Question' => 'App\GraphQL\Type\QuestionType',
         'Message' => 'App\GraphQL\Type\MessageType',
+        'Student' => 'App\GraphQL\Type\StudentType',
     ],
 
     /*

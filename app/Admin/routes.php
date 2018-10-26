@@ -37,6 +37,17 @@ Route::group([
     $router->get('api/lessons/list', 'LessonController@list');
     $router->post('api/lessons/sort', 'LessonController@sort');
 
+    // tests
+    $router->get('api/test-questions', 'TestQuestionController@index');
+    $router->post('api/test-questions', 'TestQuestionController@store');
+    $router->delete('api/test-questions/{question}', 'TestQuestionController@destroy');
+    $router->post('api/test-questions/order', 'TestQuestionController@order');
+    $router->get('api/test-answers', 'TestAnswerController@index');
+    $router->post('api/test-answers', 'TestAnswerController@store');
+    $router->put('api/test-answers/{answer}', 'TestAnswerController@update');
+    $router->delete('api/test-answers/{answer}', 'TestAnswerController@destroy');
+    $router->post('api/test-answers/order', 'TestAnswerController@order');
+
     $router->resources([
         'lessons' => LessonController::class,
         'tasks' => TaskController::class,

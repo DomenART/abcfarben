@@ -99,7 +99,6 @@ class ProgramController extends Controller
     {
         return Admin::form(Program::class, function (Form $form) use ($exists) {
             $form->tab('Параметры', function ($form) use ($exists) {
-
                 $form->hidden('id', 'ID');
                 $form->text('name');
                 $form->editor('content', 'Содержимое');
@@ -108,15 +107,28 @@ class ProgramController extends Controller
                 $form->slider('passing_time', 'Время на прохождение')
                     ->help('0 - без ограничений по времени')
                     ->options(['max' => 365, 'min' => 0, 'step' => 1]);
-                $form->text('dialog_title', 'Заголовок переписки с экспертом');
-                $form->editor('dialog_content', 'Описание переписки с экспертом');
+            });
 
+            $form->tab('Куратор', function ($form) use ($exists) {
                 $curators = User::whereHas('roles', function ($query) {
                     $query->where('admin_roles.slug', 'curator');
                 })->get()->pluck('name', 'id');
 
-                $form->select('curator', 'Куратор по умолчанию')->options($curators);
+                $form->select('curator_id', 'Куратор по умолчанию')->options($curators);
+                $form->text('curator_dialog_title', 'Заголовок переписки с куратором');
+                $form->editor('curator_dialog_content', 'Описание переписки с куратором');
             });
+
+            $form->tab('Эксперт', function ($form) use ($exists) {
+                $experts = User::whereHas('roles', function ($query) {
+                    $query->where('admin_roles.slug', 'expert');
+                })->get()->pluck('name', 'id');
+
+                $form->select('expert_id', 'Эксперт по умолчанию')->options($experts);
+                $form->text('expert_dialog_title', 'Заголовок переписки с экспертом');
+                $form->editor('expert_dialog_content', 'Описание переписки с экспертом');
+            });
+
             if ($exists) {
                 $form->tab('Доступы', function ($form) {
 

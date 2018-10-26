@@ -30,8 +30,8 @@ class TaskType extends BaseType
             'order' => [
                 'type' => Type::int(),
             ],
-            'solo' => [
-                'type' => Type::boolean(),
+            'type' => [
+                'type' => Type::string(),
             ],
             'status' => [
                 'type' => Type::string(),

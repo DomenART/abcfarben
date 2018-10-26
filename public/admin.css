@@ -1,0 +1,37 @@
+.dd-list.dd-list_roman {
+  padding-left: 30px;
+  list-style: upper-roman;
+}
+.dd-list.dd-list_roman .dd-item,
+.dd-list.dd-list_roman .dd-empty,
+.dd-list.dd-list_roman .dd-placeholder {
+  display: list-item;
+}
+.dd-list_roman .dd-handle {
+  margin-left: -30px;
+  padding-left: 30px;
+}
+.modules-tree-select {
+  float: left;
+}
+.modules-tree-select select {
+  width: 200px;
+}
+#test-form-fixation .admin-test-form {
+  display: flex;
+}
+#test-form-fixation .admin-test-form-answer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#test-form-fixation .admin-test-form-answer__switch {
+  margin-left: 15px;
+}
+#test-form-fixation .admin-test-form-answer__title {
+  flex-grow: 1;
+}
+#test-form-fixation .admin-test-form-answer__toolbar {
+  margin-left: 15px;
+}
+

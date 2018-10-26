@@ -86,7 +86,7 @@ export default ({ task, module, program, readHandler }) =>
 
         <div className="training-nav">
           <div className="training-nav__leftside">
-            {(task.solo && task.status !== 'success') && (
+            {(task.type === 'independent' && task.status !== 'success') && (
               <button
                 onClick={readHandler}
                 className="function-btn"
@@ -95,7 +95,7 @@ export default ({ task, module, program, readHandler }) =>
           </div>
 
           <div className="training-nav__rightside">
-            {module.next_module_id && (
+            {Boolean(module.next_module_id) && (
               <Link
                 to={`/programs/${program.id}/${module.next_module_id}`}
                 className="function-btn"
@@ -104,7 +104,7 @@ export default ({ task, module, program, readHandler }) =>
           </div>
         </div>
 
-        {(!task.solo && task.thread_id) && (
+        {(task.type !== 'independent' && task.thread_id) && (
           <Dialog
             title="Переписка с куратором"
             thread={task.thread_id}

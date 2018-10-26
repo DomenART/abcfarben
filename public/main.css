@@ -13679,6 +13679,24 @@ iframe.uk-cover {
   line-height: 1;
   letter-spacing: 0.49px;
 }
+.aside-questions {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 42px;
+}
+.aside-questions li {
+  margin: 10px 0;
+}
+.aside-questions__link {
+  color: #c4cede;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.49px;
+}
+.aside-questions__link:hover {
+  color: #ffffff;
+}
 .program__title {
   margin-bottom: 30px;
   color: #27272f;

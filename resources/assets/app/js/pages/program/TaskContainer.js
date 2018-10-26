@@ -5,7 +5,6 @@ import { Redirect } from 'react-router'
 import { catchErrorsNotification } from '../../utils/graphql'
 import Task from './Task'
 
-
 class TaskContainer extends Component {
   componentDidMount() {
     this.start()
@@ -76,7 +75,7 @@ const query = gql`
       id
       name
       content
-      solo
+      type
       status
       first_lesson_id
       next_lesson_id

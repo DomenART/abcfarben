@@ -25,4 +25,5 @@ Encore\Admin\Form::forget(['map', 'editor']);
 
 Form::extend('editor', TinyMCE::class);
 
-Admin::css('/laravel-admin/extensions/css/numbered-tree.css');
+Admin::css('/admin.css');
+Admin::js('/admin.js');
