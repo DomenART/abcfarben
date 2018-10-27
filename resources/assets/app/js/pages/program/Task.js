@@ -6,6 +6,7 @@ import Head from '../../components/Head'
 import Dialog from '../../components/Dialog'
 import SvgIcon from '../../components/UI/SvgIcon'
 import getIconName from '../../utils/getIconName'
+import TestFixation from '../../components/TestFixation'
 
 export default ({ task, module, program, readHandler }) =>
   <Fragment>
@@ -84,6 +85,10 @@ export default ({ task, module, program, readHandler }) =>
           </div>
         )}
 
+        {(task.type === 'fixation' && task.test_id) && (
+          <TestFixation task_id={task.id} test_id={task.test_id} />
+        )}
+
         <div className="training-nav">
           <div className="training-nav__leftside">
             {(task.type === 'independent' && task.status !== 'success') && (
@@ -104,7 +109,7 @@ export default ({ task, module, program, readHandler }) =>
           </div>
         </div>
 
-        {(task.type !== 'independent' && task.thread_id) && (
+        {(task.type === 'default' && task.thread_id) && (
           <Dialog
             title="Переписка с куратором"
             thread={task.thread_id}

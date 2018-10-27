@@ -12,7 +12,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'type', 'test_content', 'content', 'order', 'module_id'
+        'name', 'description', 'type', 'test_content', 'content', 'order', 'module_id', 'test_id', 'test_time', 'test_auto'
     ];
 
     /**
@@ -46,65 +46,6 @@ class Task extends Model
             $this->attributes['files'] = json_encode($files);
         }
     }
-
-    /**
-     * @param array $questions
-     */
-    // public function setQuestionsAttribute($questions)
-    // {
-    //     if (!is_array($questions)) {
-    //         $questions = json_decode($questions);
-    //     }
-
-    //     $test = $this->tests()->firstOrCreate([
-    //         'task_id' => $this->id
-    //     ]);
-
-    //     foreach ($questions as $qKey => $qRow) {
-    //         if (!empty($qRow->id)) {
-    //             $question = TestQuestion::find($qRow->id);
-    //         } else {
-    //             $question = new TestQuestion;
-    //         }
-    //         $question->fill([
-    //             'title' => $qRow->title,
-    //             'order' => $qKey
-    //         ]);
-    //         $test->questions()->save($question);
-
-    //         foreach ($qRow->answers as $aKey => $aRow) {
-    //             if (!empty($aRow->id)) {
-    //                 $answer = TestAnswer::find($aRow->id);
-    //             } else {
-    //                 $answer = new TestAnswer;
-    //             }
-    //             $answer->fill([
-    //                 'title' => $aRow->title,
-    //                 'correct' => $aRow->correct,
-    //                 'order' => $aKey
-    //             ]);
-    //             $question->answers()->save($answer);
-    //         }
-    //     }
-    // }
-
-    // public function getQuestionsAttribute()
-    // {
-    //     $questions = $this->tests()->first()->questions()->order()->get();
-    //     return $questions->map(function($question) {
-    //         return [
-    //             'id' => $question->id,
-    //             'title' => $question->title,
-    //             'answers' => $question->answers->map(function ($answer) {
-    //                 return [
-    //                     'id' => $answer->id,
-    //                     'title' => $answer->title,
-    //                     'correct' => $answer->correct
-    //                 ];
-    //             })
-    //         ];
-    //     });
-    // }
 
     /**
      * @param string $files
@@ -250,8 +191,13 @@ class Task extends Model
         return $this->hasMany(Thread::class);
     }
 
-    public function tests()
+    // public function tests()
+    // {
+    //     return $this->hasMany(Test::class);
+    // }
+
+    public function test()
     {
-        return $this->hasMany(Test::class);
+        return $this->belongsTo(Test::class);
     }
 }

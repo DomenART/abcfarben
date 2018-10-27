@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\LessonsTree;
 use App\Models\Module;
 use App\Models\Task;
+use App\Models\Test;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Encore\Admin\Form;
@@ -130,8 +131,8 @@ class TaskController extends Controller
         return Admin::form(Task::class, function (Form $form) {
             $form->tab('Параметры', function ($form) {
                 $form->hidden('id');
-
-                $form->hidden('questions');
+                $form->hidden('test.time');
+                $form->hidden('test.auto');
 
                 $form->text('name', 'Название');
 
@@ -159,12 +160,20 @@ class TaskController extends Controller
 
             if ($this->task) {
                 $data = $this->task->toArray();
+                $type = $data['type'];
 
-                if ($data['type'] === 'fixation') {
-                    $form->tab('Тест', function ($form) {
-                        $test = $this->task->tests()->firstOrCreate([
-                            'task_id' => $this->task->id
-                        ]);
+                if (in_array($type, ['fixation', 'evaluation'])) {
+                    $form->tab('Тест', function ($form) use ($type) {
+                        if (!$test = $this->task->test) {
+                            $test = new Test;
+                            $test->save();
+                            $this->task->test()->associate($test);
+                            $this->task->save();
+                        }
+                        if ($type === 'evaluation') {
+                            $form->text('test.time', 'Время на прохождение');
+                            $form->text('test.auto', 'Автоматическое прохождение');
+                        }
                         $form->html("<div id='test-form-fixation' data-test_id='" . $test->id . "'></div>");
                     });
 

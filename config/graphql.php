@@ -135,6 +135,7 @@ return [
                 'lessons' => 'App\GraphQL\Query\LessonsQuery',
                 'questions' => 'App\GraphQL\Query\QuestionsQuery',
                 'messages' => 'App\GraphQL\Query\MessagesQuery',
+                'tests' => 'App\GraphQL\Query\TestsQuery',
                 'currentUser' => 'App\GraphQL\Query\CurrentUserQuery'
             ],
             'mutation' => [
@@ -148,6 +149,7 @@ return [
                 'readLesson' => 'App\GraphQL\Mutation\ReadLessonMutation',
                 'readModule' => 'App\GraphQL\Mutation\ReadModuleMutation',
                 'sendMessage' => 'App\GraphQL\Mutation\SendMessageMutation',
+                'sendTestResult' => 'App\GraphQL\Mutation\SendTestResultMutation',
             ]
         ]
     ],
@@ -212,6 +214,9 @@ return [
         'Question' => 'App\GraphQL\Type\QuestionType',
         'Message' => 'App\GraphQL\Type\MessageType',
         'Student' => 'App\GraphQL\Type\StudentType',
+        'Test' => 'App\GraphQL\Type\TestType',
+        'TestQuestion' => 'App\GraphQL\Type\TestQuestionType',
+        'TestAnswer' => 'App\GraphQL\Type\TestAnswerType',
     ],
 
     /*

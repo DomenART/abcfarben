@@ -35,3 +35,4 @@ persistor.restore().then(() => {
 
 window.UIkit = require('uikit')
 UIkit.use(require('uikit/dist/js/uikit-icons'))
+// require('jspolyfill-array.prototype.findIndex')

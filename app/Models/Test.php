@@ -16,12 +16,17 @@ class Test extends Model
      * @var array
      */
     protected $fillable = [
-        'task_id'
+        'time', 'auto'
     ];
 
     public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->hasOne(Task::class);
+    }
+
+    public function results()
+    {
+        return $this->hasMany(TestResult::class);
     }
 
     public function questions()

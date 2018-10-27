@@ -54,8 +54,14 @@ class TaskType extends BaseType
                     'program' => ['type' => Type::nonNull(Type::int())]
                 ]
             ],
+            'test_id' => [
+                'type' => Type::int()
+            ],
             'module' => [
                 'type' => GraphQL::type('Module')
+            ],
+            'test' => [
+                'type' => GraphQL::type('Test')
             ],
         ];
     }

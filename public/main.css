@@ -1874,22 +1874,22 @@ select.uk-form-width-xsmall {
   font: inherit;
   color: inherit;
   /* 5 */
-  text-transform: none;
   /* 6 */
   display: inline-block;
   box-sizing: border-box;
   padding: 0 30px;
   vertical-align: middle;
-  font-size: 0.875rem;
+  font-size: 14px;
   /* 7 */
   line-height: 38px;
   /* 8 */
   text-align: center;
   /* 9 */
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
   transition: 0.1s ease-in-out;
   transition-property: color, background-color, border-color;
+  border-radius: 3px;
 }
 .uk-button:not(:disabled) {
   cursor: pointer;
@@ -1939,21 +1939,21 @@ select.uk-form-width-xsmall {
  * Primary
  */
 .uk-button-primary {
-  background-color: #1e87f0;
-  color: #fff;
+  background-color: #fdd95e;
+  color: #27272f;
   border: 1px solid transparent;
 }
 /* Hover + Focus */
 .uk-button-primary:hover,
 .uk-button-primary:focus {
-  background-color: #0f7ae5;
-  color: #fff;
+  background-color: #ffe763;
+  color: #27272f;
 }
 /* OnClick + Active */
 .uk-button-primary:active,
 .uk-button-primary.uk-active {
-  background-color: #0e6dcd;
-  color: #fff;
+  background-color: #ffe763;
+  color: #27272f;
 }
 /*
  * Secondary
@@ -15046,12 +15046,7 @@ iframe.uk-cover {
   margin-right: 2px;
 }
 .practice__materials {
-  margin-bottom: 105px;
-}
-@media (max-width: 640px) {
-  .practice__materials {
-    margin-bottom: 40px;
-  }
+  margin-bottom: 40px;
 }
 .exercises {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
@@ -15994,5 +15989,39 @@ iframe.uk-cover {
   padding: 15px;
   border-top: 1px solid #e7ebee;
   margin-top: 15px;
+}
+.test-panel {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
+  border: 1px solid #e5eaef;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+.test-panel__heading {
+  padding: 12px 20px;
+  color: #333;
+  border-bottom: 1px solid #e5eaef;
+  background-color: #f2f5fa;
+  font-size: 16px;
+  font-weight: 500;
+}
+.test-panel__body {
+  padding: 20px;
+}
+.test-panel__list {
+  padding: 0;
+  margin: 0;
+}
+.test-panel__list-item {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #e5eaef;
+}
+.test-panel__list-item .uk-checkbox {
+  margin-right: 10px;
+}
+label.test-panel__list-item {
+  cursor: pointer;
 }
 

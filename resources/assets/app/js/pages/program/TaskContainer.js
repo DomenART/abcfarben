@@ -82,6 +82,7 @@ const query = gql`
       files
       has_access
       thread_id(program: $program_id)
+      test_id
     }
     modules(id: $module_id) {
       id
