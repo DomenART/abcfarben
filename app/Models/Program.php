@@ -101,7 +101,7 @@ class Program extends Model
                 // }
             }
 
-            if ($this->students()->student($user->id)->count()) {
+            if ($this->members()->student($user->id)->count()) {
                 return 'during';
             }
 
@@ -191,8 +191,8 @@ class Program extends Model
     public function starting() {
         $user_id = request()->user()->id;
 
-        if (!$this->students()->student($user_id)->count()) {
-            $this->students()->create([
+        if (!$this->members()->student($user_id)->count()) {
+            $this->members()->create([
                 'student_id' => $user_id,
                 'curator_id' => $this->curator_id
             ]);
@@ -319,9 +319,9 @@ class Program extends Model
 //        );
 //    }
 
-    public function students()
+    public function members()
     {
-        return $this->hasMany(ProgramStudent::class);
+        return $this->hasMany(ProgramMember::class);
     }
 
     public function statuses()

@@ -86,6 +86,12 @@ class Dialog extends Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.data.messages !== prevProps.data.messages) {
+      this.scrollToEnd()
+    }
+  }
+
   render() {
     const {
       title,

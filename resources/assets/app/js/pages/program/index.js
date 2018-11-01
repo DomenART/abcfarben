@@ -121,7 +121,7 @@ query Program($program_id: Int!) {
     curator_thread_id
     curator_dialog_title
     curator_dialog_content
-    student {
+    member {
       curator {
         id
       }

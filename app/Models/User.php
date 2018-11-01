@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -93,6 +94,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return implode(' ', $name);
     }
 
+    public function getAvatarAttribute($value)
+    {
+        return Storage::url($value);
+    }
+
     public function isOwner()
     {
         return request()->user()->id == $this->id;
@@ -126,5 +132,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function threadsByStudent()
     {
         return $this->hasMany(Thread::class, 'student_id');
+    }
+
+    /**
+     * A user has and belongs to many roles.
+     *
+     * @return BelongsToMany
+     */
+    public function roles()
+    {
+        $pivotTable = config('admin.database.role_users_table');
+        $relatedModel = config('admin.database.roles_model');
+        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id');
+    }
+
+    /**
+     * A User has and belongs to many permissions.
+     *
+     * @return BelongsToMany
+     */
+    public function permissions()
+    {
+        $pivotTable = config('admin.database.user_permissions_table');
+        $relatedModel = config('admin.database.permissions_model');
+        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'permission_id');
     }
 }

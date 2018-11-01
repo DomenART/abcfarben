@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Head from '../../components/Head'
+import Materials from '../../components/Materials'
 import Dialog from '../../components/Dialog'
-import SvgIcon from '../../components/UI/SvgIcon'
-import getIconName from '../../utils/getIconName'
 import TestFixation from '../../components/TestFixation'
+import TestEvaluation from '../../components/TestEvaluation'
 
 export default ({ task, module, program, readHandler }) =>
   <Fragment>
@@ -69,24 +69,14 @@ export default ({ task, module, program, readHandler }) =>
           />
         </div>
 
-        {task.files && (
-          <div className="practice__materials materials">
-            <div className="materials__heading">Материалы к заданию:</div>
-            <ul className="materials__list">
-              {task.files.map((file, key) => (
-                <li key={key}>
-                  <a className="materials__item" href={`/storage/admin/${file}`} target="_blank">
-                    <SvgIcon name={getIconName(file)} className="materials__icon" />
-                    {file.replace(/^.*[\\\/]/, '')}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <Materials files={task.files} />
+
+        {(task.test && task.test.type === 'fixation') && (
+          <TestFixation test_id={task.test.id} />
         )}
 
-        {(task.type === 'fixation' && task.test_id) && (
-          <TestFixation task_id={task.id} test_id={task.test_id} />
+        {(task.test && task.test.type === 'evaluation') && (
+          <TestEvaluation test_id={task.test.id} />
         )}
 
         <div className="training-nav">

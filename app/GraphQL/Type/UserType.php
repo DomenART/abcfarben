@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Type;
 
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as BaseType;
 use GraphQL;
@@ -70,6 +71,9 @@ class UserType extends BaseType
             ],
             'progress' => [
                 'type' => GraphQL::type('Progress')
+            ],
+            'roles' => [
+                'type' => Type::listOf(GraphQL::type('Role'))
             ],
         ];
     }

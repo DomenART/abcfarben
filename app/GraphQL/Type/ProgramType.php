@@ -69,8 +69,8 @@ class ProgramType extends BaseType
             'curator_dialog_content' => [
                 'type' => Type::string(),
             ],
-            'student' => [
-                'type' => GraphQL::type('Student')
+            'member' => [
+                'type' => GraphQL::type('Member')
             ],
         ];
     }
@@ -105,11 +105,11 @@ class ProgramType extends BaseType
         return $root->getProgress();
     }
 
-    protected function resolveStudentField($root, $args)
+    protected function resolveMemberField($root, $args)
     {
-        if ($student = $root->students()->owner()->first()) {
+        if ($member = $root->members()->owner()->first()) {
             return [
-                'curator' => $student->curator
+                'curator' => $member->curator
             ];
         }
 

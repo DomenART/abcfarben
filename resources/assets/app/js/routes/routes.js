@@ -4,6 +4,8 @@ import Programs from '../pages/programs'
 import Program from '../pages/program'
 import User from '../pages/user'
 import ProfileEdit from '../pages/profileEdit'
+import CuratorMembers from '../pages/curator/Members'
+import CuratorMember from '../pages/curator/Member'
 // import CuratorList from '../pages/curatorList'
 // import CuratorDialog from '../pages/curatorDialog'
 import ForgotPassword from '../pages/forgotPassword'
@@ -66,13 +68,20 @@ const routes = [
     //     roles: ['curator'],
     //     component: CuratorDialog
     // },
-    // {
-    //     path: '/curator',
-    //     exact: false,
-    //     auth: true,
-    //     roles: ['curator'],
-    //     component: CuratorList
-    // },
+    {
+        path: '/curator',
+        exact: true,
+        auth: true,
+        roles: ['curator'],
+        component: CuratorMembers
+    },
+    {
+        path: '/curator/:member',
+        exact: false,
+        auth: true,
+        roles: ['curator'],
+        component: CuratorMember
+    },
     {
         path: '',
         exact: true,

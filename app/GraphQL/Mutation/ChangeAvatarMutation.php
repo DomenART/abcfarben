@@ -45,7 +45,7 @@ class ChangeAvatarMutation extends Mutation
         $filename = 'images/' . $args['avatar']->getClientOriginalName();
         $image = Image::make($args['avatar']);
         $image->fit(200);
-        $image->save(storage_path('app/public/admin/' . $filename));
+        $image->save(storage_path('app/public/' . $filename));
 
         $user->avatar = $filename;
         $user->save();

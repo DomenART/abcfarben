@@ -5,7 +5,7 @@ import classNames from "classnames"
 import SvgIcon from '../../components/UI/SvgIcon'
 import Calendar from '../../components/Calendar'
 
-const ProgramAside = ({ modules, id, curator, student }) => {
+const ProgramAside = ({ modules, id, member }) => {
     const getStatusIcon = status => {
         switch (status) {
             case 'success': return 'doc-done'
@@ -117,9 +117,9 @@ const ProgramAside = ({ modules, id, curator, student }) => {
                     </ul>
                 </div>
 
-                {student.curator && (
+                {member && member.curator && (
                     <div className="main-aside__section">
-                        <Link to={`/users/${student.curator.id}`} className="main-aside__link">
+                        <Link to={`/users/${member.curator.id}`} className="main-aside__link">
                             <SvgIcon name="curator" className="main-aside__icon main-aside__icon_curator" />
                             <span className="main-aside__link-title">Мой куратор</span>
                         </Link>

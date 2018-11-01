@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProgramStudent;
+use App\Models\ProgramMember;
 use App\Models\Notification;
 use App\Models\Message;
 use App\Models\Thread;
@@ -13,7 +13,7 @@ class CuratorController extends Controller
     public function getDialogs(Request $request) {
         $user_id = $request->user()->id;
         $threads = [];
-        $links = ProgramStudent::where('curator_id', $user_id)->with(['student', 'program'])->get();
+        $links = ProgramMember::where('curator_id', $user_id)->with(['student', 'program'])->get();
 
         foreach ($links as $link) {
             foreach ($link->threads as $thread) {
@@ -102,7 +102,7 @@ class CuratorController extends Controller
     public function getStats(Request $request) {
         $user_id = $request->user()->id;
         $unreadMessages = 0;
-        $links = ProgramStudent::where('curator_id', $user_id)->with(['student', 'program'])->get();
+        $links = ProgramMember::where('curator_id', $user_id)->with(['student', 'program'])->get();
 
         foreach ($links as $link) {
             foreach ($link->threads as $thread) {

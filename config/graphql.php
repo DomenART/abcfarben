@@ -136,7 +136,8 @@ return [
                 'questions' => 'App\GraphQL\Query\QuestionsQuery',
                 'messages' => 'App\GraphQL\Query\MessagesQuery',
                 'tests' => 'App\GraphQL\Query\TestsQuery',
-                'currentUser' => 'App\GraphQL\Query\CurrentUserQuery'
+                'currentUser' => 'App\GraphQL\Query\CurrentUserQuery',
+                'members' => 'App\GraphQL\Query\MembersQuery'
             ],
             'mutation' => [
                 'updateProfile' => 'App\GraphQL\Mutation\UpdateProfileMutation',
@@ -150,6 +151,9 @@ return [
                 'readModule' => 'App\GraphQL\Mutation\ReadModuleMutation',
                 'sendMessage' => 'App\GraphQL\Mutation\SendMessageMutation',
                 'sendTestResult' => 'App\GraphQL\Mutation\SendTestResultMutation',
+                'resetTestResult' => 'App\GraphQL\Mutation\ResetTestResultMutation',
+                'updateTestResult' => 'App\GraphQL\Mutation\UpdateTestResultMutation',
+                'updateTaskStatus' => 'App\GraphQL\Mutation\UpdateTaskStatusMutation',
             ]
         ]
     ],
@@ -204,6 +208,7 @@ return [
      */
     'types' => [
         'User' => 'App\GraphQL\Type\UserType',
+        'Role' => 'App\GraphQL\Type\RoleType',
         'Program' => 'App\GraphQL\Type\ProgramType',
         'Module' => 'App\GraphQL\Type\ModuleType',
         'Task' => 'App\GraphQL\Type\TaskType',
@@ -213,10 +218,13 @@ return [
         'Lesson' => 'App\GraphQL\Type\LessonType',
         'Question' => 'App\GraphQL\Type\QuestionType',
         'Message' => 'App\GraphQL\Type\MessageType',
-        'Student' => 'App\GraphQL\Type\StudentType',
+        'Member' => 'App\GraphQL\Type\MemberType',
         'Test' => 'App\GraphQL\Type\TestType',
         'TestQuestion' => 'App\GraphQL\Type\TestQuestionType',
         'TestAnswer' => 'App\GraphQL\Type\TestAnswerType',
+        'TestResult' => 'App\GraphQL\Type\TestResultType',
+        'TestResultReportItem' => 'App\GraphQL\Type\TestResultReportItemType',
+        'Status' => 'App\GraphQL\Type\StatusType',
     ],
 
     /*

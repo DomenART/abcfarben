@@ -13539,13 +13539,16 @@ iframe.uk-cover {
 .main-aside__structure {
   position: relative;
   display: block;
-  padding-left: 38px;
   color: #d8dfeb;
   font-size: 12px;
   font-weight: 300;
   line-height: 1.16;
   letter-spacing: 0.3px;
   padding-right: 30px;
+  background: transparent;
+  padding: 0 0 0 38px;
+  border: none;
+  cursor: pointer;
 }
 .main-aside__structure_close {
   color: #969ba1;
@@ -16021,7 +16024,21 @@ iframe.uk-cover {
 .test-panel__list-item .uk-checkbox {
   margin-right: 10px;
 }
+.test-panel__list-item_success {
+  background-color: #cbffcb;
+}
+.test-panel__list-item_danger {
+  background-color: #ffd3d3;
+}
 label.test-panel__list-item {
   cursor: pointer;
+}
+.curator-table th {
+  font-size: 16px;
+  color: #000000;
+  background-color: #f8f8f8;
+}
+.curator-table td {
+  vertical-align: middle;
 }
 

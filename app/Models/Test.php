@@ -16,12 +16,12 @@ class Test extends Model
      * @var array
      */
     protected $fillable = [
-        'time', 'auto'
+        'time', 'auto', 'type'
     ];
 
     public function task()
     {
-        return $this->hasOne(Task::class);
+        return $this->belongsTo(Task::class);
     }
 
     public function results()
@@ -36,6 +36,6 @@ class Test extends Model
 
     public function answers()
     {
-        return $this->hasManyThrough(TestAnswer::class, TestQuestion::class, 'test_id', 'question_id');
+        return $this->hasManyThrough(TestAnswer::class, TestQuestion::class, 'test_id', 'question_id', 'id', 'id');
     }
 }

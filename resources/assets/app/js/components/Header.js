@@ -123,16 +123,16 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                         </div>
                     </div>
                 )}
-                {/* {isCurator && (
+                {user.roles && !!user.roles.filter(role => role.slug === 'curator').length && (
                     <Link to="/curator" className="main-header__notification-btn notification-btn">
                         <SvgIcon name="lock" className="notification-btn__icon" />
-                        {curator.unreadMessages > 0 && (
+                        {/* {curator.unreadMessages > 0 && (
                             <div className="notification-btn__counter">
                                 <span>{curator.unreadMessages}</span>
                             </div>
-                        )}
+                        )} */}
                     </Link>
-                )} */}
+                )}
             </div>
             <div>
                 <Link

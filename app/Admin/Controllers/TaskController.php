@@ -9,6 +9,7 @@ use App\Models\Test;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Encore\Admin\Form;
+use Encore\Admin\Form\Field\Text;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
@@ -20,11 +21,6 @@ use function GuzzleHttp\json_encode;
 class TaskController extends Controller
 {
     use ModelForm;
-
-    /**
-     * @var \App\Models\Task
-     */
-    private $task;
 
     /**
      * Index interface.
@@ -47,18 +43,32 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        $this->task = Task::find($id);
-
         return Admin::content(function (Content $content) use ($id) {
             $content->header('Задания');
 
-            $form = $this->form();
+            $form = $this->form()->edit($id);
 
-            $form->tab('Уроки', function ($form) {
-                $form->html($this->lessons());
-            });
+            if ($form->model()->exists) {
+                $form->tab('Уроки', function ($form) {
+                    $form->html(new LessonsTree($form->model()));
+                });
 
-            $form->edit($id);
+                if (in_array($form->model()->type, ['test'])) {
+                    if ($test = $form->model()->test) {
+                        $form->tab('Тест', function ($form) use ($test) {
+                            $form->select('test.type', 'Тип теста')->options([
+                                'fixation' => 'Закрепление материала',
+                                'evaluation' => 'Оценка знаний',
+                            ])->value('fixation');
+                            if ($test->type === 'evaluation') {
+                                $form->text('test.time', 'Время на прохождение');
+                                $form->text('test.auto', 'Автоматическое прохождение');
+                            }
+                            $form->html("<div id='test-form-fixation' data-test_id='" . $test->id . "'></div>");
+                        });
+                    }
+                }
+            }
 
             $form->tools(function (Form\Tools $tools) use ($form) {
                 $tools->disableListButton();
@@ -129,25 +139,39 @@ class TaskController extends Controller
     protected function form()
     {
         return Admin::form(Task::class, function (Form $form) {
+            $form->saving(function (Form $form) {
+                if ($form->model()->id) {
+                    if ($test = $form->model()->test) {
+                        $test->fill($form->test);
+                        $test->save();
+                    }
+                }
+            });
+
+            $form->saved(function (Form $form) {
+                if ($form->model()->id) {
+                    if ($form->model()->type === 'test') {
+                        if (!$test = $form->model()->test) {
+                            $test = new Test;
+                            $test->task()->associate($form->model());
+                            $test->save();
+                        }
+                    }
+                }
+            });
+
             $form->tab('Параметры', function ($form) {
                 $form->hidden('id');
-                $form->hidden('test.time');
-                $form->hidden('test.auto');
-
                 $form->text('name', 'Название');
-
                 $form->editor('content', 'Содержимое');
-
                 $form->select('type', 'Тип')->options([
                     'default' => 'По умолчанию',
                     'independent' => 'Самостоятельное',
-                    'fixation' => 'С закреплением материала',
-                    'evaluation' => 'С оценкой знаний'
+                    'test' => 'С тестом',
                 ])->value('default');
 
                 $select = $form->select('module_id', 'Модуль')->options(function ($id) {
                     $module = Module::find($id);
-
                     return $module ? [$module->id => $module->name] : null;
                 });
                 if (request()->has('module_id')) {
@@ -157,40 +181,7 @@ class TaskController extends Controller
 
                 $form->multipleFile('files', 'Файлы');
             });
-
-            if ($this->task) {
-                $data = $this->task->toArray();
-                $type = $data['type'];
-
-                if (in_array($type, ['fixation', 'evaluation'])) {
-                    $form->tab('Тест', function ($form) use ($type) {
-                        if (!$test = $this->task->test) {
-                            $test = new Test;
-                            $test->save();
-                            $this->task->test()->associate($test);
-                            $this->task->save();
-                        }
-                        if ($type === 'evaluation') {
-                            $form->text('test.time', 'Время на прохождение');
-                            $form->text('test.auto', 'Автоматическое прохождение');
-                        }
-                        $form->html("<div id='test-form-fixation' data-test_id='" . $test->id . "'></div>");
-                    });
-
-                    // 'default' => 'По умолчанию',
-                    // 'independent' => 'Самостоятельное',
-                    // 'fixation' => 'С закреплением материала',
-                    // 'evaluation' => 'С оценкой знаний'
-                }
-            }
         });
-    }
-
-    public function lessons()
-    {
-        $tree = new LessonsTree($this->task);
-
-        return $tree;
     }
 
     /**

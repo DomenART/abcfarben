@@ -3,34 +3,51 @@ import { Route, Redirect } from 'react-router'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 
-const PrivateRoute = ({ component: Component, roles, data, ...rest }) => (
-  <Route {...rest} render={props => {
-    if (!data.isAuthenticated) {
-      return (
-        <Redirect to={{
-          pathname: '/login',
-          state: {from: props.location}
-        }} />
-      )
-    }
+const PrivateRoute = ({
+  component: Component, roles = [],
+  data: { isAuthenticated, loading, error, currentUser: user },
+  ...rest
+}) => {
+  if (loading)
+    return <div className="preloader preloader_absolute" />
 
-      // if (roles && roles.length) {
-      //     if (!roles.filter(role => user.roles.filter(({ slug }) => slug === role).length).length) {
-      //         return (
-      //             <Redirect to={{ pathname: '/' }} />
-      //         )
-      //     }
-      // }
+  if (error)
+    return <div className="uk-alert-danger" data-uk-alert>{error.message}</div>
 
-    return <Component {...props}/>
-  }}/>
-)
+  return (
+    <Route {...rest} render={props => {
+      if (!isAuthenticated) {
+        return (
+          <Redirect to={{
+            pathname: '/login',
+            state: {from: props.location}
+          }} />
+        )
+      }
 
-const AUTH_QUERY = gql`
+      if (!!roles.length) {
+        if (!user.roles || !roles.filter(role => !!user.roles.filter(({ slug }) => slug === role).length).length) {
+          return (
+            <Redirect to={{ pathname: '/' }} />
+          )
+        }
+      }
+
+      return <Component {...props}/>
+    }} />
+  )
+}
+
+const query = gql`
   query authQuery {
     isAuthenticated @client
-    token @client
+    currentUser {
+      id
+      roles {
+        slug
+      }
+    }
   }
 `
 
-export default graphql(AUTH_QUERY)(PrivateRoute)
+export default graphql(query)(PrivateRoute)

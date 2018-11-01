@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Encore\Admin\Facades\Admin;
 
 class Task extends Model
 {
@@ -12,25 +13,8 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'type', 'test_content', 'content', 'order', 'module_id', 'test_id', 'test_time', 'test_auto'
+        'name', 'description', 'type', 'content', 'order', 'module_id', 'test_id'
     ];
-
-    /**
-     * Массив полей, которые отображаются только при наличии доступа к задаче.
-     *
-     * @var array
-     */
-    protected $private = [
-        'content', 'type', 'files'
-    ];
-
-    public function getAttribute($key)
-    {
-        if (in_array($key, $this->private) && !$this->isHasAccess()) {
-            return null;
-        }
-        return parent::getAttribute($key);
-    }
 
     /**
      * @var array
@@ -95,7 +79,7 @@ class Task extends Model
     }
 
     public function getStatus() {
-        if ($status = $this->statuses()->owner()->first()) {
+        if ($status = $this->statuses()->owner()->latest()) {
             return $status->getLabel();
         }
         return null;
@@ -137,7 +121,7 @@ class Task extends Model
         }
     }
 
-    public function read() {
+    public function setSuccess() {
         $user_id = auth()->user()->id;
 
         $this->statuses()->firstOrCreate([
@@ -198,6 +182,6 @@ class Task extends Model
 
     public function test()
     {
-        return $this->belongsTo(Test::class);
+        return $this->hasOne(Test::class);
     }
 }
