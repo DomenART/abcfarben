@@ -5,6 +5,7 @@ namespace App\GraphQL\Type;
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as BaseType;
 use GraphQL;
+use App\Models\ProgramMember;
 
 class ProgramType extends BaseType
 {
@@ -53,6 +54,9 @@ class ProgramType extends BaseType
             ],
             'expert_thread_id' => [
                 'type' => Type::int(),
+                'args' => [
+                    'member_id' => ['type' => Type::int()],
+                ]
             ],
             'expert_dialog_title' => [
                 'type' => Type::string(),
@@ -62,6 +66,9 @@ class ProgramType extends BaseType
             ],
             'curator_thread_id' => [
                 'type' => Type::int(),
+                'args' => [
+                    'member_id' => ['type' => Type::int()],
+                ]
             ],
             'curator_dialog_title' => [
                 'type' => Type::string(),
@@ -116,29 +123,68 @@ class ProgramType extends BaseType
         return null;
     }
 
+    // protected function resolveExpertThreadIdField($root, $args)
+    // {
+    //     $user_id = auth()->user()->id;
+    //     if ($thread = $root->threads()->firstOrCreate([
+    //         'student_id' => $user_id,
+    //         'program_id' => $root->id,
+    //         'expert_id' => $root->expert_id
+    //     ])) {
+    //         return $thread->id;
+    //     }
+    //     return null;
+    // }
+
     protected function resolveExpertThreadIdField($root, $args)
     {
-        $user_id = auth()->user()->id;
+        if (!empty($args['member_id'])) {
+            // TODO: продумать лучше проверку доступа
+            if (!auth()->user()->isRole('expert')) {
+                throw new \Exception('Access denied');
+            }
+            $member = ProgramMember::find($args['member_id']);
+        } else {
+            $member = ProgramMember::where([
+                'student_id' => auth()->user()->id,
+                'program_id' => $root->id
+            ])->first();
+        }
+
         if ($thread = $root->threads()->firstOrCreate([
-            'student_id' => $user_id,
-            'program_id' => $root->id,
+            'student_id' => $member->student_id,
+            'program_id' => $member->program_id,
             'expert_id' => $root->expert_id
         ])) {
             return $thread->id;
         }
+
         return null;
     }
 
     protected function resolveCuratorThreadIdField($root, $args)
     {
-        $user_id = auth()->user()->id;
+        if (!empty($args['member_id'])) {
+            // TODO: продумать лучше проверку доступа
+            if (!auth()->user()->isRole('curator')) {
+                throw new \Exception('Access denied');
+            }
+            $member = ProgramMember::find($args['member_id']);
+        } else {
+            $member = ProgramMember::where([
+                'student_id' => auth()->user()->id,
+                'program_id' => $root->id
+            ])->first();
+        }
+
         if ($thread = $root->threads()->firstOrCreate([
-            'student_id' => $user_id,
-            'program_id' => $root->id,
-            'curator_id' => $root->curator_id
+            'student_id' => $member->student_id,
+            'program_id' => $member->program_id,
+            'curator_id' => $member->curator_id
         ])) {
             return $thread->id;
         }
+
         return null;
     }
 }

@@ -144,7 +144,7 @@ class PageWrap extends Component {
                 )} />
 
                 <Route path={`${url}/dialog`} exact render={() => (
-                  <MemberDialog />
+                  <MemberDialog {...member.program} />
                 )} />
 
                 <Route path={`${url}/tasks/:task`} exact render={props => (
@@ -185,6 +185,9 @@ query Members(
       id
       name
       annotation
+      curator_dialog_content
+      curator_dialog_title
+      curator_thread_id(member_id: $member_id)
       modules {
         id
         name

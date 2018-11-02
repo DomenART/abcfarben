@@ -2,12 +2,13 @@
 
 namespace App\GraphQL\Query;
 
-use App\Models\User;
-use App\Models\ProgramMember;
 use Folklore\GraphQL\Support\Query;
 use GraphQL\Type\Definition\Type;
 use GraphQL;
+
+use App\Models\User;
 use App\Models\Program;
+use App\Models\ProgramMember;
 
 class MembersQuery extends Query
 {
@@ -42,6 +43,10 @@ class MembersQuery extends Query
             $user_id = auth()->user()->id;
             if ($args['scope'] === 'curator') {
                 $query->curator($user_id);
+            }
+            else if ($args['scope'] === 'expert') {
+                $program_ids = Program::where('expert_id', $user_id)->get()->pluck('id')->all();
+                $query->where('program_id', $program_ids);
             }
         }
 

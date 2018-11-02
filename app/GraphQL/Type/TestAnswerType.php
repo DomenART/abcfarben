@@ -24,9 +24,19 @@ class TestAnswerType extends BaseType
             // 'order' => [
             //     'type' => Type::int(),
             // ],
-            // 'correct' => [
-            //     'type' => Type::boolean(),
-            // ],
+            'correct' => [
+                'type' => Type::boolean(),
+            ],
         ];
+    }
+
+    protected function resolveCorrectField($root, $args)
+    {
+        // TODO: продумать лучше проверку доступа
+        if (auth()->user()->isRole('curator')) {
+            return $root->correct;
+        }
+
+        return null;
     }
 }

@@ -38,8 +38,25 @@
   &_danger {
     background-color: #ffd3d3;
   }
+  &_warning {
+    background-color: #fff9cb;
+  }
 }
 
 label.test-panel__list-item {
   cursor: pointer;
+}
+
+.test-panel__list-item-check {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 1px solid #26bf26;
+  color: #26bf26;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
 }

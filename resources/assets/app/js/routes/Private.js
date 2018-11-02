@@ -1,11 +1,22 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router'
 import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
+import { graphql, Query } from 'react-apollo'
+
+const queryCurrentUser = gql`
+query {
+  currentUser {
+    id
+    roles {
+      slug
+    }
+  }
+}
+`
 
 const PrivateRoute = ({
   component: Component, roles = [],
-  data: { isAuthenticated, loading, error, currentUser: user },
+  data: { isAuthenticated, loading, error },
   ...rest
 }) => {
   if (loading)
@@ -26,28 +37,33 @@ const PrivateRoute = ({
       }
 
       if (!!roles.length) {
-        if (!user.roles || !roles.filter(role => !!user.roles.filter(({ slug }) => slug === role).length).length) {
-          return (
-            <Redirect to={{ pathname: '/' }} />
-          )
-        }
-      }
+        return(
+          <Query query={queryCurrentUser}>
+            {({ loading, error, data: { currentUser } }) => {
+              if (loading)
+                return <div className="preloader" />
 
-      return <Component {...props}/>
+              if (error)
+                return <div className="uk-alert-danger" data-uk-alert>{error.message}</div>
+
+              if (!currentUser.roles || !roles.filter(role => !!currentUser.roles.filter(({ slug }) => slug === role).length).length) {
+                return <Redirect to={{ pathname: '/' }} />
+              } else {
+                return <Component {...props}/>
+              }
+            }}
+          </Query>
+        )
+      } else {
+        return <Component {...props}/>
+      }
     }} />
   )
 }
 
 const query = gql`
-  query authQuery {
-    isAuthenticated @client
-    currentUser {
-      id
-      roles {
-        slug
-      }
-    }
-  }
+query authQuery {
+  isAuthenticated @client
+}
 `
-
 export default graphql(query)(PrivateRoute)

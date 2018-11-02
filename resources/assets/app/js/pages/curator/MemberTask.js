@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import classNames from "classnames"
 import Head from '../../components/Head'
 import Materials from '../../components/Materials'
 import Dialog from '../../components/Dialog'
@@ -69,17 +68,19 @@ class MemberTask extends Component {
               <div id="statusses" data-uk-modal>
                 <div className="uk-modal-dialog uk-modal-body">
                   <table className="uk-table uk-table-striped uk-table-small">
-                    {task.statuses.map(row => (
-                      <tr key={row.id}>
-                        <td>
-                          {row.status === 'success' && 'Выполнен'}
-                          {row.status === 'primary' && 'Не выполнен'}
-                          {row.status === 'warning' && 'Выполняется'}
-                          {row.status === 'danger' && 'Возвращен'}
-                        </td>
-                        <td>{row.created_at}</td>
-                      </tr>
-                    ))}
+                    <tbody>
+                      {task.statuses.map(row => (
+                        <tr key={row.id}>
+                          <td>
+                            {row.status === 'success' && 'Выполнен'}
+                            {row.status === 'primary' && 'Не выполнен'}
+                            {row.status === 'warning' && 'Выполняется'}
+                            {row.status === 'danger' && 'Возвращен'}
+                          </td>
+                          <td>{row.created_at}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               </div>

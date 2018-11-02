@@ -13120,7 +13120,14 @@ iframe.uk-cover {
   border: 0;
   position: relative;
   background: transparent;
+  color: #cacaca;
+  display: inline-block;
   cursor: pointer;
+  transition: color 0.25s;
+}
+.notification-btn:hover {
+  color: #969da9;
+  text-decoration: none;
 }
 .notification-btn:hover .notification-btn__icon {
   fill: #969da9;
@@ -16030,8 +16037,25 @@ iframe.uk-cover {
 .test-panel__list-item_danger {
   background-color: #ffd3d3;
 }
+.test-panel__list-item_warning {
+  background-color: #fff9cb;
+}
 label.test-panel__list-item {
   cursor: pointer;
+}
+.test-panel__list-item-check {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 1px solid #26bf26;
+  color: #26bf26;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
 }
 .curator-table th {
   font-size: 16px;

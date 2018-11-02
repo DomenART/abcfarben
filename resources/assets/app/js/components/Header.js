@@ -126,11 +126,13 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                 {user.roles && !!user.roles.filter(role => role.slug === 'curator').length && (
                     <Link to="/curator" className="main-header__notification-btn notification-btn">
                         <SvgIcon name="lock" className="notification-btn__icon" />
-                        {/* {curator.unreadMessages > 0 && (
-                            <div className="notification-btn__counter">
-                                <span>{curator.unreadMessages}</span>
-                            </div>
-                        )} */}
+                        Куратор
+                    </Link>
+                )}
+                {user.roles && !!user.roles.filter(role => role.slug === 'expert').length && (
+                    <Link to="/expert" className="main-header__notification-btn notification-btn">
+                        <SvgIcon name="lock" className="notification-btn__icon" />
+                        Эксперт
                     </Link>
                 )}
             </div>

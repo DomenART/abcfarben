@@ -124,11 +124,18 @@ class TaskType extends BaseType
     protected function resolveStatusesField($root, $args)
     {
         $statuses = $root->statuses();
-        // TODO: нужна проверка на роль, получить данные может только куратор
         if (!empty($args['member_id'])) {
+            // TODO: продумать лучше проверку доступа
+            if (!auth()->user()->isRole('curator')) {
+                throw new \Exception('Access denied');
+            }
             $member = ProgramMember::find($args['member_id']);
             $statuses->user($member->student_id);
         } else if (!empty($args['student_id'])) {
+            // TODO: продумать лучше проверку доступа
+            if (!auth()->user()->isRole('curator')) {
+                throw new \Exception('Access denied');
+            }
             $statuses->user($args['student_id']);
         } else {
             $statuses->owner();

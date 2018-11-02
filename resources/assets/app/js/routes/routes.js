@@ -6,8 +6,8 @@ import User from '../pages/user'
 import ProfileEdit from '../pages/profileEdit'
 import CuratorMembers from '../pages/curator/Members'
 import CuratorMember from '../pages/curator/Member'
-// import CuratorList from '../pages/curatorList'
-// import CuratorDialog from '../pages/curatorDialog'
+import ExpertMembers from '../pages/expert/Members'
+import ExpertMember from '../pages/expert/Member'
 import ForgotPassword from '../pages/forgotPassword'
 import ResetPassword from '../pages/resetPassword'
 import NoMatch from '../pages/noMatch'
@@ -61,13 +61,6 @@ const routes = [
         auth: true,
         component: ProfileEdit
     },
-    // {
-    //     path: '/curator/:thread',
-    //     exact: false,
-    //     auth: true,
-    //     roles: ['curator'],
-    //     component: CuratorDialog
-    // },
     {
         path: '/curator',
         exact: true,
@@ -81,6 +74,20 @@ const routes = [
         auth: true,
         roles: ['curator'],
         component: CuratorMember
+    },
+    {
+        path: '/expert',
+        exact: true,
+        auth: true,
+        roles: ['expert'],
+        component: ExpertMembers
+    },
+    {
+        path: '/expert/:member',
+        exact: false,
+        auth: true,
+        roles: ['expert'],
+        component: ExpertMember
     },
     {
         path: '',

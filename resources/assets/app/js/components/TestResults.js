@@ -33,13 +33,24 @@ class TestReults extends Component {
     .catch(catchErrorsNotification)
   }
 
-  getAnswerCls(id, cls) {
+  getAnswerCls(answer_id, answers, cls) {
     const { data: { tests: [test] } } = this.props
-    const found = test.result && test.result.report.filter(row => row.id === id)[0]
 
-    if (!found) return false
+    if (!test.result) return false
 
-    return cls[found.success ? 'success' : 'danger']
+    const reported_answers = answers.filter(answer => {
+      return !!test.result.report.filter(row => row.id === answer.id && row.checked).length
+    })
+
+    if (!reported_answers.length) {
+      return cls['warning']
+    }
+
+    const found = test.result.report.filter(row => row.id === answer_id)
+
+    if (!found.length) return false
+
+    return cls[found[0].success ? 'success' : 'danger']
   }
 
   isChecked(id) {
@@ -93,9 +104,10 @@ class TestReults extends Component {
               {question.answers.map(answer => (
                 <label
                   key={answer.id}
-                  className={classNames('test-panel__list-item', this.getAnswerCls(answer.id, {
+                  className={classNames('test-panel__list-item', this.getAnswerCls(answer.id, question.answers, {
                     'success': 'test-panel__list-item_success',
-                    'danger': 'test-panel__list-item_danger'
+                    'danger': 'test-panel__list-item_danger',
+                    'warning': 'test-panel__list-item_warning',
                   }))}
                 >
                   <input
@@ -106,6 +118,11 @@ class TestReults extends Component {
                     disabled={true}
                   />
                   {answer.title}
+                  {answer.correct && (
+                    <div className="test-panel__list-item-check">
+                      <span data-uk-icon="icon: check"></span>
+                    </div>
+                  )}
                 </label>
               ))}
             </div>
@@ -138,6 +155,7 @@ query TestReults(
       answers {
         id
         title
+        correct
       }
     }
     result(student_id: $student_id) {
