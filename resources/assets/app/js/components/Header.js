@@ -86,14 +86,9 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                         <div className="notification-btn__counter"><span>{notifications.length}</span></div>
                     )}
                 </button>
-                {notifications.length > 0 && (
-                    <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
+                    {/* <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
                         <div className="notifications__inner">
-                            <NotificationsList
-                                items={notifications}
-                                deleteNotification={deleteNotification}
-                            />
-                            {/*<div className="notification-item">
+                        <div className="notification-item">
                             <div className="notification-item__title">
                                 Программа, к которой относится уведомление
                             </div>
@@ -119,7 +114,16 @@ const Header = ({ user, notifications = [], curator, isCurator, deleteNotificati
                                 </a>
                                 <button className="notification-item__remove-btn" type="button" />
                             </div>
-                        </div>*/}
+                        </div>
+                        </div>
+                    </div> */}
+                {notifications.length > 0 && (
+                    <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
+                        <div className="notifications__inner">
+                            <NotificationsList
+                                items={notifications}
+                                deleteNotification={deleteNotification}
+                            />
                         </div>
                     </div>
                 )}

@@ -97,7 +97,13 @@ const PageWrap = ({
             <button className="menu-btn" data-uk-icon="icon: menu" type="button" data-uk-toggle="target: #menubar" />
           </div>
         </div>
-      ) : <h1>У вас нет доступа к данной программе</h1>}
+      ) : (
+        <div className="uk-container uk-container-center">
+          <div className="container">
+            <h1 className="program__title">У вас нет доступа к данной программе</h1>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

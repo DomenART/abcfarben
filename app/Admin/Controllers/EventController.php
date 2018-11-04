@@ -94,6 +94,13 @@ class EventController extends Controller
             $form->text('annotation', 'Аннотация');
             $form->editor('content', 'Содержимое');
             $form->date('created_at', 'Дата создания');
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
+            });
         });
     }
 }

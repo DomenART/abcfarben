@@ -45,6 +45,8 @@ class UserController extends EncoreUserController
                 if ($actions->getKey() == 1) {
                     $actions->disableDelete();
                 }
+
+                $actions->disableView();
             });
             $grid->tools(function (Grid\Tools $tools) {
                 $tools->batch(function (Grid\Tools\BatchActions $actions) {
@@ -101,6 +103,13 @@ class UserController extends EncoreUserController
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = bcrypt($form->password);
                 }
+            });
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
             });
         });
     }

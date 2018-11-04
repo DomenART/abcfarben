@@ -54,7 +54,7 @@ Route::group([
         'modules' => ModuleController::class,
         'positions' => PositionController::class,
         'programs' => ProgramController::class,
-        'statuses' => ProgramStatusController::class,
+        'members' => ProgramMemberController::class,
         'auth/users' => UserController::class,
         'events' => EventController::class,
         'wiki' => WikiController::class,

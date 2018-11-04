@@ -72,7 +72,7 @@ class TaskController extends Controller
 
             $form->tools(function (Form\Tools $tools) use ($form) {
                 $tools->disableListButton();
-                $tools->add('<div class="btn-group pull-right"><a href="/admin/modules/' . $form->model->module_id . '#tab-form-2" class="btn btn-sm btn-info">Перейти к модулю</a></div>');
+                $tools->add('<div class="btn-group pull-right"><a href="/admin/modules/' . $form->model->module_id . '/edit#tab-form-2" class="btn btn-sm btn-info">Перейти к модулю</a></div>');
             });
 
             $content->body($form);
@@ -128,6 +128,10 @@ class TaskController extends Controller
                     });
                 }, 'Модуль')->select('/' . config('admin.route.prefix') . '/api/modules/filter/list');
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -180,6 +184,13 @@ class TaskController extends Controller
                 $select->ajax('/admin/api/modules/list');
 
                 $form->multipleFile('files', 'Файлы');
+            });
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
             });
         });
     }

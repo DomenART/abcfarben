@@ -151,7 +151,7 @@ class ProgramType extends BaseType
             ])->first();
         }
 
-        if ($thread = $root->threads()->firstOrCreate([
+        if ($member && $thread = $root->threads()->firstOrCreate([
             'student_id' => $member->student_id,
             'program_id' => $member->program_id,
             'expert_id' => $root->expert_id
@@ -177,7 +177,7 @@ class ProgramType extends BaseType
             ])->first();
         }
 
-        if ($thread = $root->threads()->firstOrCreate([
+        if ($member && $thread = $root->threads()->firstOrCreate([
             'student_id' => $member->student_id,
             'program_id' => $member->program_id,
             'curator_id' => $member->curator_id

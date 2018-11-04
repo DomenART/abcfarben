@@ -82,6 +82,10 @@ class WikiController extends Controller
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('title');
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -100,6 +104,13 @@ class WikiController extends Controller
                 $form->hidden('id', 'ID');
                 $form->text('title');
                 $form->editor('content', 'Содержимое');
+
+                $form->tools(function (Form\Tools $tools) {
+                    $tools->disableView();
+                });
+                $form->footer(function ($footer) {
+                    $footer->disableViewCheck();
+                });
             });
         });
     }

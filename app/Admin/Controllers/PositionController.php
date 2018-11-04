@@ -83,6 +83,10 @@ class PositionController extends Controller
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('name');
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -110,6 +114,13 @@ class PositionController extends Controller
         return Admin::form(Position::class, function (Form $form) {
             $form->display('id', 'ID');
             $form->text('name')->default('');
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
+            });
         });
     }
 

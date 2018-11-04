@@ -18,7 +18,7 @@ const stateLink = withClientState({
 
 // const httpLink = createHttpLink({
 const httpLink = createUploadLink({
-  uri: 'http://localhost:8080/graphql'
+  uri: '/graphql'
 })
 
 const authLink = setContext((_, { headers }) => {

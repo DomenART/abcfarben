@@ -11,7 +11,7 @@ class Notification extends Model
     ];
 
     protected $fillable = [
-        'title', 'user_id', 'program_id', 'type', 'data'
+        'title', 'user_id', 'program_id', 'data'
     ];
 
     public function scopeOwner($query)

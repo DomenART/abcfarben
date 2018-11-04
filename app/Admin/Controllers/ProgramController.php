@@ -85,6 +85,10 @@ class ProgramController extends Controller
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('name');
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -153,6 +157,13 @@ class ProgramController extends Controller
 
                 });
             }
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
+            });
         });
     }
 

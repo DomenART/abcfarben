@@ -35,6 +35,10 @@ mutation StartProgram($program_id: Int!) {
 `
 
 export default compose(
-  graphql(query),
+  graphql(query, {
+    options: {
+      fetchPolicy: "network-only"
+    }
+  }),
   graphql(mutation, { name: 'startProgram' })
 )(Page)

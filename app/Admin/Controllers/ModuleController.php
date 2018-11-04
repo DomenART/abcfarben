@@ -105,6 +105,10 @@ class ModuleController extends Controller
                     });
                 }, 'Программа')->select($pathPrograms);
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -133,6 +137,13 @@ class ModuleController extends Controller
                         ]);
                     }
                 });
+            });
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
             });
         });
     }

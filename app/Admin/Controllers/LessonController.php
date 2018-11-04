@@ -52,7 +52,7 @@ class LessonController extends Controller
             $form->edit($id);
             $form->tools(function (Form\Tools $tools) use ($form) {
                 $tools->disableListButton();
-                $tools->add('<div class="btn-group pull-right"><a href="/admin/tasks/' . $form->model->task_id . '#tab-form-2" class="btn btn-sm btn-info">Перейти к заданию</a></div>');
+                $tools->add('<div class="btn-group pull-right"><a href="/admin/tasks/' . $form->model->task_id . '/edit#tab-form-2" class="btn btn-sm btn-info">Перейти к заданию</a></div>');
             });
             $content->body($form);
         });
@@ -106,6 +106,10 @@ class LessonController extends Controller
                 }, 'Задание')->select('/' . config('admin.route.prefix') . '/api/tasks/filter/list');
 
             });
+
+            $grid->actions(function ($actions) {
+                $actions->disableView();
+            });
         });
     }
 
@@ -130,6 +134,13 @@ class LessonController extends Controller
                     $select->value(request()->input('task_id'));
                 }
                 $select->ajax('/admin/api/tasks/list');
+            });
+
+            $form->tools(function (Form\Tools $tools) {
+                $tools->disableView();
+            });
+            $form->footer(function ($footer) {
+                $footer->disableViewCheck();
             });
         });
     }
