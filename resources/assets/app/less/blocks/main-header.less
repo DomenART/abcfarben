@@ -101,8 +101,13 @@
 }
 
 .main-header__notification-btn {
-    margin-right: 35px;
-    padding: 0;
+    .notification-btn {
+        margin-right: 35px;
+        padding: 0;
+        @media (max-width: @breakpoint-small) {
+            margin-right: 0;
+        }
+    }
     .notification-btn__icon {
         height: 22px;
     }
@@ -112,9 +117,6 @@
         font-size: 9px;
         top: -9px;
         right: -9px;
-    }
-    @media (max-width: @breakpoint-small) {
-        margin-right: 0;
     }
 }
 

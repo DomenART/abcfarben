@@ -33,7 +33,6 @@ mutation StartProgram($program_id: Int!) {
   }
 }
 `
-
 export default compose(
   graphql(query, {
     options: {

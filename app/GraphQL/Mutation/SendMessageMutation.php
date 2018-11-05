@@ -57,7 +57,7 @@ class SendMessageMutation extends Mutation
             $message->save();
         }
 
-        // $message->createNotifications();
+        $message->createNotification();
 
         return $message;
     }

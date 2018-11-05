@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    protected $casts = [
-        'data' => 'array',
-    ];
+    // protected $casts = [
+    //     'data' => 'array',
+    // ];
 
     protected $fillable = [
-        'title', 'user_id', 'program_id', 'data'
+        'title', 'group', 'icon', 'uri', 'user_id'
     ];
 
     public function scopeOwner($query)
@@ -19,10 +19,10 @@ class Notification extends Model
         return $query->where('user_id', request()->user()->id);
     }
 
-    public function scopeOrder($query)
-    {
-        return $query->orderBy('created_at', 'desc');
-    }
+    // public function scopeOrder($query)
+    // {
+    //     return $query->orderBy('created_at', 'desc');
+    // }
 
     public function program()
     {

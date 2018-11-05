@@ -137,7 +137,8 @@ return [
                 'messages' => 'App\GraphQL\Query\MessagesQuery',
                 'tests' => 'App\GraphQL\Query\TestsQuery',
                 'currentUser' => 'App\GraphQL\Query\CurrentUserQuery',
-                'members' => 'App\GraphQL\Query\MembersQuery'
+                'members' => 'App\GraphQL\Query\MembersQuery',
+                'notifications' => 'App\GraphQL\Query\NotificationsQuery'
             ],
             'mutation' => [
                 'updateProfile' => 'App\GraphQL\Mutation\UpdateProfileMutation',
@@ -154,6 +155,7 @@ return [
                 'resetTestResult' => 'App\GraphQL\Mutation\ResetTestResultMutation',
                 'updateTestResult' => 'App\GraphQL\Mutation\UpdateTestResultMutation',
                 'updateTaskStatus' => 'App\GraphQL\Mutation\UpdateTaskStatusMutation',
+                'deleteNotification' => 'App\GraphQL\Mutation\DeleteNotificationMutation',
             ]
         ]
     ],
@@ -225,6 +227,7 @@ return [
         'TestResult' => 'App\GraphQL\Type\TestResultType',
         'TestResultReportItem' => 'App\GraphQL\Type\TestResultReportItemType',
         'Status' => 'App\GraphQL\Type\StatusType',
+        'Notification' => 'App\GraphQL\Type\NotificationType',
     ],
 
     /*

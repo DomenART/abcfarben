@@ -294,6 +294,20 @@ class Program extends Model
         return $response;
     }
 
+    /**
+     * @return string
+     */
+    public function getCuratorUri() {
+        return "/programs/{$this->id}/curator";
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpertUri() {
+        return "/programs/{$this->id}/expert";
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'program_has_users');

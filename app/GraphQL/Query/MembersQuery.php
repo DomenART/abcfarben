@@ -46,7 +46,7 @@ class MembersQuery extends Query
             }
             else if ($args['scope'] === 'expert') {
                 $program_ids = Program::where('expert_id', $user_id)->get()->pluck('id')->all();
-                $query->where('program_id', $program_ids);
+                $query->whereIn('program_id', $program_ids);
             }
         }
 

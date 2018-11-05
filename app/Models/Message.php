@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Notifications\ExpertNewMessage;
+
 class Message extends Model
 {
     protected $dates = ['created_at', 'updated_at'];
@@ -32,40 +34,93 @@ class Message extends Model
         });
     }
 
-    public function createNotifications() {
+    public function createNotification() {
+        $thread = $this->thread;
+        $program = $thread->program;
+        $task = $thread->task;
 
-        switch (get_class($this->thread->threadable)) {
-            case 'App\Models\TaskStatus':
-                $threadable = $this->thread->threadable;
-                if ($threadable->user_id != request()->user()->id) {
-                    $task = $threadable->task;
-                    Notification::create([
-                        'title' => 'Новое сообщение к заданию "' . $task->name . '"',
-                        'user_id' => $threadable->user_id,
-                        'program_id' => $this->thread->program_id,
-                        'type' => 'task',
-                        'data' => [
-                            'program_id' => $this->thread->program_id,
-                            'module_id' => $task->module->id,
-                            'task_id' => $task->id,
-                        ]
-                    ]);
-                }
-                break;
-            case 'App\Models\ProgramStatus':
-                $threadable = $this->thread->threadable;
-                if ($threadable->user_id != request()->user()->id) {
-                    Notification::create([
-                        'title' => 'Новый ответ эксперта',
-                        'user_id' => $threadable->user_id,
-                        'program_id' => $this->thread->program_id,
-                        'type' => 'program',
-                        'data' => [
-                            'program_id' => $this->thread->program_id
-                        ]
-                    ]);
-                }
-                break;
+        // сообщение в задаче
+        if (!empty($thread->task_id)) {
+            // сообщение от куратора пользователю
+            if ($program->members()->where([
+                ['curator_id', $this->user_id],
+                ['student_id', $thread->student_id]
+            ])->count()) {
+                Notification::create([
+                    'user_id' => $thread->student_id,
+                    'title' => "Новое сообщение в задаче {$task->name}",
+                    'group' => $program->name,
+                    'icon' => 'doc',
+                    'uri' => $task->getUri($program->id)
+                ]);
+            }
+            // сообщение от пользователя куратору
+            else {
+                $member = $program->members()->where('student_id', $this->user_id)->first();
+                Notification::create([
+                    'user_id' => $member->curator_id,
+                    'title' => "Новое сообщение в задаче {$task->name}",
+                    'group' => $program->name,
+                    'icon' => 'doc',
+                    'uri' => "/curator/{$member->id}/tasks/{$task->id}"
+                ]);
+            }
+        }
+
+        // сообщение в вопросах куратору
+        else if (!empty($thread->curator_id)) {
+            // сообщение от куратора пользователю
+            if ($this->user_id === $thread->curator_id) {
+                Notification::create([
+                    'user_id' => $thread->student_id,
+                    'title' => "Новый ответ куратора",
+                    'group' => $program->name,
+                    'icon' => 'bubbles',
+                    'uri' => $program->getCuratorUri()
+                ]);
+            }
+            // сообщение от пользователя куратору
+            else {
+                $member = $program->members()->where('student_id', $this->user_id)->first();
+                Notification::create([
+                    'user_id' => $member->curator_id,
+                    'title' => "Новый вопрос пользователя",
+                    'group' => $program->name,
+                    'icon' => 'bubbles',
+                    'uri' => "/curator/{$member->id}/dialog"
+                ]);
+            }
+        }
+
+        // сообщение в вопросах эксперту
+        else if (!empty($thread->expert_id)) {
+            // сообщение от эксперта пользователю
+            if ($this->user_id === $thread->expert_id) {
+                Notification::create([
+                    'user_id' => $thread->student_id,
+                    'title' => "Новый ответ эксперта",
+                    'group' => $program->name,
+                    'icon' => 'bubbles',
+                    'uri' => $program->getExpertUri()
+                ]);
+            }
+            // сообщение от пользователя эксперту
+            else {
+                $member = $program->members()->where('student_id', $this->user_id)->first();
+                Notification::create([
+                    'user_id' => $thread->expert_id,
+                    'title' => "Новый вопрос пользователя",
+                    'group' => $program->name,
+                    'icon' => 'bubbles',
+                    'uri' => "/expert/{$member->id}"
+                ]);
+
+                // Уведомление на почту
+                $user = User::find($thread->expert_id);
+                $user->notify(new ExpertNewMessage([
+                    'uri' => "/expert/{$member->id}"
+                ]));
+            }
         }
     }
 

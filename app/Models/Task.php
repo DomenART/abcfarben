@@ -111,6 +111,15 @@ class Task extends Model
         return null;
     }
 
+    /**
+     * @param integer $program_id
+     *
+     * @return string
+     */
+    public function getUri($program_id) {
+        return "/programs/{$program_id}/{$this->module->id}/{$this->id}";
+    }
+
     public function start() {
         $user_id = auth()->user()->id;
 

@@ -2,8 +2,7 @@ import React, { Fragment } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import classNames from 'classnames'
 import Head from "../../components/Head"
-import SvgIcon from "../../components/UI/SvgIcon"
-import NotificationsList from "../../components/NotificationsList"
+import HeaderNotifications from '../../components/HeaderNotifications'
 
 const Program = ({
   id, name, image, annotation, status, buttonHandler,
@@ -159,22 +158,7 @@ class Page extends React.Component {
                 <img className="courses__avatar" src={currentUser.avatar} alt="" />
               </Link>
 
-              <button className="notification-btn" type="button">
-                <SvgIcon name="bell" className="notification-btn__icon" />
-                {notifications && notifications.length > 0 && (
-                  <div className="notification-btn__counter"><span>{notifications.length}</span></div>
-                )}
-              </button>
-              {notifications && notifications.length > 0 && (
-                <div className="notifications" data-uk-dropdown="mode: click; pos: right-top;">
-                  <div className="notifications__inner">
-                    <NotificationsList
-                      items={notifications}
-                      // deleteNotification={authActions.deleteNotification}
-                    />
-                  </div>
-                </div>
-              )}
+              <HeaderNotifications />
             </div>
             <div className="courses__greetings">Добрый день, {currentUser.secondname} {currentUser.firstname}!</div>
             <div className="courses__choice">Выберите учебную программу:</div>
