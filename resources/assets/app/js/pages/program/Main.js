@@ -4,7 +4,7 @@ import romanize from "romanize"
 import SvgIcon from '../../components/UI/SvgIcon'
 import Head from "../../components/Head"
 
-const Main = ({ id, name, modules }) => {
+const Main = ({ id, name, content, modules }) => {
   const getStatusIcon = status => {
     switch (status) {
         case 'success': return 'doc-done'
@@ -36,6 +36,8 @@ const Main = ({ id, name, modules }) => {
           </span>
         </button>
       </div> */}
+
+      <div className="content" dangerouslySetInnerHTML={{__html:content}} />
 
       <div className="program__structure-heading">
         Структура программы
