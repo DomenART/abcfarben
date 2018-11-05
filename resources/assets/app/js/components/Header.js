@@ -82,9 +82,7 @@ const Header = ({ roles = [], id, name, avatar }) =>
           </div>
         </div>*/}
 
-        <div className="main-header__notification-btn">
-          <HeaderNotifications />
-        </div>
+        <HeaderNotifications />
 
         {roles && !!roles.filter(role => role.slug === 'curator').length && (
           <Link to="/curator" className="main-header__notification-btn notification-btn">
