@@ -73,7 +73,7 @@ class MemberTask extends Component {
                         <tr key={row.id}>
                           <td>
                             {row.status === 'success' && 'Выполнен'}
-                            {row.status === 'primary' && 'Не выполнен'}
+                            {/* {row.status === 'primary' && 'Не выполнен'} */}
                             {row.status === 'warning' && 'Выполняется'}
                             {row.status === 'danger' && 'Возвращен'}
                           </td>
@@ -95,7 +95,7 @@ class MemberTask extends Component {
             >
               <option value=""></option>
               <option value={'success'}>Выполнен</option>
-              <option value={'primary'}>Не выполнен</option>
+              {/* <option value={'primary'}>Не выполнен</option> */}
               <option value={'warning'}>Выполняется</option>
               <option value={'danger'}>Возвращен</option>
             </select>

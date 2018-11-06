@@ -58,6 +58,26 @@ class Status extends Model
         return $this;
     }
 
+    public function isPrimary()
+    {
+        return $this->status === 0;
+    }
+
+    public function isSuccess()
+    {
+        return $this->status === 1;
+    }
+
+    public function isWarning()
+    {
+        return $this->status === 2;
+    }
+
+    public function isDanger()
+    {
+        return $this->status === 3;
+    }
+
     public function scopeOwner($query)
     {
         $user_id = request()->user()->id;

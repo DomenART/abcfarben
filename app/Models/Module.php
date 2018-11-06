@@ -68,16 +68,21 @@ class Module extends Model
         $opened = true;
 
         foreach ($previous as $row) {
-            if (!$row->statuses()->owner()->success()->count()) {
-                $opened = false;
-            }
-            /*foreach ($row->tasks as $task) {
-                $status = $task->statuses()->owner()->first();
+            if ($row->tasks()->count()) {
+                foreach ($row->tasks as $task) {
+                    $status = $task->statuses()->owner()->latest()->first();
 
-                if (!$status || $status->status != 1) {
+                    if (!$status || !$status->isSuccess()) {
+                        $opened = false;
+                    }
+                }
+            } else {
+                $status = $row->statuses()->owner()->latest()->first();
+
+                if (!$status || !$status->isSuccess()) {
                     $opened = false;
                 }
-            }*/
+            }
         }
 
         return $opened;
@@ -106,7 +111,7 @@ class Module extends Model
             $program = Program::find($program);
         }
 
-        $output = false;
+        $output = null;
         $isNext = false;
         foreach ($program->modules as $module) {
             if ($isNext) {

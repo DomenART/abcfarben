@@ -20,7 +20,7 @@ import HeaderContainer from '../../containers/HeaderContainer'
 
 const PageWrap = ({
   match: { url },
-  data: { loading, error, programs }
+  data: { refetch, loading, error, programs }
 }) => {
   if (loading)
     return <div className="preloader" />
@@ -74,6 +74,7 @@ const PageWrap = ({
                   <ModuleContainer
                     {...props}
                     program={program}
+                    refetchProgram={refetch}
                   />
                 )} />
 

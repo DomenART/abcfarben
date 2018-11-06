@@ -108,27 +108,28 @@ class LessonsTree implements Renderable
               confirmButtonText: "$confirm",
               closeOnConfirm: false,
               cancelButtonText: "$cancel"
-            },
-            function(){
-                $.ajax({
-                    method: 'post',
-                    url: '{$this->pathUnbind}/' + id,
-                    data: {
-                        _method:'delete',
-                        _token:LA.token,
-                    },
-                    success: function (data) {
-                        $.pjax.reload('#pjax-container');
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        method: 'post',
+                        url: '{$this->path}/' + id,
+                        data: {
+                            _method:'delete',
+                            _token:LA.token,
+                        },
+                        success: function (data) {
+                            $.pjax.reload('#pjax-container');
 
-                        if (typeof data === 'object') {
-                            if (data.status) {
-                                swal(data.message, '', 'success');
-                            } else {
-                                swal(data.message, '', 'error');
+                            if (typeof data === 'object') {
+                                if (data.status) {
+                                    swal(data.message, '', 'success');
+                                } else {
+                                    swal(data.message, '', 'error');
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             });
         });
 

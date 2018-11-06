@@ -8,16 +8,13 @@ import Module from './Module'
 class ModuleContainer extends Component {
   read() {
     const {
-      program, readModule, match, history,
+      program, readModule, history, refetchProgram,
       data: { modules: [module] }
     } = this.props
 
-    readModule({
-      variables: {
-        module_id: match.params.module
-      }
-    })
+    readModule()
     .then(() => {
+      refetchProgram()
       if (module.next_module_id) {
         history.push(`/programs/${program.id}/${module.next_module_id}`)
       }
@@ -90,5 +87,13 @@ export default compose(
       }
     })
   }),
-  graphql(readModuleMutation, { name: 'readModule' })
+  graphql(readModuleMutation, {
+    name: 'readModule',
+    options: ({ match: { params }, program }) => ({
+      fetchPolicy: "network-only",
+      variables: {
+        module_id: params.module
+      }
+    })
+  })
 )(withRouter(ModuleContainer))
