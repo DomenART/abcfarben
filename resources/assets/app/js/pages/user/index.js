@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { graphql, Query, Mutation } from 'react-apollo'
+import React from 'react'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Page from './Page'
 
@@ -28,13 +28,8 @@ query User($id: Int!) {
   }
 }
 `
-const mutation = gql`
-mutation authToken($token: String!) {
-  assignAuthToken(token: $token) @client
-}
-`
 
-const PageWrap = (props) =>
+const PageWrap = props =>
   <Query
     query={query}
     variables={{
@@ -52,21 +47,14 @@ const PageWrap = (props) =>
         return <div className="uk-alert-danger" data-uk-alert>Пользователь не найден</div>
 
       return (
-        <Mutation mutation={mutation}>
-          {assignAuthToken => (
-            <Page
-              user={users[0]}
-              current={currentUser.id === users[0]['id']}
-              logout={() => {
-                assignAuthToken({
-                  variables: {
-                    token: ''
-                  }
-                }).then(() => client.resetStore())
-              }}
-            />
-          )}
-        </Mutation>
+        <Page
+          user={users[0]}
+          current={currentUser.id === users[0]['id']}
+          logout={() => {
+            localStorage.setItem('token', '')
+            client.resetStore()
+          }}
+        />
       )
     }}
   </Query>

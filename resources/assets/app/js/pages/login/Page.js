@@ -92,12 +92,11 @@ class Page extends Component {
   submit(credentials) {
     Http.post('/api/auth/login', credentials)
       .then(({ data: { token } }) => {
+        localStorage.setItem('token', token)
+        this.props.data.refetch()
         // const { token } = data
         // Http.defaults.headers.common['Authorization'] = `Bearer ${token}`
         // localStorage.setItem('token', token)
-        this.props.assignAuthToken({
-          variables: { token }
-        })
       })
       .catch(({ response }) => {
         const errors = response.data.errors || {}
@@ -138,8 +137,8 @@ class Page extends Component {
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
 
-    if (this.props.data.isAuthenticated) {
-      return <Redirect to={from}/>
+    if (!!this.props.data.currentUser) {
+      return <Redirect to={from} />
     }
 
     const { errors } = this.state

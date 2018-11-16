@@ -126,7 +126,7 @@ class Page extends Component {
   }
 
   render() {
-    if (this.props.data.isAuthenticated) {
+    if (!!this.props.data.currentUser) {
       return <Redirect to='/' replace />
     }
 

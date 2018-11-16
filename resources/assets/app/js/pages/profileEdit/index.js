@@ -2,33 +2,6 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Page from './Page'
 
-const queryCurrentUser = gql`
-query CurrentUser {
-  currentUser {
-    id
-    name
-    firstname
-    secondname
-    avatar
-    city
-    country
-    subdivision
-    sphere
-    about
-    email
-    email_public
-    phone
-    phone_public
-    skype
-    skype_public
-  }
-}
-`
-const mutationAssignAuthToken = gql`
-mutation authToken($token: String!) {
-  assignAuthToken(token: $token) @client
-}
-`
 const mutationUpdateProfile = gql`
 mutation updateProfile(
   $firstname: String!,
@@ -86,10 +59,7 @@ mutation ChangeAvatar($avatar: Upload!) {
   }
 }
 `
-
 export default compose(
-  graphql(queryCurrentUser, {fetchPolicy:'no-cache'}),
-  graphql(mutationAssignAuthToken, {name:'assignAuthToken'}),
   graphql(mutationUpdateProfile, {name:'updateProfile'}),
-  graphql(mutationChangeAvatar, {name:'changeAvatar'}),
+  graphql(mutationChangeAvatar, {name:'changeAvatar'})
 )(Page)

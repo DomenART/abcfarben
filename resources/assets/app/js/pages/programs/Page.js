@@ -100,10 +100,6 @@ class Page extends React.Component {
     redirect: ''
   }
 
-  componentDidMount() {
-    // this.props.authActions.loadNotifications()
-  }
-
   buttonHandler(program) {
     const { startProgram } = this.props
     const redirect = `/programs/${program.id}`
@@ -121,7 +117,6 @@ class Page extends React.Component {
 
   render() {
     const { programs, currentUser, loading, error } = this.props.data
-    const { notifications } = this.props
     const { redirect } = this.state
 
     if (loading) {

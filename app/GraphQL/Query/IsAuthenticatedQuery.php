@@ -7,15 +7,15 @@ use Folklore\GraphQL\Support\Query;
 use GraphQL\Type\Definition\Type;
 use GraphQL;
 
-class CurrentUserQuery extends Query
+class IsAuthenticatedQuery extends Query
 {
     protected $attributes = [
-        'name' => 'currentUser'
+        'name' => 'isAuthenticated'
     ];
 
     public function type()
     {
-        return GraphQL::type('User');
+        return Type::boolean();
     }
 
     public function args()
@@ -25,11 +25,7 @@ class CurrentUserQuery extends Query
 
     public function resolve()
     {
-      if (!auth()->check()) {
-        return null;
-        // throw new \Exception('User is not logged in');
-      }
-
-      return auth()->user();
+      return true;
+      return auth()->check();
     }
 }

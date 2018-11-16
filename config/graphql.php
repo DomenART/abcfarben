@@ -66,9 +66,7 @@ return [
     /**
      * Any middleware for a specific 'graphql' schema
      */
-    'middleware_schema' => [
-        'default' => [],
-    ],
+    'middleware_schema' => [],
 
     /*
      * Any headers that will be added to the response returned by the default controller
@@ -157,7 +155,7 @@ return [
                 'updateTaskStatus' => 'App\GraphQL\Mutation\UpdateTaskStatusMutation',
                 'deleteNotification' => 'App\GraphQL\Mutation\DeleteNotificationMutation',
             ]
-        ]
+        ],
     ],
 
     /*
