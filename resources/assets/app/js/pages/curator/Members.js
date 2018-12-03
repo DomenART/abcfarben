@@ -33,17 +33,19 @@ class PageWrap extends Component {
     const users = []
 
     members.forEach(member => {
-      if (!users.filter(user => user.id === member.student.id).length) {
-        if (active === null) {
-          users.push({
-            ...member.student,
-            member_id: member.id
-          })
-        } else if (member.program.id === active) {
-          users.push({
-            ...member.student,
-            member_id: member.id
-          })
+      if (member.student && member.program) {
+        if (!users.filter(user => user.id === member.student.id).length) {
+          if (active === null) {
+            users.push({
+              ...member.student,
+              member_id: member.id
+            })
+          } else if (member.program.id === active) {
+            users.push({
+              ...member.student,
+              member_id: member.id
+            })
+          }
         }
       }
     })
