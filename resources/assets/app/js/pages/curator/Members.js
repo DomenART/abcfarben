@@ -18,9 +18,11 @@ class PageWrap extends Component {
     const { data: { members } } = this.props
     const programs = []
 
-    members.forEach(row => {
-      if (!programs.filter(program => program.id === row.program.id).length) {
-        programs.push(row.program)
+    members.forEach(member => {
+      if (member.student && member.program) {
+        if (!programs.filter(program => program.id === member.program.id).length) {
+          programs.push(member.program)
+        }
       }
     })
 
@@ -34,7 +36,6 @@ class PageWrap extends Component {
 
     members.forEach(member => {
       if (member.student && member.program) {
-        console.log(member);
         if (!users.filter(user => user.id === member.student.id).length) {
           if (active === null) {
             users.push({
@@ -59,7 +60,9 @@ class PageWrap extends Component {
     const { active } = this.state
 
     return members.filter(member => {
-      return member.program.id === active
+      if (member.student && member.program) {
+        return member.program.id === active
+      }
     })[0].program.name
   }
 
