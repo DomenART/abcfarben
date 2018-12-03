@@ -34,6 +34,7 @@ class PageWrap extends Component {
 
     members.forEach(member => {
       if (member.student && member.program) {
+        console.log(member);
         if (!users.filter(user => user.id === member.student.id).length) {
           if (active === null) {
             users.push({
