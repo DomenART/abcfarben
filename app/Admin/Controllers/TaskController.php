@@ -146,8 +146,10 @@ class TaskController extends Controller
             $form->saving(function (Form $form) {
                 if ($form->model()->id) {
                     if ($test = $form->model()->test) {
-                        $test->fill($form->test);
-                        $test->save();
+                        if (is_array($form->test)) {
+                            $test->fill($form->test);
+                            $test->save();
+                        }
                     }
                 }
             });
