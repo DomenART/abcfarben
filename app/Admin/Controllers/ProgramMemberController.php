@@ -73,8 +73,10 @@ class ProgramMemberController extends Controller
             $grid->id('ID')->sortable();
 
             $grid->program_id('Программа')->display(function ($id) {
-                $program = Program::find($id);
-                return "<a href='/admin/programs/{$program->id}/edit'>{$program->name}</a>";
+                if ($program = Program::find($id)) {
+                  return "<a href='/admin/programs/{$program->id}/edit'>{$program->name}</a>";
+                }
+                return '<span class="label label-primary">Программа удалена</span>';
             });
 
             $grid->student_id('Пользователь')->display(function ($id) {
@@ -88,15 +90,16 @@ class ProgramMemberController extends Controller
             });
 
             $grid->column('status')->display(function () {
-                $program = Program::find($this->program_id);
-                if ($status = $program->statuses()->user($this->student_id)->latest()->first()) {
-                    switch ($status->getLabel()) {
-                        case 'primary': return  '<span class="label label-primary">Не начат</span>'; break;
-                        case 'success': return  '<span class="label label-success">Закончен</span>'; break;
-                        case 'warning': return  '<span class="label label-warning">В работе</span>'; break;
-                        case 'danger': return  '<span class="label label-danger">Возвращен</span>'; break;
-                        default: return  '<span class="label label-primary">Не начат</span>';
-                    }
+                if ($program = Program::find($this->program_id)) {
+                  if ($status = $program->statuses()->user($this->student_id)->latest()->first()) {
+                      switch ($status->getLabel()) {
+                          case 'primary': return  '<span class="label label-primary">Не начат</span>'; break;
+                          case 'success': return  '<span class="label label-success">Закончен</span>'; break;
+                          case 'warning': return  '<span class="label label-warning">В работе</span>'; break;
+                          case 'danger': return  '<span class="label label-danger">Возвращен</span>'; break;
+                          default: return  '<span class="label label-primary">Не начат</span>';
+                      }
+                  }
                 }
                 return '<span class="label label-primary">Не начат</span>';
             });

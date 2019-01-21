@@ -1284,16 +1284,16 @@
         },
         {
             "name": "laravel-admin-ext/media-manager",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/media-manager.git",
-                "reference": "16102ce6ffc788e459135c71cdb16da2fb5d1923"
+                "reference": "3545f3b88893ad4787ba89925503678b55b689c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/media-manager/zipball/16102ce6ffc788e459135c71cdb16da2fb5d1923",
-                "reference": "16102ce6ffc788e459135c71cdb16da2fb5d1923",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/media-manager/zipball/3545f3b88893ad4787ba89925503678b55b689c8",
+                "reference": "3545f3b88893ad4787ba89925503678b55b689c8",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1335,7 @@
                 "manager",
                 "media"
             ],
-            "time": "2018-04-25T06:10:18+00:00"
+            "time": "2018-09-23T06:02:37+00:00"
         },
         {
             "name": "laravel/framework",
